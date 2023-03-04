@@ -1,0 +1,36 @@
+.avatar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-top: 10px;
+    background-color: #2D333B;
+
+}
+.form-container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-field{
+    margin: 5px;
+}
+
+.login-title{
+    margin-top: 2px;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #2D333B;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
