@@ -10,12 +10,14 @@ import {useState} from "react";
 import {sendApiPostRequest} from "./ApiRequests";
 import {BASE_URL, FEATURES_PATH, LOGIN_PATH, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
 import Cookies from "js-cookie";
+import {passwordWarningMessage, usernameWarningMessage, handleDisableButton, containsOnlyLetters} from "./Utils";
+
 
 function SignUp(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [passCheck, setPassCheck] = useState('');
-    const [name, setName] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [errorCode, setErrorCode] = useState(0);
 
@@ -36,44 +38,10 @@ function SignUp(props) {
     }
 
 
-    function handleDisable() {
-        let disabled = true;
-        const containsOnlyLetters = /^[A-Za-z]+$/.test(username);
-        if (username.length >= MINIMAL_USERNAME_LENGTH){
-            if (containsOnlyLetters){
-                if (password.length >= MINIMAL_PASSWORD_LENGTH){
-                    disabled = false
-                }
-            }
-        }
-        return disabled;
-    }
 
 
-    function userErrorMessage() {
-        let usernameMessage = "";
-        let usernameToCheck =username.trim()
-        const containsOnlyLetters = /^[A-Za-z]+$/.test(usernameToCheck);
-        if (usernameToCheck.length < MINIMAL_USERNAME_LENGTH && usernameToCheck.length > 0){
-            usernameMessage = "Username must be larger that 6 letters"
-            if (!containsOnlyLetters){
-                usernameMessage = "Username must be larger that 6 letters and contain letters only"
-            }
-        }else {
-            if (!containsOnlyLetters){
-                usernameMessage = "Username must contain letters only!"
-            }
-        }
-        return usernameMessage;
-    }
 
-    function passwordErrorMessage() {
-        let passwordMessage = "";
-        if (password.length < MINIMAL_PASSWORD_LENGTH){
-            passwordMessage = "Password must contain at least 6 chars"
-        }
-        return passwordMessage
-    }
+
 
 
 
@@ -93,7 +61,7 @@ function SignUp(props) {
                 <div className={"form-container"}>
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
-                            <TextField id={"name"} type={"text"} label={"Full Name"} value={name} onChange={e=>setName(e.target.value)} variant={"outlined"} InputProps={{
+                            <TextField id={"name"} type={"text"} label={"Full Name"} value={fullName} onChange={e=>setFullName(e.target.value)} variant={"outlined"} InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <AccountCircle />
@@ -137,7 +105,7 @@ function SignUp(props) {
                     </div>
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
-                            <TextField id={"password"} type={"password"} label={"Confirm Password"} variant={"outlined"} value={passCheck} onChange={e=>setPassCheck(e.target.value)} InputProps={{
+                            <TextField id={"repeat-password"} type={"password"} label={"Confirm Password"} variant={"outlined"} value={repeatPassword} onChange={e=>setRepeatPassword(e.target.value)} InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <LockIcon />
@@ -146,10 +114,13 @@ function SignUp(props) {
                             }}/>
                         </FormControl>
                     </div>
-                    {username.length > 0 && <FrontWarnings message = {userErrorMessage()}/>}
-                    {password.length > 0 && <FrontWarnings message = {passwordErrorMessage()}/>}
+                    {username.length > 0 && <FrontWarnings message = {usernameWarningMessage(username)}/>}
+                    {password.length > 0 && <FrontWarnings message = {passwordWarningMessage(password)}/>}
+                    {/*fullname*/}
+                    {/*repeatpassword*/}
+                    {/*email*/}
                     <div className={"form-field"}>
-                        {<Button type={"submit"} variant={"contained"} disabled={handleDisable()} onClick={handleSubmit}>Sign Up</Button>}
+                        {<Button type={"submit"} variant={"contained"} disabled={handleDisableButton("sign-up" , {username , password , repeatPassword , fullName})} onClick={handleSubmit}>Sign Up</Button>}
                     </div>
                     <div className={"form-field"}>
                         {/*<Link style={{cursor:"pointer"}} underline="hover" variant="body2" onClick={()=>navigate("signup")}>*/}
