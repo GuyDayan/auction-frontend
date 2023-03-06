@@ -1,4 +1,4 @@
-import {MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
+import {MINIMAL_DESCRIPTION_LENGTH, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
 
 export const usernameWarningMessage = (username) => {
     let usernameMessage = "";
@@ -25,8 +25,58 @@ export const passwordWarningMessage = (password) => {
     return passwordMessage
 }
 
+export const  fullNameWarningMessage =(fullName) => {
+    const nameRegex = /^[a-zA-Z]{2,}\s[a-zA-Z]{2,}$/;
+    let fullNameMessage ='';
+
+    if (!nameRegex.test(fullName)) {
+        fullNameMessage = "Full name must contain at least 2 chars and only letters"
+    }
+    return fullNameMessage;
+}
+
+export const emailWarningMessage=(email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let emailMessage =''
+
+
+    if (!emailRegex.test(email)) {
+        emailMessage ="email is not valid"
+    }
+
+    return emailMessage;
+}
+
+export const productNameWarning=(productName) => {
+    const regex = /^[a-zA-Z0-9\s]+$/;
+    let productNameMessage =''
+
+
+    if (!regex.test(productName)) {
+        productNameMessage ="Product name must contain letters and/or numbers"
+    }
+
+    return productNameMessage;
+}
+
+export const descriptionWarningMessage = (description) => {
+    let descriptionMessage = "";
+    if (description.length < MINIMAL_DESCRIPTION_LENGTH){
+        descriptionMessage = "Description must contain at least 10 chars"
+    }
+    return descriptionMessage;
+}
+
+export const minimumPriceWarning =(minPrice) => {
+    let minPriceMessage = '';
+    if(minPrice <= 0){
+        minPriceMessage = "Minimum Price should be more than 0"
+    }
+    return minPriceMessage;
+}
+
 export const handleDisableButton = (type,obj) => {
-    if (type == "login"){
+    if (type === "login"){
         const {username,password} = obj
         let loginDisable = true;
         if (username.length >= MINIMAL_USERNAME_LENGTH){
@@ -38,7 +88,7 @@ export const handleDisableButton = (type,obj) => {
         }
         return loginDisable;
     }
-    if (type == "sign-up"){
+    if (type === "sign-up"){
         let signUpDisable = true;
         const {username , password , repeatPassword , fullName} = obj
         if (username.length >= MINIMAL_USERNAME_LENGTH){
@@ -54,6 +104,18 @@ export const handleDisableButton = (type,obj) => {
         return signUpDisable;
     }
 
+    if(type ==="AddProduct"){
+        let addProductDisable = true;
+        const {productName,description, minPrice , imgUrl} = obj;
+        if(productName.length > 0){
+            if(description.length > MINIMAL_DESCRIPTION_LENGTH){
+                if(minPrice >= 1){
+                    addProductDisable = false;
+                }
+            }
+        }
+        return addProductDisable;
+    }
 
   }
 

@@ -10,7 +10,13 @@ import {useState} from "react";
 import {sendApiPostRequest} from "./ApiRequests";
 import {BASE_URL, FEATURES_PATH, LOGIN_PATH, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
 import Cookies from "js-cookie";
-import {passwordWarningMessage, usernameWarningMessage, handleDisableButton, containsOnlyLetters} from "./Utils";
+import {
+    passwordWarningMessage,
+    usernameWarningMessage,
+    handleDisableButton,
+    containsOnlyLetters,
+    fullNameWarningMessage, emailWarningMessage
+} from "./Utils";
 
 
 function SignUp(props) {
@@ -116,16 +122,11 @@ function SignUp(props) {
                     </div>
                     {username.length > 0 && <FrontWarnings message = {usernameWarningMessage(username)}/>}
                     {password.length > 0 && <FrontWarnings message = {passwordWarningMessage(password)}/>}
-                    {/*fullname*/}
-                    {/*repeatpassword*/}
-                    {/*email*/}
+                    {repeatPassword.length > 0 && <FrontWarnings message = {passwordWarningMessage(repeatPassword)}/>}
+                    {fullName.length > 0 && <FrontWarnings message = {fullNameWarningMessage(fullName)}/>}
+                    {email.length > 0 && <FrontWarnings message ={emailWarningMessage(email)} />}
                     <div className={"form-field"}>
                         {<Button type={"submit"} variant={"contained"} disabled={handleDisableButton("sign-up" , {username , password , repeatPassword , fullName})} onClick={handleSubmit}>Sign Up</Button>}
-                    </div>
-                    <div className={"form-field"}>
-                        {/*<Link style={{cursor:"pointer"}} underline="hover" variant="body2" onClick={()=>navigate("signup")}>*/}
-                        {/*    Don't have an account? Sign Up*/}
-                        {/*</Link>*/}
                     </div>
                     {errorCode !== 0 && <BackErrors errorCode = {errorCode}/>}
                 </div>

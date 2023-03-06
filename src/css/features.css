@@ -1,0 +1,11 @@
+.featuresMenu {
+    height: available;
+    width: 30%;
+    margin: 20px auto;
+}
+
+.featuresList{
+    margin: 5px auto;
+    display: flex;
+    flex-direction: column;
+}
