@@ -5,25 +5,58 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import DescriptionIcon from '@mui/icons-material/Description';
-import FrontWarnings from "./FrontWarnings";
 import BackErrors from "./BackErrors";
-import React from "react";
+import React, {useEffect} from "react";
 import {useState} from "react";
-import {
-    descriptionWarningMessage,
-    handleDisableButton,
-    minimumPriceWarning,
-    productNameWarning,
-} from "./Utils";
+import {handleDisableButton} from "./Utils";
+import {sendApiPostRequest} from "./ApiRequests";
+import {ADD_PRODUCT_REQUEST_PATH, ADD_PRODUCT_URL_PARAM, BASE_URL, MY_PRODUCTS_URL_PARAM} from "./Globals";
+import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
+
 
 export function AddProduct(props){
-    const [productName, setProductName] = useState('');
+    const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [imgUrl, setImgUrl] = useState('');
-    const [minPrice, setMinPrice] = useState(1);
+    const [logoUrl, setLogoUrl] = useState('');
+    const [startingPrice, setStartingPrice] = useState(0);
+    const [token, setToken] = useState('');
+    const [userId, setUserId] = useState(0);
+    const [errorCode, setErrorCode] = useState(0);
+    const navigate = useNavigate();
 
+
+
+    useEffect(() => {
+        setToken(Cookies.get('token'))
+        setUserId(Cookies.get('userId'))
+
+    }, []);
+
+    
     function handleSubmit(){
-        console.log('added a product')
+        if (token != undefined && userId !== 0){
+            sendApiPostRequest(BASE_URL+ADD_PRODUCT_REQUEST_PATH , {token,userId,name,description,logoUrl,startingPrice} , (response) =>{
+                const data = response.data;
+                if (data.success){
+                    // add product add successfully message
+                    navigate(`/${MY_PRODUCTS_URL_PARAM}`)
+                }else {
+                    setErrorCode(data.errorCode)
+                    setTimeout(()=>{
+                        setErrorCode(0)
+                    },5000)
+                }
+            })
+        }
+
+    }
+
+    function handleClear() {
+        setName('')
+        setDescription('')
+        setLogoUrl('')
+        setStartingPrice(0)
     }
 
     return(
@@ -34,15 +67,13 @@ export function AddProduct(props){
                 </Avatar>
             </div>
             <div>
-                <Typography className={"login-title"} component="h1" variant="h5">
-                    Add A Product
-                </Typography>
+                <Typography className={"login-title"} component="h1" variant="h5">Add New Product</Typography>
             </div>
             <div>
                 <div className={"form-container"}>
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
-                            <TextField id={"name"} type={"text"} label={"Name"} value={productName} onChange={e=>setProductName(e.target.value)} variant={"outlined"} InputProps={{
+                            <TextField id={"name"} type={"text"} label={"Product Name"} value={name} onChange={e=>setName(e.target.value)} variant={"outlined"} InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <AccountCircle />
@@ -64,7 +95,7 @@ export function AddProduct(props){
                     </div>
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
-                            <TextField id={"imgUrl"} type={"text"} label={"ImageUrl"} variant={"outlined"} value={imgUrl} onChange={e=>setImgUrl(e.target.value)} InputProps={{
+                            <TextField id={"imgUrl"} type={"text"} label={"ImageUrl"} variant={"outlined"} value={logoUrl} onChange={e=>setLogoUrl(e.target.value)} InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <ImageSearchIcon />
@@ -75,7 +106,7 @@ export function AddProduct(props){
                     </div>
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
-                            <TextField id={"minPrice"} type={"text"} label={"MinimumPrice"} variant={"outlined"} value={minPrice} onChange={e=>setMinPrice(e.target.value)} InputProps={{
+                            <TextField id={"startingPrice"} type={"number"} label={"Starting Price"} variant={"outlined"} value={startingPrice} onChange={e=>setStartingPrice(e.target.value)} InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <LocalOfferIcon />
@@ -84,12 +115,9 @@ export function AddProduct(props){
                             }}/>
                         </FormControl>
                     </div>
-                    {productName.length > 0 && <FrontWarnings message = {productNameWarning(productName)}/>}
-                    {description.length > 0 && <FrontWarnings message={descriptionWarningMessage(description)} />}
-                    {/*check image url is valid*/}
-                    {minPrice !== 0 && <FrontWarnings message={minimumPriceWarning(minPrice)} />}
                     <div className={"form-field"}>
-                        <Button type={"submit"} variant={"contained"} disabled={handleDisableButton("AddProduct",{productName,description, minPrice , imgUrl})} onClick={handleSubmit}>Add Product</Button>
+                        <Button type={"submit"} style={{ width: "140px" , margin:"5px"}} variant={"contained"} disabled={handleDisableButton("add-product",{productName: name, description, logoUrl, startingPrice})} onClick={handleSubmit}>Add Product</Button>
+                        <Button type={"submit"} color={"error"} style={{ width: "140px" , margin:"5px"}} variant={"contained"} onClick={handleClear}>Clear</Button>
                     </div>
                 </div>
             </div>

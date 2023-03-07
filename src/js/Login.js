@@ -7,7 +7,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import {Button, FormControl, InputAdornment, Link, TextField, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {sendApiPostRequest} from "./ApiRequests"
-import {BASE_URL, FEATURES_PATH, LOGIN_PATH, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals"
+import {BASE_URL, FEATURES_URL_PARAM, LOGIN_URL_PARAM, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals"
 import FrontWarnings from "./FrontWarnings";
 import Cookies from "js-cookie";
 import BackErrors from "./BackErrors";
@@ -18,27 +18,26 @@ import {passwordWarningMessage , usernameWarningMessage , handleDisableButton} f
 
 function Login(props) {
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('GuyDayan');
+    const [password, setPassword] = useState('123456');
     const [errorCode, setErrorCode] = useState(0);
-
-
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = Cookies.get("token");
         if (token !== undefined){
-            navigate(`/${FEATURES_PATH}`)
+            navigate(`/${FEATURES_URL_PARAM}`)
         }
     }, []);
 
 
     function handleSubmit() {
-        sendApiPostRequest(BASE_URL+LOGIN_PATH , {username,password} , (response) =>{
+        sendApiPostRequest(BASE_URL+LOGIN_URL_PARAM , {username,password} , (response) =>{
             const data = response.data;
             if (data.success){
                 Cookies.set("token" , data.token)
-                navigate(`/${FEATURES_PATH}`)
+                Cookies.set("userId" , data.userId)
+                window.location.reload();
             }else {
                 setErrorCode(data.errorCode)
                 setTimeout(()=>{
@@ -101,6 +100,9 @@ function Login(props) {
                         </Link>
                     </div>
                     {errorCode !== 0 && <BackErrors errorCode = {errorCode}/>}
+                </div>
+                <div>
+                    Staticts
                 </div>
             </div>
         </div>

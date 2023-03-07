@@ -4,13 +4,13 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {useEffect} from "react";
 import Cookies from "js-cookie";
-import {FEATURES_PATH} from "./Globals";
+import {LOGIN_URL_PARAM} from "./Globals";
 
 
 function Navbar() {
 
     const navigate = useNavigate();
-    const [loggedIn,setLoggedIn] = useState(true);
+    const [loggedIn,setLoggedIn] = useState(false);
 
     useEffect(() => {
         const token = Cookies.get("token");
@@ -20,9 +20,10 @@ function Navbar() {
     }, []);
 
     function handleLogOut(){
-        Cookies.remove();
+        Cookies.remove("token");
+        Cookies.remove("userId");
+        window.location.reload();
         setLoggedIn(false);
-        navigate('/login')
     }
 
 
@@ -38,14 +39,15 @@ function Navbar() {
                     Tender App
                 </Typography>
                 <Stack direction={'row'} spacing={2} marginLeft={'auto'}>
-                    { !loggedIn ?
+                    <Button onClick={()=>navigate("features")} color={"inherit"}>Features</Button>
+                    {
+                        !loggedIn ?
                         <>
-                        <Button onClick={() => navigate("login")} color={"inherit"}>Login</Button>
+                        <Button onClick={()=>navigate("login")}  color={"inherit"}>Login</Button>
                         <Button onClick={()=>navigate("signup")} color={"inherit"}>Sign Up</Button>
                         </>
                         :
                         <>
-                            <Button onClick={()=>navigate("features")} color={"inherit"}>Features</Button>
                             <Button onClick={handleLogOut} color={"inherit"}>Log Out</Button>
                         </>
                     }

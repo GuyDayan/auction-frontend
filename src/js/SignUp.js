@@ -8,7 +8,7 @@ import FrontWarnings from "./FrontWarnings";
 import BackErrors from "./BackErrors";
 import {useState} from "react";
 import {sendApiPostRequest} from "./ApiRequests";
-import {BASE_URL, FEATURES_PATH, LOGIN_PATH, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
+import {BASE_URL, FEATURES_URL_PARAM, LOGIN_URL_PARAM, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
 import Cookies from "js-cookie";
 import {
     passwordWarningMessage,

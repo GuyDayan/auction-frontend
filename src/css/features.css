@@ -1,11 +1,13 @@
-.featuresMenu {
-    height: available;
-    width: 30%;
-    margin: 20px auto;
-}
 
-.featuresList{
+.features-list{
     margin: 5px auto;
     display: flex;
-    flex-direction: column;
 }
+
+.card-container{
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+    width: 40%;
+}
+

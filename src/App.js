@@ -6,6 +6,7 @@ import SignUp from "./js/SignUp";
 import Navbar from "./js/Navbar"
 import Features from "./js/Features";
 import {AddProduct} from "./js/AddProduct";
+import MyProducts from "./js/MyProducts";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
                   <Route path={"/login"} element={<Login/>}/>
                   <Route path={"/signup"} element={<SignUp/>}/>
                   <Route path={"/features"} element={<Features/>}/>
-                  <Route path={"/features/add-product"} element={<AddProduct />} />
+                  <Route path={"/add-product"} element={<AddProduct />} />
+                  <Route path={"/my-products"} element={<MyProducts />} />
               </Route>
           </Routes>
       </BrowserRouter>
