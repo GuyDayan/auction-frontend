@@ -8,7 +8,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import {ADD_PRODUCT_URL_PARAM, TENDERS_URL_PARAM} from "./Globals";
+import {ADD_PRODUCT_URL_PARAM, LOGIN_URL_PARAM, TENDERS_URL_PARAM} from "./Globals";
 
 function Features(props) {
     const navigate = useNavigate();
@@ -28,6 +28,10 @@ function Features(props) {
 
 
     return (
+        <>
+            <div>
+                {!loggedIn && <Typography variant="h6" component="div">TOO USE FEATURES PLS LOG IN</Typography>}
+            </div>
             <div className={"features-list"}>
                 {
                     features.map(feature=>
@@ -44,12 +48,13 @@ function Features(props) {
                 }
 
             </div>
+        </>
 
     );
 }
 
 export default Features;
 
-// <Button variant="outlined" disabled={!loggedIn} onClick={()=>navigate('add-product', {replace: true})}>Add A Product</Button>
+// <Button variant="outlined" disabled={!loggedIn} onClick={()=>navigate('add-product', {replace: true})}>Add A MyProduct</Button>
 // <Button variant="outlined" disabled={!loggedIn}>My Auctions</Button>
 // <Button variant="outlined" disabled={!loggedIn}>My Products</Button>

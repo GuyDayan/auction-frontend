@@ -43,6 +43,13 @@ export const emailWarningMessage=(email) => {
     return emailMessage;
 }
 
+export const addProductMessage = (errorType) => {
+    let message = ''
+    if (errorType === 'price-error'){
+        message = "Price must be an integer"
+    }
+    return message;
+}
 
 
 
@@ -74,7 +81,6 @@ export const handleDisableButton = (type,obj) => {
         }
         return signUpDisable;
     }
-
     if(type === "add-product"){
         let addProductDisable = true;
         const {productName, description, logoUrl, startingPrice} = obj;
@@ -94,5 +100,8 @@ export const handleDisableButton = (type,obj) => {
 export const containsOnlyLetters = (obj) =>{
     return /^[A-Za-z]+$/.test(obj);
 }
+
+
+
 
 

@@ -24,6 +24,7 @@ function Navbar() {
         Cookies.remove("userId");
         window.location.reload();
         setLoggedIn(false);
+        navigate(`/${LOGIN_URL_PARAM}`)
     }
 
 

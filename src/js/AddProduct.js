@@ -8,11 +8,12 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import BackErrors from "./BackErrors";
 import React, {useEffect} from "react";
 import {useState} from "react";
-import {handleDisableButton} from "./Utils";
+import {addProductMessage, handleDisableButton, priceWarningMessage, usernameWarningMessage} from "./Utils";
 import {sendApiPostRequest} from "./ApiRequests";
 import {ADD_PRODUCT_REQUEST_PATH, ADD_PRODUCT_URL_PARAM, BASE_URL, MY_PRODUCTS_URL_PARAM} from "./Globals";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+import FrontWarnings from "./FrontWarnings";
 
 
 export function AddProduct(props){
@@ -23,6 +24,7 @@ export function AddProduct(props){
     const [token, setToken] = useState('');
     const [userId, setUserId] = useState(0);
     const [errorCode, setErrorCode] = useState(0);
+    const [frontWarning, setFrontWarning] = useState({showError:false,errorType:""});
     const navigate = useNavigate();
 
 
@@ -35,22 +37,40 @@ export function AddProduct(props){
 
     
     function handleSubmit(){
-        if (token != undefined && userId !== 0){
-            sendApiPostRequest(BASE_URL+ADD_PRODUCT_REQUEST_PATH , {token,userId,name,description,logoUrl,startingPrice} , (response) =>{
-                const data = response.data;
-                if (data.success){
-                    // add product add successfully message
-                    navigate(`/${MY_PRODUCTS_URL_PARAM}`)
-                }else {
-                    setErrorCode(data.errorCode)
-                    setTimeout(()=>{
-                        setErrorCode(0)
-                    },5000)
-                }
-            })
+        let {showError,errorType} = validateAddProductFields();
+        if (!showError){
+            if (token != undefined && userId !== 0){
+                sendApiPostRequest(BASE_URL+ADD_PRODUCT_REQUEST_PATH , {token,userId,name,description,logoUrl,startingPrice} , (response) =>{
+                    const data = response.data;
+                    if (data.success){
+                        // add product add successfully message
+                        navigate(`/${MY_PRODUCTS_URL_PARAM}`)
+                    }else {
+                        setErrorCode(data.errorCode)
+                        setTimeout(()=>{
+                            setErrorCode(0)
+                        },5000)
+                    }
+                })
+            }
+        }else {
+            setFrontWarning({showError: true, errorType: errorType})
+
         }
 
     }
+
+    const validateAddProductFields = () => {
+        let showError = false;
+        let errorType = ""
+        if (!(startingPrice % 1 === 0)){
+            errorType = "price-error"
+            showError = true;
+        }
+        return {errorType,showError}
+    }
+
+
 
     function handleClear() {
         setName('')
@@ -73,7 +93,7 @@ export function AddProduct(props){
                 <div className={"form-container"}>
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
-                            <TextField id={"name"} type={"text"} label={"Product Name"} value={name} onChange={e=>setName(e.target.value)} variant={"outlined"} InputProps={{
+                            <TextField id={"name"} type={"text"} label={"My Product Name"} value={name} onChange={e=>setName(e.target.value)} variant={"outlined"} InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <AccountCircle />
@@ -119,6 +139,7 @@ export function AddProduct(props){
                         <Button type={"submit"} style={{ width: "140px" , margin:"5px"}} variant={"contained"} disabled={handleDisableButton("add-product",{productName: name, description, logoUrl, startingPrice})} onClick={handleSubmit}>Add Product</Button>
                         <Button type={"submit"} color={"error"} style={{ width: "140px" , margin:"5px"}} variant={"contained"} onClick={handleClear}>Clear</Button>
                     </div>
+                    {frontWarning.showError && <FrontWarnings message = {addProductMessage(frontWarning.errorType)}/>}
                 </div>
             </div>
         </div>

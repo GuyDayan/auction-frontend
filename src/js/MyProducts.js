@@ -10,7 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Product from "./Product";
+import MyProduct from "./MyProduct";
 
 function MyProducts(props) {
 
@@ -53,7 +53,7 @@ function MyProducts(props) {
                             <TableBody>
                                 {
                                     myProducts.map((product) => (
-                                        <Product product={product}/>
+                                        <MyProduct product={product}/>
                                 ))
                                 }
                             </TableBody>
