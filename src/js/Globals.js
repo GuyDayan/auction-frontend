@@ -2,7 +2,7 @@ export const BASE_URL = 'http://localhost:8989/';
 export const LOGIN_URL_PARAM = 'login';
 export const SIGNUP_URL_PARAM = 'signup';
 export const FEATURES_URL_PARAM = 'features';
-export const TENDERS_URL_PARAM = 'tenders';
+export const AUCTIONS_URL_PARAM = 'auctions';
 export const ADD_PRODUCT_URL_PARAM = 'add-product';
 export const MY_PRODUCTS_URL_PARAM = 'my-products';
 

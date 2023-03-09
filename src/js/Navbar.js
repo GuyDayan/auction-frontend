@@ -37,7 +37,7 @@ function Navbar() {
                     <BitcoinIcon />
                 </IconButton>
                 <Typography variant={'h6'} component={'div'}>
-                    Tender App
+                    Auction App
                 </Typography>
                 <Stack direction={'row'} spacing={2} marginLeft={'auto'}>
                     <Button onClick={()=>navigate("features")} color={"inherit"}>Features</Button>
