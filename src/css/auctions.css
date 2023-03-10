@@ -1,0 +1,13 @@
+.productList {
+    margin: 2% ;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1%;
+    justify-content: center;
+}
+
+.singleProd {
+    margin-top: 1%;
+    width: 20%;
+    box-sizing: border-box;
+}

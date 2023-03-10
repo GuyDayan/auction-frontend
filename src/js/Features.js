@@ -42,7 +42,7 @@ function Features(props) {
                                 <Typography variant="body2">{feature.desc}</Typography>
                             </CardContent>
                             <CardActions style={{justifyContent:"center"}}>
-                                <Button disabled={!loggedIn} variant="outlined" onClick={()=>navigate(feature.link)} size="small">{feature.buttonText}</Button>
+                                <Button disabled={false} variant="outlined" onClick={()=>navigate(feature.link)} size="small">{feature.buttonText}</Button>
                             </CardActions>
                         </Card>)
                 }

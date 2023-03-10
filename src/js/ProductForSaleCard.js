@@ -7,21 +7,23 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 function ProductForSaleCard(props) {
+
     return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardMedia sx={{ height: 140 }} image="/static/images/cards/contemplative-reptile.jpg" title="green iguana"/>
+        <Card sx={{ maxWidth: "100%"  }}>
+            <img src={props.item.imgUrl} style={{width:'30%',height:'30%'}}/>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    Lizard
+                    {props.item.prodName}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
+                    {props.item.desc}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    {props.item.price}$
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
+                <Button size="small">Add Bid</Button>
             </CardActions>
         </Card>
     );

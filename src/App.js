@@ -7,6 +7,7 @@ import Navbar from "./js/Navbar"
 import Features from "./js/Features";
 import {AddProduct} from "./js/AddProduct";
 import MyProducts from "./js/MyProducts";
+import ProductsForSale from "./js/ProductsForSale";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
                   <Route path={"/features"} element={<Features/>}/>
                   <Route path={"/add-product"} element={<AddProduct />} />
                   <Route path={"/my-products"} element={<MyProducts />} />
+                  <Route path={"/auctions"} element={<ProductsForSale />} />
               </Route>
           </Routes>
       </BrowserRouter>
