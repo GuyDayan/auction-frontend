@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ProductForSaleCard from "./ProductForSaleCard";
 import "../css/auctions.css"
 
@@ -25,16 +25,40 @@ function ProductsForSale(props) {
 
     ] //temporary
 
+    const [search,setSearch]= useState('');
+    const setNewSearch=(e)=>{
+        setSearch(e.target.value)
+    }
+
+    const filter=()=>{
+        return tempData.filter((item => {
+            let allow = false;
+            if (item.prodName.startsWith(search)) {
+                allow = true
+            }
+            return allow;
+        }))
+    }
+
     return (
+        <div>
+            <input value={search} onChange={setNewSearch}/>
         <div className={'productList'}>
             {
-                tempData.map(item => (
-                    <div className={"singleProd"}>
+                search.length === 0 ?
+                tempData.map((item) => (
+                    <div className={"singleProd"} key={item.id}>
                     <ProductForSaleCard item={item} />
                     </div>
                 ))
+                    :
+                    filter().map((item)=>(
+                        <div className={"singleProd"} key={item.id}>
+                            <ProductForSaleCard item={item} />
+                        </div>
+                    ))
             }
-
+        </div>
         </div>
     );
 }
