@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {sendApiGetRequest} from "./ApiRequests";
-import {BASE_URL, GET_PRODUCTS_REQUEST_PATH} from "./Globals";
+import {BASE_URL, GET_MY_PRODUCTS_REQUEST_PATH} from "./Globals";
 import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
 import Table from '@mui/material/Table';
@@ -26,7 +26,7 @@ function MyProducts(props) {
         const userId = Cookies.get('userId')
         setToken(token)
         setUserId(userId)
-        sendApiGetRequest(BASE_URL+ GET_PRODUCTS_REQUEST_PATH, {token,userId} , res=>{
+        sendApiGetRequest(BASE_URL+ GET_MY_PRODUCTS_REQUEST_PATH, {token,userId} , res=>{
             if (res.data.success){
                 setMyProducts(res.data.productsList);
             }else {

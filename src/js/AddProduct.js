@@ -21,7 +21,7 @@ export function AddProduct(props){
     const [description, setDescription] = useState('');
     const [logoUrl, setLogoUrl] = useState('');
     const [startingPrice, setStartingPrice] = useState(0);
-    const [token, setToken] = useState('');
+    const [token, setToken] = useState(undefined);
     const [userId, setUserId] = useState(0);
     const [errorCode, setErrorCode] = useState(0);
     const [frontWarning, setFrontWarning] = useState({showError:false,errorType:""});
@@ -30,6 +30,7 @@ export function AddProduct(props){
 
 
     useEffect(() => {
+
         setToken(Cookies.get('token'))
         setUserId(Cookies.get('userId'))
 

@@ -8,7 +8,14 @@ import FrontWarnings from "./FrontWarnings";
 import BackErrors from "./BackErrors";
 import {useState} from "react";
 import {sendApiPostRequest} from "./ApiRequests";
-import {BASE_URL, FEATURES_URL_PARAM, LOGIN_URL_PARAM, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
+import {
+    BASE_URL,
+    FEATURES_URL_PARAM,
+    LOGIN_URL_PARAM,
+    MINIMAL_PASSWORD_LENGTH,
+    MINIMAL_USERNAME_LENGTH,
+    SIGN_UP_REQUEST_PATH
+} from "./Globals";
 import Cookies from "js-cookie";
 import {
     passwordWarningMessage,
@@ -17,6 +24,7 @@ import {
     containsOnlyLetters,
     fullNameWarningMessage, emailWarningMessage
 } from "./Utils";
+import {useNavigate} from "react-router-dom";
 
 
 function SignUp(props) {
@@ -26,20 +34,21 @@ function SignUp(props) {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [errorCode, setErrorCode] = useState(0);
+    const navigate = useNavigate();
 
     function handleSubmit() {
-        // sendApiPostRequest(BASE_URL+LOGIN_PATH , {username,password} , (response) =>{
-        //     const data = response.data;
-        //     if (data.success){
-        //         Cookies.set("token" , data.token)
-        //         navigate(`/${FEATURES_PATH}`)
-        //     }else {
-        //         setErrorCode(data.errorCode)
-        //         setTimeout(()=>{
-        //             setErrorCode(0)
-        //         },5000)
-        //     }
-        // })
+        sendApiPostRequest(BASE_URL+SIGN_UP_REQUEST_PATH , {fullName,email,username,password,repeatPassword} , (response) =>{
+            const data = response.data;
+            if (data.success){
+                // add sucessfull login pop up
+                navigate(`/${LOGIN_URL_PARAM}`)
+            }else {
+                setErrorCode(data.errorCode)
+                setTimeout(()=>{
+                    setErrorCode(0)
+                },5000)
+            }
+        })
 
     }
 
