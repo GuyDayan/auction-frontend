@@ -8,6 +8,7 @@ import Features from "./js/Features";
 import {AddProduct} from "./js/AddProduct";
 import MyProducts from "./js/MyProducts";
 import ProductsForSale from "./js/ProductsForSale";
+import ProductDetails from "./js/ProductDetails";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                   <Route path={"/add-product"} element={<AddProduct />} />
                   <Route path={"/my-products"} element={<MyProducts />} />
                   <Route path={"/products-for-sale"} element={<ProductsForSale />} />
+                  <Route path={"/product-details"} element={<ProductDetails />} />
               </Route>
           </Routes>
       </BrowserRouter>

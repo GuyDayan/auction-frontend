@@ -11,15 +11,11 @@ function ProductsForSale(props) {
 
     const [searchValue, setSearchValue] = useState('');
     const [productsForSale, setProductsForSale] = useState([]);
-    const [token, setToken] = useState(undefined);
-    const [userId, setUserId] = useState(0);
+    const token = Cookies.get('token');
+    const userId = Cookies.get('userId');
 
 
     useEffect(() => {
-        const token = Cookies.get('token');
-        const userId = Cookies.get('userId');
-        setToken(token)
-        setUserId(userId)
         if (token !== undefined && userId !== 0) {
             sendApiGetRequest(BASE_URL + GET_PRODUCTS_FOR_SALE_REQUEST_PATH, {token, userId}, response => {
                 if (response.data.success) {

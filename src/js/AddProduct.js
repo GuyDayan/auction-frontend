@@ -21,6 +21,7 @@ export function AddProduct(props){
     const [description, setDescription] = useState('');
     const [logoUrl, setLogoUrl] = useState('');
     const [startingPrice, setStartingPrice] = useState(0);
+    const [openingSaleDate, setOpeningSaleDate] = useState('');
     const [token, setToken] = useState(undefined);
     const [userId, setUserId] = useState(0);
     const [errorCode, setErrorCode] = useState(0);
@@ -30,7 +31,6 @@ export function AddProduct(props){
 
 
     useEffect(() => {
-
         setToken(Cookies.get('token'))
         setUserId(Cookies.get('userId'))
 
@@ -41,7 +41,7 @@ export function AddProduct(props){
         let {showError,errorType} = validateAddProductFields();
         if (!showError){
             if (token != undefined && userId !== 0){
-                sendApiPostRequest(BASE_URL+ADD_PRODUCT_REQUEST_PATH , {token,userId,name,description,logoUrl,startingPrice} , (response) =>{
+                sendApiPostRequest(BASE_URL+ADD_PRODUCT_REQUEST_PATH , {token,userId,name,description,openingSaleDate,logoUrl,startingPrice} , (response) =>{
                     const data = response.data;
                     if (data.success){
                         // add product add successfully message
@@ -109,6 +109,16 @@ export function AddProduct(props){
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <DescriptionIcon />
+                                    </InputAdornment>
+                                ),
+                            }}/>
+                        </FormControl>
+                    </div>
+                    <div className={"form-field"}>
+                        <FormControl style={{width:"250px"}} variant={"standard"}>
+                            <TextField id={"sale-date"} type={"date"} label={"Opening Sale Date"} variant={"outlined"} value={openingSaleDate} onChange={e=>setOpeningSaleDate(e.target.value)} InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="end">
                                     </InputAdornment>
                                 ),
                             }}/>
