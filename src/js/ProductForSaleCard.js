@@ -23,6 +23,8 @@ function ProductForSaleCard(props) {
         sendApiGetRequest(BASE_URL+GET_PRODUCT_DETAILS_REQUEST_PATH,{token,userId,productId} , res=>{
             if (res.data.success){
                 navigate(`/product-details?productId=${productId}`)
+            } else {
+                console.log('fail')
             }
         })
     }

@@ -7,6 +7,7 @@ export const ADD_PRODUCT_URL_PARAM = 'add-product';
 export const MY_PRODUCTS_URL_PARAM = 'my-products';
 export const GET_PRODUCT_DETAILS_URL_PARAM = 'product-details';
 
+export const PLACE_BID_REQUEST_PATH = 'place-bid';
 export const ADD_PRODUCT_REQUEST_PATH = 'add-new-product';
 export const GET_MY_PRODUCTS_REQUEST_PATH = 'get-my-products';
 export const GET_PRODUCTS_FOR_SALE_REQUEST_PATH = 'get-products-for-sale';
