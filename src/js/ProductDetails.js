@@ -55,7 +55,7 @@ function ProductDetails(props) {
     useEffect(() => {
         sendApiGetRequest(BASE_URL+GET_PRODUCT_DETAILS_REQUEST_PATH,{token,userId,productId} ,res=>{
             if (res.data.success){
-                setProduct(product)
+                setProduct(res.data.product)
             }else {
 
             }
@@ -79,28 +79,28 @@ function ProductDetails(props) {
         <div>
         <div className={'product-container'}>
             <div className="product-details">
-            <h2> {product.product.name}</h2>
+            <h2> {product.name}</h2>
                 <p><strong>Seller:</strong>
                     <br/>
-                {product.product.sellerUsername}</p>
+                {product.sellerUsername}</p>
                 <p><strong>Opening Date:</strong>
                 <br/>
-                {product.product.openingSaleDate}</p>
+                {product.openingSaleDate}</p>
                 <p><strong>Description:</strong>
                 <br/>
-                {product.product.description}</p>
+                {product.description}</p>
                 <p><strong>Total Bids:</strong>
                 <br/>
 
-                {product.product.totalBids}</p>
+                {product.totalBids}</p>
                 <p><strong>My Bids:</strong>
                 <br/>
-                {product.product.myBids.map(bid => (
+                {product.myBids.map(bid => (
                     <p>{bid.offer}$</p>
                 ))}</p>
 
         </div>
-            <img src={product.product.logoUrl}  className={'product-image'}/>
+            <img src={product.logoUrl}  className={'product-image'}/>
         </div>
                 <TextField id={"bidPrice"}
                            size={"small"}
