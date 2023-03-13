@@ -1,0 +1,10 @@
+.user-card{
+    background-color: white;
+    color: #10A37F;
+    cursor: pointer;
+    border-radius: 1px;
+    border: solid black 2px;
+    box-shadow: 5px 5px 5px cadetblue;
+    margin: 5px;
+    max-width: 250px;
+}

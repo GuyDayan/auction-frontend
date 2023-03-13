@@ -9,6 +9,7 @@ import {AddProduct} from "./js/AddProduct";
 import MyProducts from "./js/MyProducts";
 import ProductsForSale from "./js/ProductsForSale";
 import ProductDetails from "./js/ProductDetails";
+import ManagePage from "./js/ManagePage";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
                   <Route path={"/my-products"} element={<MyProducts />} />
                   <Route path={"/products-for-sale"} element={<ProductsForSale />} />
                   <Route path={"/product-details"} element={<ProductDetails />} />
+                  <Route path={"/manage"} element={<ManagePage />} />
+                  <Route path={"/user-details"} element={<ManagePage />} />
+
               </Route>
           </Routes>
       </BrowserRouter>
