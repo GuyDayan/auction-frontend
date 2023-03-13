@@ -39,6 +39,7 @@ function Navbar() {
                 <Typography variant={'h6'} component={'div'}>
                     Auction App
                 </Typography>
+
                 <Stack direction={'row'} spacing={2} marginLeft={'auto'}>
                     <Button onClick={()=>navigate("features")} color={"inherit"}>Features</Button>
                     {
