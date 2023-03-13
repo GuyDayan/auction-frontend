@@ -11,7 +11,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import MyProduct from "./MyProduct";
-import TableComponent from "./TableComponent";
 
 function MyProducts(props) {
 
@@ -41,28 +40,27 @@ function MyProducts(props) {
     return (
 
         <div>
-            {/*{*/}
-            {/*    myProducts.length === 0 ? "No Products yet" :*/}
-            {/*        <TableContainer component={Paper}>*/}
-            {/*            <Table sx={{ minWidth: 650 }} aria-label="simple table">*/}
-            {/*                <TableHead>*/}
-            {/*                    <TableRow>*/}
-            {/*                        <TableCell>Product Name</TableCell>*/}
-            {/*                        <TableCell>Biggest Bid</TableCell>*/}
-            {/*                        <TableCell>Status</TableCell>*/}
-            {/*                    </TableRow>*/}
-            {/*                </TableHead>*/}
-            {/*                <TableBody>*/}
-            {/*                    {*/}
-            {/*                        myProducts.map((product) => (*/}
-            {/*                            <MyProduct product={product}/>*/}
-            {/*                    ))*/}
-            {/*                    }*/}
-            {/*                </TableBody>*/}
-            {/*            </Table>*/}
-            {/*        </TableContainer>*/}
-            {/*}*/}
-            <TableComponent tableType={'productsTable'} tableList={myProducts} />
+            {
+                myProducts.length === 0 ? "No Products yet" :
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Product Name</TableCell>
+                                    <TableCell>Biggest Bid</TableCell>
+                                    <TableCell>Status</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    myProducts.map((product) => (
+                                        <MyProduct product={product}/>
+                                ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+            }
         </div>
 
 

@@ -5,15 +5,16 @@ import {useState} from "react";
 import {useEffect} from "react";
 import Cookies from "js-cookie";
 import {LOGIN_URL_PARAM} from "./Globals";
+import {getCookies} from "./Utils";
 
 
 function Navbar() {
 
     const navigate = useNavigate();
     const [loggedIn,setLoggedIn] = useState(false);
+    const {token,userId} = getCookies();
 
     useEffect(() => {
-        const token = Cookies.get("token");
         if (token !== undefined){
             setLoggedIn(true)
         }
@@ -22,7 +23,6 @@ function Navbar() {
     function handleLogOut(){
         Cookies.remove("token");
         Cookies.remove("userId");
-        window.location.reload();
         setLoggedIn(false);
         navigate(`/${LOGIN_URL_PARAM}`)
     }
@@ -41,7 +41,7 @@ function Navbar() {
                 </Typography>
 
                 <Stack direction={'row'} spacing={2} marginLeft={'auto'}>
-                    <Button onClick={()=>navigate("features")} color={"inherit"}>Features</Button>
+                    <Button disabled={token==undefined} onClick={()=>navigate("features")} color={"inherit"}>Features</Button>
                     {
                         !loggedIn ?
                         <>

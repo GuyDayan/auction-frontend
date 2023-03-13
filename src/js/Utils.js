@@ -1,5 +1,12 @@
 import {MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
+import Cookies from "js-cookie";
 
+
+export const getCookies = () => {
+    const token = Cookies.get('token');
+    const userId = Cookies.get('userId');
+    return {token,userId}
+}
 export const usernameWarningMessage = (username) => {
     let usernameMessage = "";
     let usernameToCheck =username.trim()
