@@ -8,20 +8,29 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import {ADD_PRODUCT_URL_PARAM,  PRODUCTS_FOR_SALE_URL_PARAM} from "./Globals";
+import {
+    ADD_PRODUCT_URL_PARAM,
+    LOGIN_URL_PARAM,
+    MY_BIDS_URL_PARAM,
+    MY_PRODUCTS_URL_PARAM,
+    PRODUCTS_FOR_SALE_URL_PARAM
+} from "./Globals";
+import {getCookies} from "./Utils";
 
 function Features(props) {
     const navigate = useNavigate();
-    const [loggedIn,setLoggedIn]= useState(false);
+
+    const {token,userId} = getCookies();
     const [features, setFeatures] = useState([
-        {title:"Add Product For Sale" , desc:"To add product for sale pls click below button" , buttonText:"Add new product", link:`/${ADD_PRODUCT_URL_PARAM}`},
+        {title:"Add Product" , desc:"To add product for sale pls click below button" , buttonText:"Add new product", link:`/${ADD_PRODUCT_URL_PARAM}`},
         {title:"Auctions" , desc:"To watch products on sale pls click the below button" , buttonText:"Move to auctions", link:`/${PRODUCTS_FOR_SALE_URL_PARAM}`},
+        {title:"My Products" , desc:"To watch your products pls click the below button" , buttonText:"Move to My Products", link:`/${MY_PRODUCTS_URL_PARAM}`},
+        {title:"My Bids" , desc:"To watch your bids pls click the below button" , buttonText:"Move to My Bids", link:`/${MY_BIDS_URL_PARAM}`},
     ]);
 
     useEffect(() => {
-        const token = Cookies.get("token");
-        if (token !== undefined){
-            setLoggedIn(true)
+        if (token == undefined){
+            navigate(`/${LOGIN_URL_PARAM}`)
         }
     }, []);
 
@@ -29,9 +38,6 @@ function Features(props) {
 
     return (
         <>
-            <div>
-                {!loggedIn && <Typography variant="h6" component="div">TOO USE FEATURES PLS LOG IN</Typography>}
-            </div>
             <div className={"features-list"}>
                 {
                     features.map(feature=>
@@ -42,7 +48,7 @@ function Features(props) {
                                 <Typography variant="body2">{feature.desc}</Typography>
                             </CardContent>
                             <CardActions style={{justifyContent:"center"}}>
-                                <Button disabled={!loggedIn} variant="outlined" onClick={()=>navigate(feature.link)} size="small">{feature.buttonText}</Button>
+                                <Button variant="outlined" onClick={()=>navigate(feature.link)} size="small">{feature.buttonText}</Button>
                             </CardActions>
                         </Card>)
                 }

@@ -2,6 +2,7 @@
 .features-list{
     margin: 5px auto;
     display: flex;
+    gap: 10px;
 }
 
 .card-container{

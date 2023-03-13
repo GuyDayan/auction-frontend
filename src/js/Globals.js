@@ -5,6 +5,7 @@ export const FEATURES_URL_PARAM = 'features';
 export const PRODUCTS_FOR_SALE_URL_PARAM = 'products-for-sale';
 export const ADD_PRODUCT_URL_PARAM = 'add-product';
 export const MY_PRODUCTS_URL_PARAM = 'my-products';
+export const MY_BIDS_URL_PARAM = 'my-bids';
 export const GET_PRODUCT_DETAILS_URL_PARAM = 'product-details';
 
 export const GET_MY_BIDS_REQUEST_PATH = 'get-my-bids'

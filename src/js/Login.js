@@ -21,6 +21,7 @@ function Login(props) {
     const [username, setUsername] = useState('GuyDayan');
     const [password, setPassword] = useState('123456');
     const [errorCode, setErrorCode] = useState(0);
+    const [frontError , setFrontError] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,9 +41,12 @@ function Login(props) {
                 window.location.reload();
             }else {
                 setErrorCode(data.errorCode)
+                if(username.length > 0) setFrontError(frontError.concat(usernameWarningMessage(username)))
+                if(password.length > 0) setFrontError(frontError.concat(passwordWarningMessage(password)))
                 setTimeout(()=>{
+                    setFrontError([]);
                     setErrorCode(0)
-                },5000)
+                },1000)
             }
         })
 
@@ -86,17 +90,25 @@ function Login(props) {
                             }}/>
                         </FormControl>
                     </div>
-                    {username.length > 0 && <FrontWarnings message = {usernameWarningMessage(username)}/>}
-                    {password.length > 0 && <FrontWarnings message = {passwordWarningMessage(password)}/>}
+                    {/*{username.length > 0 && <FrontWarnings message = {usernameWarningMessage(username)}/>}*/}
+                    {/*{password.length > 0 && <FrontWarnings message = {passwordWarningMessage(password)}/>}*/}
                     <div className={"form-field"}>
-                        <Button type={"submit"} variant={"contained"} disabled={handleDisableButton("login",{username,password})} onClick={handleSubmit}>Sign In</Button>
+                        <Button type={"submit"} variant={"contained"}  onClick={handleSubmit}>Sign In</Button>
                     </div>
                     <div className={"form-field"}>
                         <Link style={{cursor:"pointer"}} underline="hover" variant="body2" onClick={()=>navigate("signup")}>
                             Don't have an account? Sign Up
                         </Link>
                     </div>
-                    {errorCode !== 0 && <BackErrors errorCode = {errorCode}/>}
+                    {errorCode !== 0 &&
+                        <BackErrors errorCode = {errorCode}/>
+                    }
+                    {
+                        frontError.length > 0 &&
+                        frontError.map(error => (
+                            <FrontWarnings message={error} />
+                        ))
+                    }
                 </div>
                 <div>
                     Staticts

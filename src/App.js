@@ -10,6 +10,8 @@ import MyProducts from "./js/MyProducts";
 import ProductsForSale from "./js/ProductsForSale";
 import ProductDetails from "./js/ProductDetails";
 import ManagePage from "./js/ManagePage";
+import UserDetails from "./js/UserDetails";
+import MyBids from "./js/MyBids";
 
 function App() {
   return (
@@ -27,8 +29,8 @@ function App() {
                   <Route path={"/products-for-sale"} element={<ProductsForSale />} />
                   <Route path={"/product-details"} element={<ProductDetails />} />
                   <Route path={"/manage"} element={<ManagePage />} />
-                  <Route path={"/user-details"} element={<ManagePage />} />
-
+                  <Route path={"/user-details"} element={<UserDetails />} />
+                  <Route path={"my-bids"} element={<MyBids />} />
               </Route>
           </Routes>
       </BrowserRouter>

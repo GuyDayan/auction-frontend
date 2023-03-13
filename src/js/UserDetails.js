@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {useLocation} from "react-router-dom";
 import Cookies from "js-cookie";
-import {useEffect} from "@types/react";
+import {useEffect} from "react";
 import {sendApiGetRequest} from "./ApiRequests";
-import {BASE_URL, GET_PRODUCT_DETAILS_REQUEST_PATH, GET_USER_DETAILS_REQUEST_PATH} from "./Globals";
+import {BASE_URL, GET_USER_DETAILS_REQUEST_PATH} from "./Globals";
 
 function UserDetails(props) {
     const location = useLocation();
