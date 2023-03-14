@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import ProductForSaleCard from "./ProductForSaleCard";
 import "../css/auctions.css"
-import {Box, TextField} from "@mui/material";
+import {Box, InputAdornment, TextField} from "@mui/material";
 import {sendApiGetRequest} from "./ApiRequests";
 import {BASE_URL, GET_PRODUCTS_FOR_SALE_REQUEST_PATH} from "./Globals";
 import Cookies from "js-cookie";
+import SearchIcon from '@mui/icons-material/Search';
 
 
 function ProductsForSale(props) {
@@ -30,26 +31,27 @@ function ProductsForSale(props) {
 
     const filter = () => {
         return productsForSale.filter(product => {
-             return product.name.startsWith(searchValue)
+            return product.name.includes(searchValue)
         })
     }
 
     return (
         <div>
             <Box component="form" sx={{'& .MuiTextField-root': {m: 1, width: '25ch'},}} noValidate autoComplete="off">
-                <TextField style={{width:'300px'}} value={searchValue} onChange={e => setSearchValue(e.target.value)} id="outlined-textarea"
-                           label="Search Product" placeholder="Search" multiline/>
+                <TextField style={{width: '300px'}} value={searchValue} onChange={e => setSearchValue(e.target.value)} id="outlined-textarea" label="Search Product" placeholder="Search" multiline
+                           InputProps={{
+                               startAdornment: (
+                                   <InputAdornment position="start">
+                                       <SearchIcon />
+                                   </InputAdornment>
+                               ),
+                           }}
+                />
             </Box>
             <div className={'productList'}>
                 {
                     productsForSale.length === 0 ? "No Products For Sale" :
-                        searchValue.length === 0 ?
-                            productsForSale.map(product =>
-                            <div className={"singleProd"} key={product.id}>
-                                <ProductForSaleCard product={product}/>
-                            </div>
-                        )
-                            :
+                        filter().length === 0 ? "No Products Found" :
                             filter().map(product =>
                                 <div className={"singleProd"} key={product.id}>
                                     <ProductForSaleCard product={product}/>

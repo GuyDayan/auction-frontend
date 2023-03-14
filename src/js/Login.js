@@ -7,7 +7,14 @@ import LockIcon from '@mui/icons-material/Lock';
 import {Button, FormControl, InputAdornment, Link, TextField, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {sendApiPostRequest} from "./ApiRequests"
-import {BASE_URL, FEATURES_URL_PARAM, LOGIN_URL_PARAM, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals"
+import {
+    BASE_URL,
+    FEATURES_URL_PARAM,
+    LOGIN_URL_PARAM,
+    MINIMAL_PASSWORD_LENGTH,
+    MINIMAL_USERNAME_LENGTH,
+    PRODUCTS_FOR_SALE_URL_PARAM
+} from "./Globals"
 import FrontWarnings from "./FrontWarnings";
 import Cookies from "js-cookie";
 import BackErrors from "./BackErrors";
@@ -27,7 +34,7 @@ function Login(props) {
     useEffect(() => {
         const token = Cookies.get("token");
         if (token !== undefined){
-            navigate(`/${FEATURES_URL_PARAM}`)
+            navigate(`/${PRODUCTS_FOR_SALE_URL_PARAM}`)
         }
     }, []);
 

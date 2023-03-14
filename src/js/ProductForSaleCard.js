@@ -8,6 +8,7 @@ import {sendApiGetRequest} from "./ApiRequests";
 import {BASE_URL, GET_PRODUCT_DETAILS_REQUEST_PATH} from "./Globals";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+import '../App.css'
 
 
 function ProductForSaleCard(props) {
@@ -33,16 +34,16 @@ function ProductForSaleCard(props) {
         <Card sx={{ maxWidth: "100%"  }}>
             <img src={product.logoUrl} style={{width:'30%',height:'30%'}}/>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {product.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {product.openForSale ? "Open For Sale" : "Not For Sale"}
-                </Typography>
+                <Typography gutterBottom variant="h5" component="div">{product.name}</Typography>
+                    <Typography className="headline-var">Opening Sale Date</Typography>
+                    <Typography className="subtitle-var">{product.openingSaleDate}</Typography>
+                    <Typography className="headline-var">Total Bids</Typography>
+                    <Typography className="subtitle-var">{product.totalBids}</Typography>
+                    <Typography className="headline-var">My Total Bids</Typography>
+                    <Typography className="subtitle-var">{product.myTotalBids}</Typography>
             </CardContent>
             <CardActions>
                 <Button onClick={handleProductDetails} size="small">See more details</Button>
-                {/*<TextField style={{width:"150px"}} id={"bid"} type={"number"} value={bid} onChange={e=>setBid(e.target.value)} variant={"outlined"}/>*/}
             </CardActions>
         </Card>
     );

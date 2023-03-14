@@ -26,7 +26,22 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.headline-var {
+  font-weight: lighter;
+  font-size: medium;
+  color: gray;
 
+}
+.subtitle-var{
+  font-weight: bold;
+  font-size: small;
+}
+
+.var-container{
+  display: flex;
+  flex-direction: row;
+
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
