@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import MyProduct from "./MyProduct";
+import {SingleTableRow} from "./SingleTableRow";
 
 function MyProducts(props) {
 
@@ -47,14 +48,14 @@ function MyProducts(props) {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Product Name</TableCell>
-                                    <TableCell>Biggest Bid</TableCell>
+                                    <TableCell>Highest Bid</TableCell>
                                     <TableCell>Status</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {
                                     myProducts.map((product) => (
-                                        <MyProduct product={product}/>
+                                        <SingleTableRow product={product} type={'productTable'}/>
                                 ))
                                 }
                             </TableBody>

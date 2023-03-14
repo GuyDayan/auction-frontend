@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import MyBid from "./MyBid";
+import {SingleTableRow} from "./SingleTableRow";
 
 
 function MyBids(props) {
@@ -56,7 +57,7 @@ function MyBids(props) {
                     <TableBody>
                         {
                             myBids.map((bid) => (
-                                <MyBid bid={bid}/>
+                                <SingleTableRow bid={bid} type={'bidsTable'}/>
                             ))
                         }
                     </TableBody>
