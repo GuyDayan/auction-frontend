@@ -8,7 +8,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import {ADD_PRODUCT_URL_PARAM, LOGIN_URL_PARAM, PRODUCTS_FOR_SALE_URL_PARAM} from "./Globals";
+import {ADD_PRODUCT_URL_PARAM, LOGIN_URL_PARAM, MY_PRODUCTS_URL_PARAM,MY_BIDS_URL_PARAM, PRODUCTS_FOR_SALE_URL_PARAM} from "./Globals";
 import {getCookies} from "./Utils";
 
 function Features(props) {
@@ -18,6 +18,8 @@ function Features(props) {
     const [features, setFeatures] = useState([
         {title:"Add Product For Sale" , desc:"To add product for sale pls click below button" , buttonText:"Add new product", link:`/${ADD_PRODUCT_URL_PARAM}`},
         {title:"Auctions" , desc:"To watch products on sale pls click the below button" , buttonText:"Move to auctions", link:`/${PRODUCTS_FOR_SALE_URL_PARAM}`},
+        {title:"My Products" , desc:"To watch your products pls click the below button" , buttonText:"Move to My Products", link:`/${MY_PRODUCTS_URL_PARAM}`},
+        {title:"My Bids" , desc:"To watch your bids pls click the below button" , buttonText:"Move to My Bids", link:`/${MY_BIDS_URL_PARAM}`},
     ]);
 
     useEffect(() => {

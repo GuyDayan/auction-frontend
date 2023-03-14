@@ -7,6 +7,17 @@ export const getCookies = () => {
     const userId = Cookies.get('userId');
     return {token,userId}
 }
+
+export const addUserCreditMessage =(errorType) => {
+    let message = ''
+    if (errorType === 'integer-number-error'){
+        message = "Price must be an integer"
+    }
+    if (errorType === 'less-than-zero-error'){
+        message = "Price must be greater than zero"
+    }
+    return message;
+}
 export const usernameWarningMessage = (username) => {
     let usernameMessage = "";
     let usernameToCheck =username.trim()
