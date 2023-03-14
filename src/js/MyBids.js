@@ -10,8 +10,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import MyProduct from "./MyProduct";
-import TableComponent from "./TableComponent";
+import MyBid from "./MyBid";
+
 
 function MyBids(props) {
 
@@ -29,7 +29,7 @@ function MyBids(props) {
         setUserId(userId)
         sendApiGetRequest(BASE_URL+ GET_MY_BIDS_REQUEST_PATH, {token,userId} , res=>{
             if (res.data.success){
-                setMyBids(res.data.bidsList);
+                setMyBids(res.data.myBids);
             }else {
 
             }
@@ -40,7 +40,30 @@ function MyBids(props) {
 
     return (
         <div>
-            <TableComponent tableType={'bidsTable'} tableList={myBids}/>
+            {
+            myBids.length === 0 ? "No Bids yet" :
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Product Name</TableCell>
+                            <TableCell>Offer</TableCell>
+                            <TableCell>Open/Closed</TableCell>
+                            <TableCell>Won/Lost</TableCell>
+                            <TableCell></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            myBids.map((bid) => (
+                                <MyBid bid={bid}/>
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            }
+
         </div>
     );
 }

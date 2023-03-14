@@ -8,7 +8,7 @@ export const MY_PRODUCTS_URL_PARAM = 'my-products';
 export const MY_BIDS_URL_PARAM = 'my-bids';
 export const GET_PRODUCT_DETAILS_URL_PARAM = 'product-details';
 export const GET_USER_DETAILS_URL_PARAM = 'user-details';
-export const MY_BIDS_URL_PARAM = 'my-bids';
+
 
 
 

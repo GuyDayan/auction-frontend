@@ -17,7 +17,7 @@ function ProductDetails(props) {
     const userId = Cookies.get('userId');
     const [product, setProduct] = useState('');
 
-    const [bidPrice, setBidPrice] = useState(0);
+    const [offer, setOffer] = useState(0);
     const [errorCode, setErrorCode] = useState(0);
     const [myBids, setMyBids] = useState([]);
 
@@ -33,7 +33,7 @@ function ProductDetails(props) {
     }, [])
 
     function handleSubmit() {
-        sendApiPostRequest(BASE_URL + PLACE_BID_REQUEST_PATH, {token, userId, productId, bidPrice}, res => {
+        sendApiPostRequest(BASE_URL + PLACE_BID_REQUEST_PATH, {token, userId, productId, offer}, res => {
             if (res.data.success) {
                 window.location.reload();
             } else {
@@ -49,16 +49,16 @@ function ProductDetails(props) {
         <div>
             <div className='product-container'>
                 <div className="product-details">
-                    <Typography gutterBottom variant="h4" component="div">Product Name : {product.name}</Typography>
-                    <Typography gutterBottom variant="h5" component="div">Product Seller
-                        Username: {product.sellerUsername}</Typography>
+                    <Typography gutterBottom variant="h6" component="div">Product Name:<br/> {product.name}</Typography>
+                    <Typography gutterBottom variant="h6" component="div">Seller
+                        Username: <br/>{product.sellerUsername}</Typography>
                     <Typography gutterBottom variant="h5" component="div">Opening
-                        Date: {product.openingSaleDate}</Typography>
-                    <Typography gutterBottom variant="h5"
-                                component="div">Description: {product.description}</Typography>
-                    <Typography gutterBottom variant="h5" component="div">Total Bids On
-                        Product: {product.totalBids}</Typography>
-                    <Typography gutterBottom variant="h5" component="div">My Bids:
+                        Date: <br/>{product.openingSaleDate}</Typography>
+                    <Typography gutterBottom variant="h7"
+                                component="div">Description: <br/>{product.description}</Typography>
+                    <Typography gutterBottom variant="h7" component="div">Total Bids On
+                        Product: <br/>{product.totalBids}</Typography>
+                    <Typography gutterBottom variant="h8" component="div">My Bids:
                         {
                             myBids.length > 0 && myBids.map(bid => <div>{bid.offer}</div>)
                         }
@@ -66,8 +66,10 @@ function ProductDetails(props) {
                 </div>
                 <img src={product.logoUrl} className={'product-image'}/>
             </div>
-            <TextField id={"bidPrice"} size={"small"} type={"number"} label={"Bid Price"} variant={"outlined"} value={bidPrice} onChange={e => setBidPrice(e.target.value)}/>
-            <Button>ADD BID</Button>
+            <div className='product-input'>
+            <TextField id={"bidPrice"} size={"small"} type={"number"} label={"Bid Price"} variant={"outlined"} value={offer} onChange={e => setOffer(e.target.value)}/>
+            <Button onClick={handleSubmit}>ADD BID</Button>
+            </div>
             <div>
                 {errorCode !== 0 && <BackErrors errorCode={errorCode}/>}
             </div>
