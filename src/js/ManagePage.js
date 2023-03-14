@@ -28,7 +28,7 @@ function ManagePage(props) {
             {
                 users.map(user=> {
                     return (
-                        <ListItem className="user-card">
+                        <ListItem onClick={()=>handleCLick(user.id)} className="user-card">
                             <ListItemText primary={user.username} secondary={<div>Creation Date :<div style={{fontWeight:"bold"}}>{user.creationDate}</div></div> }/>
                             <Divider variant="inset" component="li" />
                         </ListItem>

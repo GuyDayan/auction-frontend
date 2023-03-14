@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import MyProduct from "./MyProduct";
+import TableComponent from "./TableComponent";
 
 function MyBids(props) {
 
@@ -28,7 +29,7 @@ function MyBids(props) {
         setUserId(userId)
         sendApiGetRequest(BASE_URL+ GET_MY_BIDS_REQUEST_PATH, {token,userId} , res=>{
             if (res.data.success){
-
+                setMyBids(res.data.bidsList);
             }else {
 
             }
@@ -39,7 +40,7 @@ function MyBids(props) {
 
     return (
         <div>
-            {/*<TableComponent tableType={'bidsTable'} tableList={myBids}/>*/}
+            <TableComponent tableType={'bidsTable'} tableList={myBids}/>
         </div>
     );
 }

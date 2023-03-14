@@ -16,7 +16,8 @@ function ProductDetails(props) {
     const token = Cookies.get('token');
     const userId = Cookies.get('userId');
     const [product, setProduct] = useState('');
-    const [offer, setOffer] = useState(0);
+
+    const [bidPrice, setBidPrice] = useState(0);
     const [errorCode, setErrorCode] = useState(0);
     const [myBids, setMyBids] = useState([]);
 
@@ -32,7 +33,7 @@ function ProductDetails(props) {
     }, [])
 
     function handleSubmit() {
-        sendApiPostRequest(BASE_URL + PLACE_BID_REQUEST_PATH, {token, userId, productId, offer}, res => {
+        sendApiPostRequest(BASE_URL + PLACE_BID_REQUEST_PATH, {token, userId, productId, bidPrice}, res => {
             if (res.data.success) {
                 window.location.reload();
             } else {
@@ -65,8 +66,8 @@ function ProductDetails(props) {
                 </div>
                 <img src={product.logoUrl} className={'product-image'}/>
             </div>
-            <TextField id={"bidPrice"} size={"small"} type={"number"} label={"Bid Price"} variant={"outlined"} value={offer} onChange={e => setOffer(e.target.value)}/>
-            <Button onClick={handleSubmit}>ADD BID</Button>
+            <TextField id={"bidPrice"} size={"small"} type={"number"} label={"Bid Price"} variant={"outlined"} value={bidPrice} onChange={e => setBidPrice(e.target.value)}/>
+            <Button>ADD BID</Button>
             <div>
                 {errorCode !== 0 && <BackErrors errorCode={errorCode}/>}
             </div>
