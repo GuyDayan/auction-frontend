@@ -10,10 +10,17 @@ import React, {useEffect} from "react";
 import {useState} from "react";
 import {addProductMessage, handleDisableButton, priceWarningMessage, usernameWarningMessage} from "./Utils";
 import {sendApiPostRequest} from "./ApiRequests";
-import {ADD_PRODUCT_REQUEST_PATH, ADD_PRODUCT_URL_PARAM, BASE_URL, MY_PRODUCTS_URL_PARAM} from "./Globals";
+import {
+    ADD_PRODUCT_REQUEST_PATH,
+    ADD_PRODUCT_URL_PARAM,
+    BASE_URL,
+    MY_PRODUCTS_URL_PARAM,
+    PRODUCT_STARTING_PRICE_MUST_BE_INTEGER
+} from "./Globals";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 import FrontWarnings from "./FrontWarnings";
+import {getErrorMessage} from "./GenerateErrorMessage";
 
 
 export function AddProduct(props){
@@ -24,7 +31,7 @@ export function AddProduct(props){
     const [token, setToken] = useState(undefined);
     const [userId, setUserId] = useState(0);
     const [errorCode, setErrorCode] = useState(0);
-    const [frontWarning, setFrontWarning] = useState({showError:false,errorType:""});
+    const [frontWarning, setFrontWarning] = useState({showError:false,errorCode:""});
     const navigate = useNavigate();
 
 
@@ -37,7 +44,7 @@ export function AddProduct(props){
 
     
     function handleSubmit(){
-        let {showError,errorType} = validateAddProductFields();
+        let {showError,errorCode} = validateAddProductFields();
         if (!showError){
             if (token != undefined && userId !== 0){
                 sendApiPostRequest(BASE_URL+ADD_PRODUCT_REQUEST_PATH , {token,userId,name,description,logoUrl,startingPrice} , (response) =>{
@@ -54,7 +61,7 @@ export function AddProduct(props){
                 })
             }
         }else {
-            setFrontWarning({showError:true, errorType: errorType})
+            setFrontWarning({showError:true, errorCode: errorCode})
 
         }
 
@@ -62,12 +69,12 @@ export function AddProduct(props){
 
     const validateAddProductFields = () => {
         let showError = false;
-        let errorType = ""
+        let errorCode = ""
         if (!(startingPrice % 1 === 0)){
-            errorType = "integer-error"
+            errorCode = PRODUCT_STARTING_PRICE_MUST_BE_INTEGER;
             showError = true;
         }
-        return {errorType,showError}
+        return {errorCode,showError}
     }
 
 
@@ -139,7 +146,7 @@ export function AddProduct(props){
                         <Button type={"submit"} style={{ width: "140px" , margin:"5px"}} variant={"contained"} disabled={handleDisableButton("add-product",{productName: name, description, logoUrl, startingPrice})} onClick={handleSubmit}>Add Product</Button>
                         <Button type={"submit"} color={"error"} style={{ width: "140px" , margin:"5px"}} variant={"contained"} onClick={handleClear}>Clear</Button>
                     </div>
-                    {frontWarning.showError && <FrontWarnings message = {addProductMessage(frontWarning.errorType)}/>}
+                    {frontWarning.showError && <FrontWarnings message = {getErrorMessage(frontWarning.errorCode)}/>}
                 </div>
             </div>
         </div>

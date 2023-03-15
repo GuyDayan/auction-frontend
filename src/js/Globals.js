@@ -12,9 +12,6 @@ export const GET_USER_DETAILS_URL_PARAM = 'user-details';
 
 
 
-
-
-
 export const GET_MY_BIDS_REQUEST_PATH = 'get-my-bids'
 export const PLACE_BID_REQUEST_PATH = 'place-bid';
 export const ADD_PRODUCT_REQUEST_PATH = 'add-new-product';
@@ -35,4 +32,30 @@ export const MINIMAL_DESCRIPTION_LENGTH = 10;
 
 
 
-
+export const GENERAL_ERROR = 10;
+export const PERMISSION_ERROR_CODE = 413;
+export const PRODUCT_NAME_REQUIRED = 80;
+export const PRODUCT_DESCRIPTION_REQUIRED = 81;
+export const PRODUCT_LOGO_URL_REQUIRED = 82;
+export const PRODUCT_STARTING_PRICE_REQUIRED = 83;
+export const PRODUCT_STARTING_PRICE_MUST_BE_INTEGER = 84;
+export const ERROR_MISSING_PRODUCT_ID = 85;
+export const ERROR_PRODUCT_DOESNT_EXIST = 86;
+export const ERROR_USER_DOESNT_OWNER = 87;
+export const PRODUCT_HASNT_ENOUGH_BIDS_FOR_CLOSE = 88;
+export const ERROR_BID_ON_YOUR_PRODUCT = 89;
+export const ERROR_PRODUCT_NOT_ON_SALE = 90;
+export const ERROR_OFFER_LOW = 91;
+export const ERROR_NOT_ENOUGH_CREDIT = 92;
+export const ERROR_WEAK_USERNAME = 999;
+export const ERROR_MISSING_USERNAME = 1000;
+export const ERROR_MISSING_PASSWORD = 1001;
+export const ERROR_WEAK_PASSWORD = 1002;
+export const ERROR_USERNAME_ALREADY_EXISTS = 1003;
+export const ERROR_WRONG_LOGIN_CREDS = 1004;
+export const ERROR_NO_SUCH_TOKEN = 1005;
+export const NO_SUCH_RECIPIENT = 1006;
+export const ERROR_MISSING_TOKEN = 1007;
+export const ERROR_PASSWORD_DONT_MATCH = 1008;
+export const ERROR_MISSING_FULLNAME = 1009;
+export const ERROR_MISSING_EMAIL = 1010;

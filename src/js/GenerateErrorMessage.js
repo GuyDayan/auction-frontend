@@ -6,19 +6,19 @@ export const getErrorMessage = (errorCode) => {
             errorMessage = "General Error"
             break;
         case 80:
-            errorMessage = "MyProduct name is required";
+            errorMessage = "My Product name is required";
             break;
         case 81:
-            errorMessage = "MyProduct description is required"
+            errorMessage = "My Product description is required"
             break;
         case 82:
-            errorMessage = "MyProduct logo is required";
+            errorMessage = "My Product logo is required";
             break;
         case 83:
-            errorMessage = "MyProduct starting price is required";
+            errorMessage = "Product starting price is required";
             break;
         case 84:
-            errorMessage = "MyProduct starting price must be integer";
+            errorMessage = "Product starting price must be integer";
             break;
         case 85:
             errorMessage = "Missing product id";
