@@ -22,6 +22,7 @@ function MyBids(props) {
     const [userId, setUserId] = useState(0);
     const [errorCode, setErrorCode] = useState(0);
     const navigate = useNavigate();
+    const columns = []
 
     useEffect(() => {
         const token = Cookies.get('token')

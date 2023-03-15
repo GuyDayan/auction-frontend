@@ -34,3 +34,19 @@
     font-weight: bold;
     letter-spacing: 3px;
 }
+
+.outer-login-menu {
+    display: flex;
+    max-width: 100%;
+}
+
+.login {
+    flex: 50%;
+}
+
+.stats {
+    flex: 50%;
+}
+
+
+
