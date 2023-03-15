@@ -63,7 +63,7 @@ export const emailWarningMessage=(email) => {
 
 export const addProductMessage = (errorType) => {
     let message = ''
-    if (errorType === 'price-error'){
+    if (errorType === 'integer-error'){
         message = "Price must be an integer"
     }
     return message;

@@ -7,14 +7,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import {Button, FormControl, InputAdornment, Link, TextField, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {sendApiPostRequest} from "./ApiRequests"
-import {
-    BASE_URL,
-    FEATURES_URL_PARAM,
-    LOGIN_URL_PARAM,
-    MINIMAL_PASSWORD_LENGTH,
-    MINIMAL_USERNAME_LENGTH,
-    PRODUCTS_FOR_SALE_URL_PARAM
-} from "./Globals"
+import {BASE_URL, LOGIN_URL_PARAM, PRODUCTS_FOR_SALE_URL_PARAM} from "./Globals"
 import FrontWarnings from "./FrontWarnings";
 import Cookies from "js-cookie";
 import BackErrors from "./BackErrors";
@@ -28,7 +21,7 @@ function Login(props) {
     const [username, setUsername] = useState('GuyDayan');
     const [password, setPassword] = useState('123456');
     const [errorCode, setErrorCode] = useState(0);
-    const [frontError , setFrontError] = useState([]);
+    const [frontWarning, setFrontWarning] = useState({showError:false,errorType:""});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,12 +41,12 @@ function Login(props) {
                 window.location.reload();
             }else {
                 setErrorCode(data.errorCode)
-                if(username.length > 0) setFrontError(frontError.concat(usernameWarningMessage(username)))
-                if(password.length > 0) setFrontError(frontError.concat(passwordWarningMessage(password)))
+                // if(username.length > 0) setFrontError(frontError.concat(usernameWarningMessage(username)))
+                // if(password.length > 0) setFrontError(frontError.concat(passwordWarningMessage(password)))
                 setTimeout(()=>{
-                    setFrontError([]);
+                    // setFrontError([]);
                     setErrorCode(0)
-                },1000)
+                },5000)
             }
         })
 
@@ -107,15 +100,8 @@ function Login(props) {
                             Don't have an account? Sign Up
                         </Link>
                     </div>
-                    {errorCode !== 0 &&
-                        <BackErrors errorCode = {errorCode}/>
-                    }
-                    {
-                        frontError.length > 0 &&
-                        frontError.map(error => (
-                            <FrontWarnings message={error} />
-                        ))
-                    }
+                    {errorCode !== 0 && <BackErrors errorCode = {errorCode}/>}
+                    {/*{errorCode === 0 && <FrontWarnings }*/}
                 </div>
                 <div>
                     Staticts

@@ -1,13 +1,10 @@
 import React, {useState} from 'react';
-import {MINIMAL_PASSWORD_LENGTH,MINIMAL_USERNAME_LENGTH} from "./Globals";
-
-import {Alert, AlertTitle} from "@mui/material";
+import {Alert, AlertTitle, Snackbar} from "@mui/material";
 
 
 
 function BackErrors(props) {
     const errorCode = props.errorCode;
-
 
     const findMessage = () => {
         let errorMessage = ""
@@ -34,10 +31,25 @@ function BackErrors(props) {
                 errorMessage = "Missing product id";
                 break;
             case 86:
-                errorMessage = "MyProduct doesn't exist";
+                errorMessage = "Product doesn't exist";
                 break;
             case 87:
                 errorMessage = "User not owner";
+                break;
+            case 88:
+                errorMessage = "There is not enough bids to close auction";
+                break;
+            case 89:
+                errorMessage = "You can't bid on your product";
+                break;
+            case 90:
+                errorMessage = "Product not open for sale anymore";
+                break;
+            case 91:
+                errorMessage = "Offer too low";
+                break;
+            case 92:
+                errorMessage = "You don't have enough credit";
                 break;
             case 413:
                 errorMessage = "No permission for that action";
@@ -66,17 +78,29 @@ function BackErrors(props) {
             case 1007:
                 errorMessage = "Missing token";
                 break;
-
-
+            case 1008:
+                errorMessage = "Passwords don't match";
+                break;
+            case 1009:
+                errorMessage = "FullName is required";
+                break;
+            case 1010:
+                errorMessage = "Email is required";
+                break;
         }
         return errorMessage;
     }
 
     return (
         <div>
-            <Alert className={"alert-container"} severity="error">
-                <strong>{findMessage()}</strong>
-            </Alert>
+            {/*<Alert className={"alert-container"} severity="error">*/}
+            {/*    <strong>{findMessage()}</strong>*/}
+            {/*</Alert>*/}
+            <Snackbar open={true} anchorOrigin={{ vertical: 'bottom', horizontal: 'center',}}>
+                <Alert severity="error" sx={{ width: '100%' }}>
+                    <strong>{findMessage()}</strong>
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

@@ -54,7 +54,7 @@ export function AddProduct(props){
                 })
             }
         }else {
-            setFrontWarning({showError: true, errorType: errorType})
+            setFrontWarning({showError, errorType: errorType})
 
         }
 
@@ -64,7 +64,7 @@ export function AddProduct(props){
         let showError = false;
         let errorType = ""
         if (!(startingPrice % 1 === 0)){
-            errorType = "price-error"
+            errorType = "integer-error"
             showError = true;
         }
         return {errorType,showError}

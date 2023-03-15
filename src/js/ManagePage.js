@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {sendApiGetRequest} from "./ApiRequests";
 import {BASE_URL, GET_ALL_USERS_REQUEST_PATH} from "./Globals";
 import {Divider, List, ListItem, ListItemText} from "@mui/material";
-import '../css/managePage.css'
+import '../css/managepage.css'
 
 function ManagePage(props) {
     const[users, setUsers] = useState([]);

@@ -19,7 +19,7 @@ import {
     ListItemText, TextField
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import '../css/userDetails.css';
+import '../css/userdetails.css';
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import FrontWarnings from "./FrontWarnings";
 import {addProductMessage, addUserCreditMessage} from "./Utils";

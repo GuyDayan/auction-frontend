@@ -3,7 +3,7 @@ import {useLocation} from "react-router-dom";
 import {sendApiGetRequest, sendApiPostRequest} from "./ApiRequests";
 import {BASE_URL, GET_PRODUCT_DETAILS_REQUEST_PATH, PLACE_BID_REQUEST_PATH} from "./Globals";
 import Cookies from "js-cookie";
-import '../css/productDetails.css'
+import '../css/productdetails.css'
 import {Button, CardHeader, CardMedia, FormControl, IconButton, InputAdornment, TextField} from "@mui/material";
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import Typography from "@mui/material/Typography";

@@ -33,11 +33,11 @@ function Navbar() {
         navigate(`/${LOGIN_URL_PARAM}`)
     }
 
-    const handleClick = (event) => {
+    const handleMenuClick = (event) => {
         setAnchorEl(event.currentTarget);
         console.log(anchorEl)
     };
-    const handleClose = (link) => {
+    const handleMenuItemClick = (link) => {
         setAnchorEl(null);
         navigate(link)
     };
@@ -63,13 +63,13 @@ function Navbar() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                         disabled={token == undefined}
-                        onClick={handleClick}>
+                        onClick={handleMenuClick}>
                         Features
                     </Button>
                     <Menu id="fade-menu" MenuListProps={{'aria-labelledby': 'fade-button',}} anchorEl={anchorEl}
-                          open={open} onClose={handleClose} TransitionComponent={Fade}>
-                        <MenuItem onClick={() => handleClose(ADD_PRODUCT_URL_PARAM)}>Add new product</MenuItem>
-                        <MenuItem onClick={() => handleClose(PRODUCTS_FOR_SALE_URL_PARAM)}>Auctions</MenuItem>
+                          open={open} onClose={handleMenuItemClick} TransitionComponent={Fade}>
+                        <MenuItem onClick={() => handleMenuItemClick(ADD_PRODUCT_URL_PARAM)}>Add new product</MenuItem>
+                        <MenuItem onClick={() => handleMenuItemClick(PRODUCTS_FOR_SALE_URL_PARAM)}>Auctions</MenuItem>
                     </Menu>
                     {
                         !loggedIn ?
