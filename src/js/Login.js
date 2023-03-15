@@ -7,7 +7,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import {Button, FormControl, InputAdornment, Link, TextField, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {sendApiPostRequest} from "./ApiRequests"
-import {BASE_URL, LOGIN_URL_PARAM, PRODUCTS_FOR_SALE_URL_PARAM} from "./Globals"
+import {BASE_URL, LOGIN_URL_PARAM, MINIMAL_USERNAME_LENGTH, PRODUCTS_FOR_SALE_URL_PARAM} from "./Globals"
 import FrontWarnings from "./FrontWarnings";
 import Cookies from "js-cookie";
 import BackErrors from "./BackErrors";
@@ -32,23 +32,39 @@ function Login(props) {
     }, []);
 
 
+    function validateLoginFields() {
+        let showError = false;
+        let errorType = ""
+        if (username.length < MINIMAL_USERNAME_LENGTH){
+            errorType = "username-length"
+            showError = true;
+        }
+        return {errorType,showError}
+    }
+
     function handleSubmit() {
-        sendApiPostRequest(BASE_URL+LOGIN_URL_PARAM , {username,password} , (response) =>{
-            const data = response.data;
-            if (data.success){
-                Cookies.set("token" , data.token)
-                Cookies.set("userId" , data.userId)
-                window.location.reload();
-            }else {
-                setErrorCode(data.errorCode)
-                // if(username.length > 0) setFrontError(frontError.concat(usernameWarningMessage(username)))
-                // if(password.length > 0) setFrontError(frontError.concat(passwordWarningMessage(password)))
-                setTimeout(()=>{
-                    // setFrontError([]);
-                    setErrorCode(0)
-                },5000)
-            }
-        })
+        let {showError,errorType} = validateLoginFields();
+        if (!showError){
+            sendApiPostRequest(BASE_URL+LOGIN_URL_PARAM , {username,password} , (response) =>{
+                const data = response.data;
+                if (data.success){
+                    Cookies.set("token" , data.token)
+                    Cookies.set("userId" , data.userId)
+                    window.location.reload();
+                }else {
+                    setErrorCode(data.errorCode)
+                    // if(username.length > 0) setFrontError(frontError.concat(usernameWarningMessage(username)))
+                    // if(password.length > 0) setFrontError(frontError.concat(passwordWarningMessage(password)))
+                    setTimeout(()=>{
+                        // setFrontError([]);
+                        setErrorCode(0)
+                    },5000)
+                }
+            })
+        }else {
+            setFrontWarning({showError:true, errorType: errorType})
+        }
+
 
     }
 

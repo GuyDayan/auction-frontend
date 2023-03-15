@@ -54,7 +54,7 @@ export function AddProduct(props){
                 })
             }
         }else {
-            setFrontWarning({showError, errorType: errorType})
+            setFrontWarning({showError:true, errorType: errorType})
 
         }
 
