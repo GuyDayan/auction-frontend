@@ -21,7 +21,6 @@ function Navbar() {
 
     useEffect(() => {
         if (token !== undefined) {
-            console.log("navbar")
             setLoggedIn(true)
         }
     }, []);
@@ -35,7 +34,6 @@ function Navbar() {
 
     const handleMenuClick = (event) => {
         setAnchorEl(event.currentTarget);
-        console.log(anchorEl)
     };
     const handleMenuItemClick = (link) => {
         setAnchorEl(null);

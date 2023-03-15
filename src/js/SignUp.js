@@ -41,6 +41,7 @@ function SignUp(props) {
     function handleSubmit() {
         let {showError,errorCode} = validateSignUpFields();
         if(!showError){
+            setFrontWarning({showError: false , errorCode:""})
         sendApiPostRequest(BASE_URL+SIGN_UP_REQUEST_PATH , {fullName,email,username,password,repeatPassword} , (response) =>{
             const data = response.data;
             if (data.success){
@@ -61,18 +62,24 @@ function SignUp(props) {
     const validateSignUpFields = () => {
         let showError = true;
         let errorCode = ""
-        if (!(username.length < MINIMAL_USERNAME_LENGTH)){
+        if ((username.length < MINIMAL_USERNAME_LENGTH)){
             errorCode = ERROR_WEAK_USERNAME;
-            if(!(password.length < MINIMAL_PASSWORD_LENGTH)){
+        }else {
+            if((password.length < MINIMAL_PASSWORD_LENGTH)){
                 errorCode = ERROR_WEAK_PASSWORD;
+            }else {
                 if(!(emailValidation(email))){
                     errorCode = ERROR_EMAIL_NOT_VALID;
+                }else {
                     if(!(fullNameValidation(fullName))){
                         errorCode = ERROR_FULLNAME_NOT_VALID;
-                    } else showError = false;
+                    } else{
+                        showError = false;
+                    }
                 }
             }
         }
+        console.log(errorCode);
         return {errorCode,showError}
     }
 
@@ -96,6 +103,17 @@ function SignUp(props) {
                     Sign Up Page
                 </Typography>
             </div>
+            <div className={"form-field"}>
+                <FormControl variant={"standard"}>
+                    <TextField id={"username"} type={"text"} label={"Username"} value={username} onChange={e=>setUsername(e.target.value)} variant={"outlined"} InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <AccountCircle />
+                            </InputAdornment>
+                        ),
+                    }}/>
+                </FormControl>
+            </div>
             <div>
                 <div className={"form-container"}>
                     <div className={"form-field"}>
@@ -112,17 +130,6 @@ function SignUp(props) {
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
                             <TextField id={"email"} type={"email"} label={"E-Mail Address"} value={email} onChange={e=>setEmail(e.target.value)} variant={"outlined"} InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <AccountCircle />
-                                    </InputAdornment>
-                                ),
-                            }}/>
-                        </FormControl>
-                    </div>
-                    <div className={"form-field"}>
-                        <FormControl variant={"standard"}>
-                            <TextField id={"username"} type={"text"} label={"Username"} value={username} onChange={e=>setUsername(e.target.value)} variant={"outlined"} InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <AccountCircle />
