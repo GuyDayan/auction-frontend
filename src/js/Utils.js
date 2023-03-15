@@ -43,22 +43,21 @@ export const passwordWarningMessage = (password) => {
     return passwordMessage
 }
 
-export const  fullNameWarningMessage =(fullName) => {
+export const  fullNameValidation =(fullName) => {
     const nameRegex = /^[a-zA-Z]{2,}\s[a-zA-Z]{2,}$/;
-    let fullNameMessage ='';
+
     if (!nameRegex.test(fullName)) {
-        fullNameMessage = "Full name must contain at least 2 words and only letters"
+        return false;
     }
-    return fullNameMessage;
+    return true;
 }
 
-export const emailWarningMessage=(email) => {
+export const emailValidation=(email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    let emailMessage =''
     if (!emailRegex.test(email)) {
-        emailMessage ="email is invalid"
+        return false;
     }
-    return emailMessage;
+    return true;
 }
 
 export const addProductMessage = (errorType) => {
@@ -72,26 +71,23 @@ export const addProductMessage = (errorType) => {
 
 
 export const handleDisableButton = (type,obj) => {
-    if (type === "login"){
-        const {username,password} = obj
+    if (type === "login") {
+        const {username, password} = obj
         let loginDisable = true;
-        if (username.length >= MINIMAL_USERNAME_LENGTH){
-            if (containsOnlyLetters(username)){
-                if (password.length >= MINIMAL_PASSWORD_LENGTH){
-                    loginDisable = false
-                }
+        if (username.length >= 1) {
+            if (password.length >= 1) {
+                loginDisable = false
             }
+            return loginDisable;
         }
-        return loginDisable;
     }
     if (type === "sign-up"){
         let signUpDisable = true;
         const {username , password , repeatPassword , fullName} = obj
-        if (username.length >= MINIMAL_USERNAME_LENGTH){
-            if (containsOnlyLetters(username)){
-                if (password.length >= MINIMAL_PASSWORD_LENGTH && repeatPassword >= MINIMAL_PASSWORD_LENGTH){
-                    const parts = fullName.split(" ");
-                    if (parts.length === 2){
+        if (username.length >= 1){
+            if (password.length >= 1){
+                if (fullName.length >=1 ){
+                    if (repeatPassword.length >=1){
                         signUpDisable = false;
                     }
                 }

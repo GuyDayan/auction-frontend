@@ -80,6 +80,13 @@ export const getErrorMessage = (errorCode) => {
         case 1010:
             errorMessage = "Email is required";
             break;
+        case 1011:
+            errorMessage = "Email is not valid!"
+            break;
+        case 1012:
+            errorMessage = "Full Name is not valid"
+            break;
+
     }
     return errorMessage;
 }

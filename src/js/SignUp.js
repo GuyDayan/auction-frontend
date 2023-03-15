@@ -9,11 +9,11 @@ import BackErrors from "./BackErrors";
 import {useState} from "react";
 import {sendApiPostRequest} from "./ApiRequests";
 import {
-    BASE_URL,
+    BASE_URL, ERROR_EMAIL_NOT_VALID, ERROR_FULLNAME_NOT_VALID, ERROR_WEAK_PASSWORD, ERROR_WEAK_USERNAME,
     FEATURES_URL_PARAM,
     LOGIN_URL_PARAM,
     MINIMAL_PASSWORD_LENGTH,
-    MINIMAL_USERNAME_LENGTH,
+    MINIMAL_USERNAME_LENGTH, PRODUCT_STARTING_PRICE_MUST_BE_INTEGER,
     SIGN_UP_REQUEST_PATH
 } from "./Globals";
 import Cookies from "js-cookie";
@@ -22,9 +22,10 @@ import {
     usernameWarningMessage,
     handleDisableButton,
     containsOnlyLetters,
-    fullNameWarningMessage, emailWarningMessage
+    fullNameWarningMessage, emailWarningMessage, emailValidation, fullNameValidation
 } from "./Utils";
 import {useNavigate} from "react-router-dom";
+import {getErrorMessage} from "./GenerateErrorMessage";
 
 
 function SignUp(props) {
@@ -34,9 +35,12 @@ function SignUp(props) {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [errorCode, setErrorCode] = useState(0);
+    const [frontWarning, setFrontWarning] = useState({showError:false,errorCode:""});
     const navigate = useNavigate();
 
     function handleSubmit() {
+        let {showError,errorCode} = validateSignUpFields();
+        if(!showError){
         sendApiPostRequest(BASE_URL+SIGN_UP_REQUEST_PATH , {fullName,email,username,password,repeatPassword} , (response) =>{
             const data = response.data;
             if (data.success){
@@ -48,8 +52,28 @@ function SignUp(props) {
                     setErrorCode(0)
                 },5000)
             }
-        })
+        })} else {
+            setFrontWarning({showError:true, errorCode: errorCode});
+        }
 
+    }
+
+    const validateSignUpFields = () => {
+        let showError = true;
+        let errorCode = ""
+        if (!(username.length < MINIMAL_USERNAME_LENGTH)){
+            errorCode = ERROR_WEAK_USERNAME;
+            if(!(password.length < MINIMAL_PASSWORD_LENGTH)){
+                errorCode = ERROR_WEAK_PASSWORD;
+                if(!(emailValidation(email))){
+                    errorCode = ERROR_EMAIL_NOT_VALID;
+                    if(!(fullNameValidation(fullName))){
+                        errorCode = ERROR_FULLNAME_NOT_VALID;
+                    } else showError = false;
+                }
+            }
+        }
+        return {errorCode,showError}
     }
 
 
@@ -129,15 +153,11 @@ function SignUp(props) {
                             }}/>
                         </FormControl>
                     </div>
-                    {username.length > 0 && <FrontWarnings message = {usernameWarningMessage(username)}/>}
-                    {password.length > 0 && <FrontWarnings message = {passwordWarningMessage(password)}/>}
-                    {repeatPassword.length > 0 && <FrontWarnings message = {passwordWarningMessage(repeatPassword)}/>}
-                    {fullName.length > 0 && <FrontWarnings message = {fullNameWarningMessage(fullName)}/>}
-                    {email.length > 0 && <FrontWarnings message ={emailWarningMessage(email)} />}
                     <div className={"form-field"}>
                         {<Button type={"submit"} variant={"contained"} disabled={handleDisableButton("sign-up" , {username , password , repeatPassword , fullName})} onClick={handleSubmit}>Sign Up</Button>}
                     </div>
                     {errorCode !== 0 && <BackErrors errorCode = {errorCode}/>}
+                    {frontWarning.showError && <FrontWarnings message = {getErrorMessage(frontWarning.errorCode)}/>}
                 </div>
             </div>
             </div>
