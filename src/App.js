@@ -12,12 +12,16 @@ import ProductDetails from "./js/ProductDetails";
 import ManagePage from "./js/ManagePage";
 import UserDetails from "./js/UserDetails";
 import MyBids from "./js/MyBids";
+import {Alert, Snackbar} from "@mui/material";
+import {getErrorMessage} from "./js/GenerateErrorMessage";
+import NotificationBar from "./js/NotificationBar";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
           <Navbar/>
+          <NotificationBar />
           <Routes>
               <Route>
                   <Route path={"/"} element={<Login/>}/>
