@@ -12,7 +12,7 @@ import {
     ERROR_WEAK_USERNAME,
     LOGIN_URL_PARAM, MINIMAL_PASSWORD_LENGTH,
     MINIMAL_USERNAME_LENGTH,
-    PRODUCTS_FOR_SALE_URL_PARAM
+    PRODUCTS_FOR_SALE_URL_PARAM, SIGNUP_URL_PARAM
 } from "./Globals"
 import FrontWarnings from "./FrontWarnings";
 import Cookies from "js-cookie";
@@ -136,7 +136,7 @@ function Login(props) {
                         </div>
                         <div className={"form-field"}>
                             <Link style={{cursor: "pointer"}} underline="hover" variant="body2"
-                                  onClick={() => navigate("signup")}>
+                                  onClick={() => navigate(`/${SIGNUP_URL_PARAM}`)}>
                                 Don't have an account? Sign Up
                             </Link>
                         </div>

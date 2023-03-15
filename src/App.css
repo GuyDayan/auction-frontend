@@ -32,6 +32,12 @@
   color: gray;
 
 }
+.table-row:hover {
+  background-color: whitesmoke;
+  cursor: pointer;
+}
+
+
 .subtitle-var{
   font-weight: bold;
   font-size: small;

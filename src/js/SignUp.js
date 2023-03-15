@@ -103,19 +103,19 @@ function SignUp(props) {
                     Sign Up Page
                 </Typography>
             </div>
-            <div className={"form-field"}>
-                <FormControl variant={"standard"}>
-                    <TextField id={"username"} type={"text"} label={"Username"} value={username} onChange={e=>setUsername(e.target.value)} variant={"outlined"} InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <AccountCircle />
-                            </InputAdornment>
-                        ),
-                    }}/>
-                </FormControl>
-            </div>
             <div>
                 <div className={"form-container"}>
+                    <div className={"form-field"}>
+                        <FormControl variant={"standard"}>
+                            <TextField id={"username"} type={"text"} label={"Username"} value={username} onChange={e=>setUsername(e.target.value)} variant={"outlined"} InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <AccountCircle />
+                                    </InputAdornment>
+                                ),
+                            }}/>
+                        </FormControl>
+                    </div>
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
                             <TextField id={"name"} type={"text"} label={"Full Name"} value={fullName} onChange={e=>setFullName(e.target.value)} variant={"outlined"} InputProps={{

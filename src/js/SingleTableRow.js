@@ -35,24 +35,27 @@ export function SingleTableRow(props) {
     console.log(data)
 
     return (
-        <TableRow key={data.id} sx={{ '&:last-child td, &:last-child th': { border: 0 }}}>
-            {rowType === 'bidsTable' ?
+        <TableRow className="table-row" key={data.id} sx={{ '&:last-child td, &:last-child th': { border: 0 }}}>
+            <TableCell component="th" scope="row">{data.productId}</TableCell>
+            {
+                rowType === 'bidsTable' ?
                 <>
-                <TableCell component="th" scope="row">{data.productName}</TableCell>
-                <TableCell component="th" scope="row">{data.offer}</TableCell>
+                <TableCell  component="th" scope="row">{data.productName}</TableCell>
+                <TableCell  component="th" scope="row">{data.offer}</TableCell>
                 </>
                 :
                 <>
-                <TableCell component="th" scope="row">{data.name}</TableCell>
-                <TableCell component="th" scope="row">{data.biggestBid}</TableCell>
+                <TableCell  component="th" scope="row">{data.name}</TableCell>
+                <TableCell  component="th" scope="row">{data.biggestBid}</TableCell>
                 </>
             }
             <TableCell component="th" scope="row">{data.openForSale ? "Open" : "Closed"}</TableCell>
-            { (rowType === 'bidsTable') &&
+            {
+                (rowType === 'bidsTable') &&
                 <>
                 <TableCell component="th"
                            scope="row">{!data.openForSale && data.bidWinning ? "Won" : data.openForSale ? "Bid is still open" : "Lost"}</TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell  component="th" scope="row">
                 <Button size={"small"} onClick={handleProductDetails}>Product Details</Button>
                 </TableCell>
                 </>

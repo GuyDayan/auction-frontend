@@ -22,7 +22,12 @@ function MyProducts(props) {
     const [userId, setUserId] = useState(0);
     const [errorCode, setErrorCode] = useState(0);
     const navigate = useNavigate();
-    const columns = ["Product name" , "Highest Bid" , "Status"]
+    const columns = [
+        {varName:"id" , label:"Product Id"} ,
+        {varName:"name" , label:"Product name"} ,
+        {varName:"biggestBid" , label:"Biggest Bid"} ,
+        {varName:"openForSale" ,label:"Open For Sale"}
+    ]
 
     useEffect(() => {
         const token = Cookies.get('token')
@@ -38,32 +43,9 @@ function MyProducts(props) {
         })
     }, []);
 
-
-
     return (
 
         <div>
-            {/*{*/}
-            {/*    myProducts.length === 0 ? "No Products yet" :*/}
-            {/*        <TableContainer component={Paper}>*/}
-            {/*            <Table sx={{ minWidth: 650 }} aria-label="simple table">*/}
-            {/*                <TableHead>*/}
-            {/*                    <TableRow>*/}
-            {/*                        <TableCell>Product Name</TableCell>*/}
-            {/*                        <TableCell>Highest Bid</TableCell>*/}
-            {/*                        <TableCell>Status</TableCell>*/}
-            {/*                    </TableRow>*/}
-            {/*                </TableHead>*/}
-            {/*                <TableBody>*/}
-            {/*                    {*/}
-            {/*                        myProducts.map((product) => (*/}
-            {/*                            <SingleTableRow product={product} type={'productTable'}/>*/}
-            {/*                    ))*/}
-            {/*                    }*/}
-            {/*                </TableBody>*/}
-            {/*            </Table>*/}
-            {/*        </TableContainer>*/}
-            {/*}*/}
             <GenericTable columns={columns} data={myProducts} />
         </div>
 
