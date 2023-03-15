@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import ShopIcon from '@mui/icons-material/Shop';import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import Cookies from "js-cookie";
 import {useEffect} from "react";
-import {sendApiGetRequest} from "./ApiRequests";
-import {BASE_URL, GET_USER_DETAILS_REQUEST_PATH} from "./Globals";
+import {sendApiGetRequest, sendApiPostRequest} from "./ApiRequests";
+import {ADD_CREDIT_URL_PARAM, BASE_URL, GET_USER_DETAILS_REQUEST_PATH, LOGIN_URL_PARAM} from "./Globals";
 import {
+    Alert,
     Button,
     Divider,
     FormControl,
@@ -16,13 +17,14 @@ import {
     InputAdornment,
     InputLabel,
     ListItemAvatar,
-    ListItemText, TextField
+    ListItemText, Snackbar, TextField
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import '../css/userdetails.css';
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import FrontWarnings from "./FrontWarnings";
 import {addProductMessage, addUserCreditMessage} from "./Utils";
+import {getErrorMessage} from "./GenerateErrorMessage";
 
 function UserDetails(props) {
     const location = useLocation();
@@ -30,44 +32,39 @@ function UserDetails(props) {
     const userSearchId = searchParams.get('userId');
     const [currentUser, setCurrentUser] = useState('');
     const [creditToAdd, setCreditToAdd] = useState(0);
-    const [frontWarning, setFrontWarning] = useState({showError:false,errorType:""});
-    const token = Cookies.get('token');
-    const userId = Cookies.get('userId');
+    const [showSuccess, setShowSuccess] = useState(false);
+    const uniqueToken = Cookies.get('uniqueToken');
+    const navigate = useNavigate();
 
 
     useEffect(() => {
-        sendApiGetRequest(BASE_URL + GET_USER_DETAILS_REQUEST_PATH, {userId : userSearchId}, res => {
-            if (res.data.success) {
-                setCurrentUser(res.data.userDetailsModel)
-            } else {
+        if (uniqueToken){
+            sendApiGetRequest(BASE_URL + GET_USER_DETAILS_REQUEST_PATH, {uniqueToken , userId : userSearchId}, res => {
+                if (res.data.success) {
+                    setCurrentUser(res.data.userDetailsModel)
+                } else {
 
-            }
-        })
+                }
+            })
+        }else {
+            navigate(`/${LOGIN_URL_PARAM}`)
+        }
     }, [])
 
 
     function handleAddCredit() {
-        let {showError,errorType} = validateCreditToAdd();
-        if (!showError){
-
-        }else {
-            setFrontWarning({showError: true, errorType: errorType})
-        }
-    }
-    function validateCreditToAdd() {
-        let showError = true;
-        let errorType = "";
-        if (creditToAdd % 1 === 0){
-            if (creditToAdd >= 0){
-                showError = false;
-            }else {
-                errorType = "less-than-zero-error"
+        sendApiPostRequest(BASE_URL + ADD_CREDIT_URL_PARAM , {uniqueToken,userId:userSearchId,creditToAdd} , res=>{
+            if (res.data.success){
+                setCurrentUser(res.data.userDetailsModel);
+                setCreditToAdd(0);
+                setShowSuccess(true)
+                setTimeout(()=>{
+                    setShowSuccess(false)
+                },5000)
             }
-        }else {
-            errorType ="integer-number-error"
-        }
-        return {errorType,showError}
+        })
     }
+
 
 
     return (
@@ -108,12 +105,20 @@ function UserDetails(props) {
                             ),
                         }}/>
                     </FormControl>
-                    <Button onClick={handleAddCredit} style={{width:"50%" , marginLeft:"5%" , marginTop:"5%"}} variant="contained">Add Credit</Button>
+                    <Button disabled={creditToAdd<=0} onClick={handleAddCredit} style={{width:"50%" , marginLeft:"5%" , marginTop:"5%"}} variant="contained">Add Credit</Button>
                 </ListItem>
-                <div style={{marginTop:"20px"}}>
-                    {frontWarning.showError && <FrontWarnings message = {addUserCreditMessage(frontWarning.errorType)}/>}
-                </div>
             </List>
+            <div>
+                {
+                    showSuccess &&
+                    <Snackbar open={true} anchorOrigin={{ vertical: 'bottom', horizontal: 'center',}}>
+                        <Alert severity="success" sx={{ width: '100%' }}>
+                            <strong>Credit has benn update successfully</strong>
+                        </Alert>
+                    </Snackbar>
+                }
+
+            </div>
         </div>
 
 

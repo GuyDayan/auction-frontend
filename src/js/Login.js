@@ -4,7 +4,7 @@ import Avatar from '@mui/material/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
-import {Button, FormControl, InputAdornment, Link, TextField, Typography} from "@mui/material";
+import {Button, Checkbox, FormControl, InputAdornment, Link, TextField, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {sendApiPostRequest} from "./ApiRequests"
 import {
@@ -17,13 +17,7 @@ import {
 import FrontWarnings from "./FrontWarnings";
 import Cookies from "js-cookie";
 import BackErrors from "./BackErrors";
-import {
-    passwordWarningMessage,
-    usernameWarningMessage,
-    handleDisableButton,
-    emailValidation,
-    fullNameValidation
-} from "./Utils";
+
 import {getErrorMessage} from "./GenerateErrorMessage";
 import '../css/login.css';
 
@@ -35,6 +29,7 @@ function Login(props) {
     const [username, setUsername] = useState('GuyDayan');
     const [password, setPassword] = useState('123456');
     const [errorCode, setErrorCode] = useState(0);
+    const [checked, setChecked] = useState(false);
     const [frontWarning, setFrontWarning] = useState({showError: false, errorCode: ""});
     const navigate = useNavigate();
 
@@ -45,29 +40,43 @@ function Login(props) {
         }
     }, []);
 
+    const handleChange = () => {
+        setChecked(!checked);
+    };
 
     function handleSubmit() {
-        let {showError, errorCode} = validateLoginFields();
-        if (!showError) {
-            sendApiPostRequest(BASE_URL + LOGIN_URL_PARAM, {username, password}, (response) => {
-                const data = response.data;
-                if (data.success) {
-                    Cookies.set("token", data.token)
-                    Cookies.set("userId", data.userId)
-                    window.location.reload();
-                } else {
-                    setErrorCode(data.errorCode)
-                    // if(username.length > 0) setFrontError(frontError.concat(usernameWarningMessage(username)))
-                    // if(password.length > 0) setFrontError(frontError.concat(passwordWarningMessage(password)))
-                    setTimeout(() => {
-                        // setFrontError([]);
-                        setErrorCode(0)
-                    }, 5000)
+        if (checked){
+            sendApiPostRequest(BASE_URL + "admin-login" , {username,password} , res=>{
+                if (res.data.success){
+                    Cookies.set("uniqueToken" , res.data.uniqueToken)
+                    navigate("/manage")
                 }
+
             })
-        } else {
-            setFrontWarning({showError: true, errorCode: errorCode})
+        }else {
+            let {showError, errorCode} = validateLoginFields();
+            if (!showError) {
+                sendApiPostRequest(BASE_URL + LOGIN_URL_PARAM, {username, password}, (response) => {
+                    const data = response.data;
+                    if (data.success) {
+                        Cookies.set("token", data.token)
+                        Cookies.set("userId", data.userId)
+                        if (Cookies.get("uniqueToken") != undefined){
+                            Cookies.remove("uniqueToken")
+                        }
+                        window.location.reload();
+                    } else {
+                        setErrorCode(data.errorCode)
+                        setTimeout(() => {
+                            setErrorCode(0)
+                        }, 5000)
+                    }
+                })
+            } else {
+                setFrontWarning({showError: true, errorCode: errorCode})
+            }
         }
+
 
 
     }
@@ -129,6 +138,7 @@ function Login(props) {
                                 }}/>
                             </FormControl>
                         </div>
+                        <label>Is Admin?<Checkbox id="myCheck" checked={checked} onChange={handleChange}/></label>
                         {/*{username.length > 0 && <FrontWarnings message = {usernameWarningMessage(username)}/>}*/}
                         {/*{password.length > 0 && <FrontWarnings message = {passwordWarningMessage(password)}/>}*/}
                         <div className={"form-field"}>

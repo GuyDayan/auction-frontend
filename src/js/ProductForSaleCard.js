@@ -14,6 +14,7 @@ import '../App.css'
 function ProductForSaleCard(props) {
 
     const product = props.product
+    const type = props.type;
     const token = Cookies.get('token');
     const userId = Cookies.get('userId');
     const navigate = useNavigate();
@@ -31,16 +32,23 @@ function ProductForSaleCard(props) {
     }
 
     return (
-        <Card sx={{ maxWidth: "100%"  }}>
+        <Card sx={type=="manage" ?  {maxWidth:"50%"} : {maxWidth: "100%"  }}>
             <img src={product.logoUrl} style={{width:'30%',height:'30%'}}/>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">{product.name}</Typography>
-                    <Typography className="headline-var">Opening Sale Date</Typography>
-                    <Typography className="subtitle-var">{product.openingSaleDate}</Typography>
-                    <Typography className="headline-var">Total Bids</Typography>
-                    <Typography className="subtitle-var">{product.totalBids}</Typography>
-                    <Typography className="headline-var">My Total Bids</Typography>
-                    <Typography className="subtitle-var">{product.myTotalBids}</Typography>
+                <Typography className="headline-var">Opening Sale Date</Typography>
+                <Typography className="subtitle-var">{product.openingSaleDate}</Typography>
+                {
+                    type != "manage" &&
+                    <div>
+                        <Typography className="headline-var">Total Bids</Typography>
+                        <Typography className="subtitle-var">{product.totalBids}</Typography>
+                        <Typography className="headline-var">My Total Bids</Typography>
+                        <Typography className="subtitle-var">{product.myTotalBids}</Typography>
+                    </div>
+
+                }
+
             </CardContent>
             <CardActions>
                 <Button onClick={handleProductDetails} size="small">See more details</Button>
