@@ -8,20 +8,18 @@ import {Button, Checkbox, FormControl, InputAdornment, Link, TextField, Typograp
 import {useNavigate} from "react-router-dom";
 import {sendApiPostRequest} from "./ApiRequests"
 import {
+    ADMIN_PARAM,
     BASE_URL, ERROR_EMAIL_NOT_VALID, ERROR_FULLNAME_NOT_VALID, ERROR_WEAK_PASSWORD,
     ERROR_WEAK_USERNAME,
     LOGIN_URL_PARAM, MINIMAL_PASSWORD_LENGTH,
     MINIMAL_USERNAME_LENGTH,
-    PRODUCTS_FOR_SALE_URL_PARAM, SIGNUP_URL_PARAM
+    PRODUCTS_FOR_SALE_URL_PARAM, SIGNUP_URL_PARAM, USER_PARAM
 } from "./Globals"
 import FrontWarnings from "./FrontWarnings";
 import Cookies from "js-cookie";
 import BackErrors from "./BackErrors";
-
 import {getErrorMessage} from "./GenerateErrorMessage";
 import '../css/login.css';
-
-
 
 
 function Login(props) {
@@ -29,7 +27,7 @@ function Login(props) {
     const [username, setUsername] = useState('GuyDayan');
     const [password, setPassword] = useState('123456');
     const [errorCode, setErrorCode] = useState(0);
-    const [checked, setChecked] = useState(false);
+    const [message, setMessage] = useState('');
     const [frontWarning, setFrontWarning] = useState({showError: false, errorCode: ""});
     const navigate = useNavigate();
 
@@ -37,46 +35,32 @@ function Login(props) {
         const token = Cookies.get("token");
         if (token !== undefined) {
             navigate(`/${PRODUCTS_FOR_SALE_URL_PARAM}`)
+        }else {
+
         }
     }, []);
 
-    const handleChange = () => {
-        setChecked(!checked);
-    };
 
     function handleSubmit() {
-        if (checked){
-            sendApiPostRequest(BASE_URL + "admin-login" , {username,password} , res=>{
-                if (res.data.success){
-                    Cookies.set("uniqueToken" , res.data.uniqueToken)
-                    navigate("/manage")
+        let {showError, errorCode} = validateLoginFields();
+        if (!showError) {
+            sendApiPostRequest(BASE_URL + LOGIN_URL_PARAM, {username, password}, (response) => {
+                const data = response.data;
+                if (data.success) {
+                    Cookies.set("token", data.token)
+                    Cookies.set("userType", data.userType)
+                    Cookies.set("userId" , data.userId)
+                    window.location.reload();
+                } else {
+                    setErrorCode(data.errorCode)
+                    setTimeout(() => {
+                        setErrorCode(0)
+                    }, 15000)
                 }
-
             })
-        }else {
-            let {showError, errorCode} = validateLoginFields();
-            if (!showError) {
-                sendApiPostRequest(BASE_URL + LOGIN_URL_PARAM, {username, password}, (response) => {
-                    const data = response.data;
-                    if (data.success) {
-                        Cookies.set("token", data.token)
-                        Cookies.set("userId", data.userId)
-                        if (Cookies.get("uniqueToken") != undefined){
-                            Cookies.remove("uniqueToken")
-                        }
-                        window.location.reload();
-                    } else {
-                        setErrorCode(data.errorCode)
-                        setTimeout(() => {
-                            setErrorCode(0)
-                        }, 5000)
-                    }
-                })
-            } else {
-                setFrontWarning({showError: true, errorCode: errorCode})
-            }
+        } else {
+            setFrontWarning({showError: true, errorCode: errorCode})
         }
-
 
 
     }
@@ -93,13 +77,13 @@ function Login(props) {
                 showError = false;
             }
         }
-            return {errorCode, showError}
+        return {errorCode, showError}
 
     }
 
 
-        return (
-            <div className='outer-login-menu'>
+    return (
+        <div className='outer-login-menu'>
             <div className='login'>
                 <div className={"avatar-container"}>
                     <Avatar className={"avatar"}>
@@ -138,9 +122,6 @@ function Login(props) {
                                 }}/>
                             </FormControl>
                         </div>
-                        <label>Is Admin?<Checkbox id="myCheck" checked={checked} onChange={handleChange}/></label>
-                        {/*{username.length > 0 && <FrontWarnings message = {usernameWarningMessage(username)}/>}*/}
-                        {/*{password.length > 0 && <FrontWarnings message = {passwordWarningMessage(password)}/>}*/}
                         <div className={"form-field"}>
                             <Button type={"submit"} variant={"contained"} onClick={handleSubmit}>Sign In</Button>
                         </div>
@@ -156,11 +137,16 @@ function Login(props) {
                     </div>
                 </div>
             </div>
-                <div className='stats'>
-                    Staticts
+            <div className='stats'>
+                <div>
+                    Stats
+                </div>
+                <div>
+                    {message}
                 </div>
             </div>
-        );
+        </div>
+    );
 }
 
 export default Login;

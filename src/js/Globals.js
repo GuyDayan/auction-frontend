@@ -9,8 +9,12 @@ export const MY_BIDS_URL_PARAM = 'my-bids';
 export const GET_PRODUCT_DETAILS_URL_PARAM = 'product-details';
 export const GET_USER_DETAILS_URL_PARAM = 'user-details';
 export const ADD_CREDIT_URL_PARAM = 'add-credit';
+export const MANAGE_URL_PARAM = 'manage';
 
 
+export const USER_PARAM = 'user';
+export const ADMIN_PARAM = 'admin';
+export const PLACE_BID_PARAM = "PLACE-BID"
 
 
 

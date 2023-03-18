@@ -10,7 +10,7 @@ function GenericTable({ columns, data }) {
     }
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer>
             <Table>
                 <TableHead>
                     <TableRow>

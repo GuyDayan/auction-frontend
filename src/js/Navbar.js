@@ -4,8 +4,15 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {useEffect} from "react";
 import Cookies from "js-cookie";
-import {ADD_PRODUCT_URL_PARAM, LOGIN_URL_PARAM, PRODUCTS_FOR_SALE_URL_PARAM} from "./Globals";
+import {
+    ADD_PRODUCT_URL_PARAM,
+    BASE_URL,
+    LOGIN_URL_PARAM, MY_BIDS_URL_PARAM,
+    MY_PRODUCTS_URL_PARAM,
+    PRODUCTS_FOR_SALE_URL_PARAM
+} from "./Globals";
 import {getCookies} from "./Utils";
+import {sendApiGetRequest} from "./ApiRequests";
 
 
 function Navbar() {
@@ -13,14 +20,23 @@ function Navbar() {
     const navigate = useNavigate();
     const [loggedIn, setLoggedIn] = useState(false);
     const {token, userId} = getCookies();
-    const [fullName, setFullName] = useState('guy');
-    const [credit, setCredit] = useState(999);
+    const [fullName, setFullName] = useState('');
+    const [credit, setCredit] = useState(0);
+    const [username, setUsername] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
 
     useEffect(() => {
         if (token !== undefined) {
+            sendApiGetRequest(BASE_URL+"get-user-stats" , {token,userId} , res=> {
+                if (res.data.success){
+                    const userStats = res.data.userStats
+                    setFullName(userStats.fullName);
+                    setCredit(userStats.credit)
+                    setUsername(userStats.username)
+                }
+            })
             setLoggedIn(true)
         }
     }, []);
@@ -28,6 +44,7 @@ function Navbar() {
     function handleLogOut() {
         Cookies.remove("token");
         Cookies.remove("userId");
+        Cookies.remove("userType")
         setLoggedIn(false);
         navigate(`/${LOGIN_URL_PARAM}`)
     }
@@ -67,8 +84,11 @@ function Navbar() {
                     <Menu id="fade-menu" MenuListProps={{'aria-labelledby': 'fade-button',}} anchorEl={anchorEl}
                           open={open} onClose={handleMenuItemClick} TransitionComponent={Fade}>
                         <MenuItem onClick={() => handleMenuItemClick(ADD_PRODUCT_URL_PARAM)}>Add new product</MenuItem>
-                        <MenuItem onClick={() => handleMenuItemClick(PRODUCTS_FOR_SALE_URL_PARAM)}>Auctions</MenuItem>
+                        <MenuItem onClick={() => handleMenuItemClick(MY_PRODUCTS_URL_PARAM)}>My Products</MenuItem>
+                        <MenuItem onClick={() => handleMenuItemClick(MY_BIDS_URL_PARAM)}>My Bids</MenuItem>
+                        <MenuItem onClick={() => handleMenuItemClick(PRODUCTS_FOR_SALE_URL_PARAM)}>Open Auctions</MenuItem>
                     </Menu>
+
                     {
                         !loggedIn ?
                             <>

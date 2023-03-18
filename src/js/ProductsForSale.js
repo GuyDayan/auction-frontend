@@ -2,30 +2,46 @@ import React, {useEffect, useState} from 'react';
 import ProductForSaleCard from "./ProductForSaleCard";
 import "../css/auctions.css"
 import {Box, InputAdornment, TextField} from "@mui/material";
-import {sendApiGetRequest} from "./ApiRequests";
-import {BASE_URL, GET_PRODUCTS_FOR_SALE_REQUEST_PATH} from "./Globals";
+import {getProductsForSaleRequest, sendApiGetRequest} from "./ApiRequests";
+import {BASE_URL, GET_PRODUCTS_FOR_SALE_REQUEST_PATH, PLACE_BID_PARAM} from "./Globals";
 import Cookies from "js-cookie";
 import SearchIcon from '@mui/icons-material/Search';
+import {getCookies} from "./Utils";
+import NotificationBar from "./NotificationBar";
 
 
 function ProductsForSale(props) {
 
     const [searchValue, setSearchValue] = useState('');
     const [productsForSale, setProductsForSale] = useState([]);
-    const token = Cookies.get('token');
-    const userId = Cookies.get('userId');
-
+    const cookies = getCookies();
+    const token = cookies.token
+    const userId = cookies.userId
+    const [showBidNotification, setShowBidNotification] = useState(false);
+    const [bidderUsername, setBidderUsername] = useState('');
 
     useEffect(() => {
         if (token !== undefined && userId !== 0) {
-            sendApiGetRequest(BASE_URL + GET_PRODUCTS_FOR_SALE_REQUEST_PATH, {token, userId}, response => {
-                if (response.data.success) {
-                    setProductsForSale(response.data.products)
-                } else {
-                    //
+            const sse = new EventSource(BASE_URL + "main-page-handler?token="+token);
+            sse.onmessage = (message) => {
+                const data = JSON.parse(message.data);
+                if (data.eventType == PLACE_BID_PARAM){
+                    setShowBidNotification(true)
+                    setBidderUsername(data.bidderUsername)
+                    setTimeout(()=>{
+                        setShowBidNotification(false)
+                    },5000)
                 }
+            }
+            getProductsForSaleRequest({token,userId} , response =>{
+                    if (response.data.success) {
+                        setProductsForSale(response.data.products)
+                    } else {
+                        //
+                    }
             })
         }
+
     }, []);
 
 
@@ -58,7 +74,9 @@ function ProductsForSale(props) {
                                 </div>
                             )
                 }
-
+            </div>
+            <div>
+                {showBidNotification && <NotificationBar message={bidderUsername + " has place a bid on your product"}/>}
             </div>
         </div>
     );

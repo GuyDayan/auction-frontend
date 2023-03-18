@@ -21,7 +21,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
           <Navbar/>
-          <NotificationBar />
+          {/*<NotificationBar />*/}
           <Routes>
               <Route>
                   <Route path={"/"} element={<Login/>}/>

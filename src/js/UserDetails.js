@@ -7,7 +7,7 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import Cookies from "js-cookie";
 import {useEffect} from "react";
 import {sendApiGetRequest, sendApiPostRequest} from "./ApiRequests";
-import {ADD_CREDIT_URL_PARAM, BASE_URL, GET_USER_DETAILS_REQUEST_PATH, LOGIN_URL_PARAM} from "./Globals";
+import {ADD_CREDIT_URL_PARAM, ADMIN_PARAM, BASE_URL, GET_USER_DETAILS_REQUEST_PATH, LOGIN_URL_PARAM} from "./Globals";
 import {
     Alert,
     Button,
@@ -23,7 +23,7 @@ import Avatar from "@mui/material/Avatar";
 import '../css/userdetails.css';
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import FrontWarnings from "./FrontWarnings";
-import {addProductMessage, addUserCreditMessage} from "./Utils";
+import {addProductMessage, addUserCreditMessage, getCookies} from "./Utils";
 import {getErrorMessage} from "./GenerateErrorMessage";
 
 function UserDetails(props) {
@@ -33,19 +33,23 @@ function UserDetails(props) {
     const [currentUser, setCurrentUser] = useState('');
     const [creditToAdd, setCreditToAdd] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
-    const uniqueToken = Cookies.get('uniqueToken');
+    const cookies = getCookies();
+    const token = cookies.token;
+    const userType = cookies.userType;
     const navigate = useNavigate();
 
 
     useEffect(() => {
-        if (uniqueToken){
-            sendApiGetRequest(BASE_URL + GET_USER_DETAILS_REQUEST_PATH, {uniqueToken , userId : userSearchId}, res => {
-                if (res.data.success) {
-                    setCurrentUser(res.data.userDetailsModel)
-                } else {
+        if (userType == ADMIN_PARAM){
+            if (token){
+                sendApiGetRequest(BASE_URL + GET_USER_DETAILS_REQUEST_PATH, {token , userId : userSearchId}, res => {
+                    if (res.data.success) {
+                        setCurrentUser(res.data.userDetailsModel)
+                    } else {
 
-                }
-            })
+                    }
+                })
+            }
         }else {
             navigate(`/${LOGIN_URL_PARAM}`)
         }
@@ -53,7 +57,7 @@ function UserDetails(props) {
 
 
     function handleAddCredit() {
-        sendApiPostRequest(BASE_URL + ADD_CREDIT_URL_PARAM , {uniqueToken,userId:userSearchId,creditToAdd} , res=>{
+        sendApiPostRequest(BASE_URL + ADD_CREDIT_URL_PARAM , {token,userId:userSearchId,creditToAdd} , res=>{
             if (res.data.success){
                 setCurrentUser(res.data.userDetailsModel);
                 setCreditToAdd(0);

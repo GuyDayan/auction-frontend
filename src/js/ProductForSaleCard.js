@@ -1,22 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {sendApiGetRequest} from "./ApiRequests";
-import {BASE_URL, GET_PRODUCT_DETAILS_REQUEST_PATH} from "./Globals";
+import {ADMIN_PARAM, BASE_URL, GET_PRODUCT_DETAILS_REQUEST_PATH, USER_PARAM} from "./Globals";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 import '../App.css'
+import {getCookies} from "./Utils";
 
 
 function ProductForSaleCard(props) {
 
     const product = props.product
-    const type = props.type;
-    const token = Cookies.get('token');
-    const userId = Cookies.get('userId');
+    const cookies = getCookies();
+    const token = cookies.token
+    const userType = cookies.userType;
+    const userId = cookies.userId;
     const navigate = useNavigate();
 
 
@@ -32,14 +34,14 @@ function ProductForSaleCard(props) {
     }
 
     return (
-        <Card sx={type=="manage" ?  {maxWidth:"50%"} : {maxWidth: "100%"  }}>
+        <Card   sx={{maxWidth:"50%"}}>
             <img src={product.logoUrl} style={{width:'30%',height:'30%'}}/>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">{product.name}</Typography>
                 <Typography className="headline-var">Opening Sale Date</Typography>
                 <Typography className="subtitle-var">{product.openingSaleDate}</Typography>
                 {
-                    type != "manage" &&
+
                     <div>
                         <Typography className="headline-var">Total Bids</Typography>
                         <Typography className="subtitle-var">{product.totalBids}</Typography>

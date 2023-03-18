@@ -8,3 +8,23 @@
     margin: 5px;
     max-width: 250px;
 }
+
+.manage-container{
+    margin-top: 10px;
+    display: flex;
+    justify-content: left;
+    padding: 16px;
+    width: 100%;
+}
+
+.users-container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+}
+.products-container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+}
+

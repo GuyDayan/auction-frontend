@@ -1,5 +1,10 @@
 import axios from "axios";
-import {BASE_URL, GET_USER_DETAILS_REQUEST_PATH, GET_USER_DETAILS_URL_PARAM} from "./Globals";
+import {
+    BASE_URL,
+    GET_PRODUCTS_FOR_SALE_REQUEST_PATH,
+    GET_USER_DETAILS_REQUEST_PATH,
+    GET_USER_DETAILS_URL_PARAM
+} from "./Globals";
 
 
 // export const sendApiGetRequest = (request, callback) => {
@@ -11,17 +16,15 @@ import {BASE_URL, GET_USER_DETAILS_REQUEST_PATH, GET_USER_DETAILS_URL_PARAM} fro
 //         })
 // }
 
-
-
-export const getUserDetails = (params, callback) => {
-    axios.get(BASE_URL+GET_USER_DETAILS_REQUEST_PATH, null, {params}).then(response => {
-        if (callback) {
-            callback(response);
-        }
-    })
+export const getProductsForSaleRequest  = (params, callback) => {
+    const url = BASE_URL + GET_PRODUCTS_FOR_SALE_REQUEST_PATH;
+    sendApiGetRequest(url,params,callback)
 }
 
+
+
 export const sendApiGetRequest = (url ,params, callback) => {
+    console.log(params)
     axios.get(url, {params} )
         .then(response => {
             if (callback) {
