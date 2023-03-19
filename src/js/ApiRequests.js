@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-    BASE_URL,
+    BASE_URL, GET_MY_PRODUCTS_REQUEST_PATH,
     GET_PRODUCTS_FOR_SALE_REQUEST_PATH,
     GET_USER_DETAILS_REQUEST_PATH,
     GET_USER_DETAILS_URL_PARAM
@@ -20,6 +20,12 @@ export const getProductsForSaleRequest  = (params, callback) => {
     const url = BASE_URL + GET_PRODUCTS_FOR_SALE_REQUEST_PATH;
     sendApiGetRequest(url,params,callback)
 }
+
+export const getMyProductsRequest  = (params, callback) => {
+    const url = BASE_URL+ GET_MY_PRODUCTS_REQUEST_PATH;
+    sendApiGetRequest(url,params,callback)
+}
+
 
 
 

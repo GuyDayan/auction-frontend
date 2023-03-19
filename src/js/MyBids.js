@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {sendApiGetRequest} from "./ApiRequests";
-import {BASE_URL, GET_MY_BIDS_REQUEST_PATH, GET_MY_PRODUCTS_REQUEST_PATH} from "./Globals";
+import {
+    BASE_URL,
+    GET_MY_BIDS_REQUEST_PATH,
+
+    GET_PRODUCT_DETAILS_REQUEST_PATH
+} from "./Globals";
 import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
 import GenericTable from "./GenericTable";
@@ -8,9 +13,8 @@ import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import {TableCell} from "@mui/material";
+import {Button, TableCell} from "@mui/material";
 import TableBody from "@mui/material/TableBody";
-import {SingleTableRow} from "./SingleTableRow";
 import Paper from "@mui/material/Paper";
 
 
@@ -44,6 +48,16 @@ function MyBids(props) {
         })
     }, []);
 
+    function handleProductDetails(productId) {
+        sendApiGetRequest(BASE_URL + GET_PRODUCT_DETAILS_REQUEST_PATH, {token, userId, productId}, res => {
+            if (res.data.success) {
+                navigate(`/product-details?productId=${productId}`)
+            } else {
+                console.log('fail')
+            }
+        })
+    }
+
 
 
     return (
@@ -62,14 +76,24 @@ function MyBids(props) {
                     <TableBody>
                         {
                             myBids.map((bid) => (
-                                <SingleTableRow bid={bid} type={'bidsTable'}/>
+                                <>
+                                    <TableRow className="table-row" key={bid.id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                        <TableCell component="th" scope="row">{bid.productId}</TableCell>
+                                        <TableCell component="th" scope="row">{bid.productName}</TableCell>
+                                        <TableCell component="th" scope="row">{bid.offer}</TableCell>
+                                        <TableCell component="th" scope="row">{bid.openForSale ? "Open" : "Closed"}</TableCell>
+                                        <TableCell component="th" scope="row">{!bid.openForSale && bid.bidWinning ? "Won" : bid.openForSale ? "Bid is still open" : "Lost"}</TableCell>
+                                        <TableCell component="th" scope="row">
+                                            <Button size={"small"} onClick={()=>handleProductDetails(bid.productId)}>Product Details</Button>
+                                        </TableCell>
+                                    </TableRow>
+                                </>
                             ))
                         }
                     </TableBody>
                 </Table>
             </TableContainer>
             }
-           {/*<GenericTable data={myBids} columns={columns} />*/}
         </div>
     );
 }

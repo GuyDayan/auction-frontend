@@ -28,6 +28,8 @@ export const GET_MANAGE_DETAILS_REQUEST_PATH = 'get-manage-details';
 export const SIGN_UP_REQUEST_PATH = 'sign-up';
 export const GET_USER_DETAILS_REQUEST_PATH = 'get-user-details';
 export const GET_ALL_OPEN_AUCTIONS_REQUEST_PATH = 'get-all-open-auctions';
+export const CLOSE_AUCTION_REQUEST_PATH = 'close-auction';
+
 
 
 
