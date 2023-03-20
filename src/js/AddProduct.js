@@ -8,7 +8,13 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import BackErrors from "./BackErrors";
 import React, {useEffect} from "react";
 import {useState} from "react";
-import {addProductMessage, handleDisableButton, priceWarningMessage, usernameWarningMessage} from "./Utils";
+import {
+    addProductMessage,
+    handleDisableButton,
+    handleDisableButton1,
+    priceWarningMessage,
+    usernameWarningMessage
+} from "./Utils";
 import {sendApiPostRequest} from "./ApiRequests";
 import {
     ADD_PRODUCT_REQUEST_PATH,
@@ -143,7 +149,12 @@ export function AddProduct(props){
                         </FormControl>
                     </div>
                     <div className={"form-field"}>
-                        <Button type={"submit"} style={{ width: "140px" , margin:"5px"}} variant={"contained"} disabled={handleDisableButton("add-product",{productName: name, description, logoUrl, startingPrice})} onClick={handleSubmit}>Add Product</Button>
+                        <Button type={"submit"}
+                                style={{ width: "140px" , margin:"5px"}}
+                                variant={"contained"}
+                                disabled={handleDisableButton([name, description, logoUrl, startingPrice])}
+                                onClick={handleSubmit}>Add Product
+                        </Button>
                         <Button type={"submit"} color={"error"} style={{ width: "140px" , margin:"5px"}} variant={"contained"} onClick={handleClear}>Clear</Button>
                     </div>
                     {frontWarning.showError && <FrontWarnings message = {getErrorMessage(frontWarning.errorCode)}/>}

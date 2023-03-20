@@ -5,11 +5,11 @@ import {useState} from "react";
 import {useEffect} from "react";
 import Cookies from "js-cookie";
 import {
-    ADD_PRODUCT_URL_PARAM,
+    ADD_PRODUCT_URL_PARAM, ADMIN_PARAM,
     BASE_URL,
-    LOGIN_URL_PARAM, MY_BIDS_URL_PARAM,
+    LOGIN_URL_PARAM, MANAGE_URL_PARAM, MY_BIDS_URL_PARAM,
     MY_PRODUCTS_URL_PARAM,
-    PRODUCTS_FOR_SALE_URL_PARAM
+    PRODUCTS_FOR_SALE_URL_PARAM, USER_PARAM
 } from "./Globals";
 import {getCookies} from "./Utils";
 import {sendApiGetRequest} from "./ApiRequests";
@@ -19,7 +19,7 @@ function Navbar() {
 
     const navigate = useNavigate();
     const [loggedIn, setLoggedIn] = useState(false);
-    const {token, userId} = getCookies();
+    const {token, userId , userType} = getCookies();
     const [fullName, setFullName] = useState('');
     const [credit, setCredit] = useState(0);
     const [username, setUsername] = useState('');
@@ -83,10 +83,22 @@ function Navbar() {
                     </Button>
                     <Menu id="fade-menu" MenuListProps={{'aria-labelledby': 'fade-button',}} anchorEl={anchorEl}
                           open={open} onClose={handleMenuItemClick} TransitionComponent={Fade}>
-                        <MenuItem onClick={() => handleMenuItemClick(ADD_PRODUCT_URL_PARAM)}>Add new product</MenuItem>
-                        <MenuItem onClick={() => handleMenuItemClick(MY_PRODUCTS_URL_PARAM)}>My Products</MenuItem>
-                        <MenuItem onClick={() => handleMenuItemClick(MY_BIDS_URL_PARAM)}>My Bids</MenuItem>
-                        <MenuItem onClick={() => handleMenuItemClick(PRODUCTS_FOR_SALE_URL_PARAM)}>Open Auctions</MenuItem>
+                        <MenuItem onClick={() => handleMenuItemClick(PRODUCTS_FOR_SALE_URL_PARAM)}>Active Auctions</MenuItem>
+
+                        {
+                            userType == USER_PARAM &&
+                            <>
+                                <MenuItem onClick={() => handleMenuItemClick(ADD_PRODUCT_URL_PARAM)}>Add new product</MenuItem>
+                                <MenuItem onClick={() => handleMenuItemClick(MY_PRODUCTS_URL_PARAM)}>My Products</MenuItem>
+                                <MenuItem onClick={() => handleMenuItemClick(MY_BIDS_URL_PARAM)}>My Bids</MenuItem>
+                            </>
+                        }
+                        {
+                            userType == ADMIN_PARAM &&
+                            <>
+                                <MenuItem onClick={() => handleMenuItemClick(MANAGE_URL_PARAM)}>Manage Page</MenuItem>
+                            </>
+                        }
                     </Menu>
 
                     {

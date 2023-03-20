@@ -3,7 +3,12 @@ import ProductForSaleCard from "./ProductForSaleCard";
 import "../css/auctions.css"
 import {Box, InputAdornment, TextField} from "@mui/material";
 import {getProductsForSaleRequest, sendApiGetRequest} from "./ApiRequests";
-import {BASE_URL, GET_PRODUCTS_FOR_SALE_REQUEST_PATH, PLACE_BID_PARAM} from "./Globals";
+import {
+    BASE_URL,
+    CLOSE_AUCTION_PARAM_EVENT,
+    GET_PRODUCTS_FOR_SALE_REQUEST_PATH,
+    PLACE_BID_PARAM_EVENT
+} from "./Globals";
 import Cookies from "js-cookie";
 import SearchIcon from '@mui/icons-material/Search';
 import {getCookies} from "./Utils";
@@ -18,18 +23,28 @@ function ProductsForSale(props) {
     const token = cookies.token
     const userId = cookies.userId
     const [showBidNotification, setShowBidNotification] = useState(false);
+    const [showCloseAuctionNotification, setShowCloseAuctionNotification] = useState(false);
     const [bidderUsername, setBidderUsername] = useState('');
+    const [closeAuctionUsername, setCloseAuctionUsername] = useState('');
+
 
     useEffect(() => {
         if (token !== undefined && userId !== 0) {
             const sse = new EventSource(BASE_URL + "main-page-handler?token="+token);
             sse.onmessage = (message) => {
                 const data = JSON.parse(message.data);
-                if (data.eventType == PLACE_BID_PARAM){
+                if (data.eventType == PLACE_BID_PARAM_EVENT){
                     setShowBidNotification(true)
                     setBidderUsername(data.bidderUsername)
                     setTimeout(()=>{
                         setShowBidNotification(false)
+                    },5000)
+                }
+                if (data.eventType == CLOSE_AUCTION_PARAM_EVENT){
+                    setShowCloseAuctionNotification(true)
+                    setCloseAuctionUsername(data.sellerUsername)
+                    setTimeout(()=>{
+                        setShowCloseAuctionNotification(false)
                     },5000)
                 }
             }
@@ -77,6 +92,8 @@ function ProductsForSale(props) {
             </div>
             <div>
                 {showBidNotification && <NotificationBar message={bidderUsername + " has place a bid on your product"}/>}
+                {showCloseAuctionNotification && <NotificationBar message={ closeAuctionUsername + " has closed bid on suggested product"}/>}
+
             </div>
         </div>
     );

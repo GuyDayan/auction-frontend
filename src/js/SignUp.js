@@ -161,7 +161,10 @@ function SignUp(props) {
                         </FormControl>
                     </div>
                     <div className={"form-field"}>
-                        {<Button type={"submit"} variant={"contained"} disabled={handleDisableButton("sign-up" , {username , password , repeatPassword , fullName})} onClick={handleSubmit}>Sign Up</Button>}
+                            <Button
+                                type={"submit"}
+                                variant={"contained"}
+                                disabled={handleDisableButton( [username , password , repeatPassword , fullName])} onClick={handleSubmit}>Sign Up</Button>
                     </div>
                     {errorCode !== 0 && <BackErrors errorCode = {errorCode}/>}
                     {frontWarning.showError && <FrontWarnings message = {getErrorMessage(frontWarning.errorCode)}/>}

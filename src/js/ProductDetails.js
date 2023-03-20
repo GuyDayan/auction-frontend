@@ -1,24 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from "react-router-dom";
 import {sendApiGetRequest, sendApiPostRequest} from "./ApiRequests";
-import {BASE_URL, GET_PRODUCT_DETAILS_REQUEST_PATH, PLACE_BID_REQUEST_PATH} from "./Globals";
-import Cookies from "js-cookie";
+import {BASE_URL, GET_PRODUCT_DETAILS_REQUEST_PATH, PLACE_BID_REQUEST_PATH, USER_PARAM} from "./Globals";
 import '../css/productdetails.css'
 import {Button, CardHeader, CardMedia, FormControl, IconButton, InputAdornment, TextField} from "@mui/material";
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import Typography from "@mui/material/Typography";
-import {red} from "@mui/material/colors";
-import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import BackErrors from "./BackErrors";
+import {getCookies} from "./Utils";
 
 function ProductDetails(props) {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const productId = searchParams.get('productId');
-    const token = Cookies.get('token');
-    const userId = Cookies.get('userId');
+    const cookies  = getCookies();
+    const token = cookies.token
+    const userId = cookies.userId
+    const userType = cookies.userType
     const [product, setProduct] = useState('');
     const [offer, setOffer] = useState(0);
     const [errorCode, setErrorCode] = useState(0);
@@ -63,15 +63,20 @@ function ProductDetails(props) {
                         <Typography gutterBottom variant="h8" component="div">Opening Date:{product.openingSaleDate}</Typography>
                         <Typography gutterBottom variant="h8" component="div">Description: <br/>{product.description}</Typography>
                         <Typography gutterBottom variant="h8" component="div">Total Bids: {product.totalBids}</Typography>
-                        <Typography gutterBottom variant="h8" component="div">My Bids: {myBids.length}
-                            {
-                                myBids.length > 0 && myBids.map(bid => <div>{bid.offer}</div>)
-                            }
-                        </Typography>
-                    <div>
-                        <TextField id={"bidPrice"} size={"small"} type={"number"} label={"Bid Price"} variant={"outlined"} value={offer} onChange={e => setOffer(e.target.value)}/>
-                        <Button onClick={handleSubmit}>PLACE BID</Button>
-                    </div>
+                    {
+                        userType == USER_PARAM &&
+                        <>
+                            <Typography gutterBottom variant="h8" component="div">My Bids: {myBids.length}
+                                {
+                                    myBids.length > 0 && myBids.map(bid => <div>{bid.offer}</div>)
+                                }
+                            </Typography>
+                            <div>
+                                <TextField id={"bidPrice"} size={"small"} type={"number"} label={"Bid Price"} variant={"outlined"} value={offer} onChange={e => setOffer(e.target.value)}/>
+                                <Button onClick={handleSubmit}>PLACE BID</Button>
+                            </div>
+                        </>
+                    }
                 </CardContent>
             </Card>
             {/*reder table bid */}

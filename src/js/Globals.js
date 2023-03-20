@@ -14,7 +14,10 @@ export const MANAGE_URL_PARAM = 'manage';
 
 export const USER_PARAM = 'user';
 export const ADMIN_PARAM = 'admin';
-export const PLACE_BID_PARAM = "PLACE-BID"
+export const PLACE_BID_PARAM_EVENT = "PLACE-BID"
+export const CLOSE_AUCTION_PARAM_EVENT = "CLOSE-AUCTION"
+
+
 
 
 

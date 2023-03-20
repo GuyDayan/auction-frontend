@@ -3,9 +3,9 @@ import Cookies from "js-cookie";
 
 
 export const getCookies = () => {
-    const userType = Cookies.get("userType");
     const token = Cookies.get('token');
     const userId = Cookies.get('userId');
+    const userType = Cookies.get("userType");
     return {token,userId,userType};
 }
 
@@ -71,46 +71,17 @@ export const addProductMessage = (errorType) => {
 
 
 
-export const handleDisableButton = (type,obj) => {
-    if (type === "login") {
-        const {username, password} = obj
-        let loginDisable = true;
-        if (username.length >= 1) {
-            if (password.length >= 1) {
-                loginDisable = false
-            }
-            return loginDisable;
-        }
-    }
-    if (type === "sign-up"){
-        let signUpDisable = true;
-        const {username , password , repeatPassword , fullName} = obj
-        if (username.length >= 1){
-            if (password.length >= 1){
-                if (fullName.length >=1 ){
-                    if (repeatPassword.length >=1){
-                        signUpDisable = false;
-                    }
-                }
-            }
-        }
-        return signUpDisable;
-    }
-    if(type === "add-product"){
-        let addProductDisable = true;
-        const {productName, description, logoUrl, startingPrice} = obj;
-        if(productName.length > 0){
-            if(description.length > 0){
-                if(startingPrice > 0){
-                    addProductDisable = false;
-                }
-            }
-        }
-        return addProductDisable;
-    }
 
-  }
 
+
+
+
+export const handleDisableButton = (arr) =>{
+    let disabled =true;
+    let filteredArray = arr.filter(item=> item.length === 0 || item === 0);
+    if (filteredArray.length === 0) disabled=false;
+    return disabled;
+}
 
 export const containsOnlyLetters = (obj) =>{
     return /^[A-Za-z]+$/.test(obj);

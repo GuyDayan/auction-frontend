@@ -35,12 +35,7 @@ function MyProducts(props) {
                     setErrorCode(res.data.errorCode)
                 }
         })
-        // sendApiGetRequest(BASE_URL+ GET_MY_PRODUCTS_REQUEST_PATH, {token,userId} , res=>{
-        //     if (res.data.success){
-        //         setMyProducts(res.data.productsList);
-        //     }else {
-        //     }
-        // })
+
     }, []);
 
     function handleCloseAuction(productId) {
@@ -77,9 +72,9 @@ function MyProducts(props) {
                                                 <TableCell component="th" scope="row">{product.id}</TableCell>
                                                 <TableCell component="th" scope="row">{product.name}</TableCell>
                                                 <TableCell component="th" scope="row">{product.openForSale ? "Open" : "Closed"}</TableCell>
-                                                <TableCell component="th" scope="row">{product.biggestBid}</TableCell>
+                                                <TableCell component="th" scope="row">{product.biggestBid != undefined ? product.biggestBid : "-"}</TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    <Button style={{color:"indianred"}} size={"small"} onClick={()=>handleCloseAuction(product.id)}>Close Auction</Button>
+                                                    <Button disabled={!product.openForSale} style={{color:"indianred"}} size={"small"} onClick={()=>handleCloseAuction(product.id)}>Close Auction</Button>
                                                 </TableCell>
                                             </TableRow>
                                             </>

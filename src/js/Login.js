@@ -20,6 +20,7 @@ import Cookies from "js-cookie";
 import BackErrors from "./BackErrors";
 import {getErrorMessage} from "./GenerateErrorMessage";
 import '../css/login.css';
+import {handleDisableButton, handleDisableButton1} from "./Utils";
 
 
 function Login(props) {
@@ -123,7 +124,7 @@ function Login(props) {
                             </FormControl>
                         </div>
                         <div className={"form-field"}>
-                            <Button type={"submit"} variant={"contained"} onClick={handleSubmit}>Sign In</Button>
+                            <Button disabled={handleDisableButton([username,password])} type={"submit"} variant={"contained"} onClick={handleSubmit}>Sign In</Button>
                         </div>
                         <div className={"form-field"}>
                             <Link style={{cursor: "pointer"}} underline="hover" variant="body2"
