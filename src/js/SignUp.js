@@ -29,11 +29,11 @@ import {getErrorMessage} from "./GenerateErrorMessage";
 
 
 function SignUp(props) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [repeatPassword, setRepeatPassword] = useState('');
-    const [fullName, setFullName] = useState('');
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('GuyDayan1');
+    const [password, setPassword] = useState('123456');
+    const [repeatPassword, setRepeatPassword] = useState('123456');
+    const [fullName, setFullName] = useState('guy dayan');
+    const [email, setEmail] = useState('guy@mail.com');
     const [errorCode, setErrorCode] = useState(0);
     const [frontWarning, setFrontWarning] = useState({showError:false,errorCode:""});
     const navigate = useNavigate();
@@ -48,6 +48,7 @@ function SignUp(props) {
                 // add sucessfull login pop up
                 navigate(`/${LOGIN_URL_PARAM}`)
             }else {
+                setFrontWarning({showError: false, errorCode: ""})
                 setErrorCode(data.errorCode)
                 setTimeout(()=>{
                     setErrorCode(0)
@@ -79,7 +80,6 @@ function SignUp(props) {
                 }
             }
         }
-        console.log(errorCode);
         return {errorCode,showError}
     }
 
@@ -93,18 +93,18 @@ function SignUp(props) {
 
     return (
         <div>
-            <div className={"avatar-container"}>
-                <Avatar className={"avatar"}>
-                    <LockOutlinedIcon />
-                </Avatar>
-            </div>
             <div>
-                <Typography className={"login-title"} component="h1" variant="h5">
-                    Sign Up Page
-                </Typography>
-            </div>
-            <div>
-                <div className={"form-container"}>
+                <div className={"form-container-signup"}>
+                    <div className={"avatar-container"}>
+                        <Avatar className={"avatar"}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                    </div>
+                    <div>
+                        <Typography className={"login-title"} component="h1" variant="h5">
+                            Sign Up Page
+                        </Typography>
+                    </div>
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
                             <TextField id={"username"} type={"text"} label={"Username"} value={username} onChange={e=>setUsername(e.target.value)} variant={"outlined"} InputProps={{
@@ -167,7 +167,7 @@ function SignUp(props) {
                                 disabled={handleDisableButton( [username , password , repeatPassword , fullName])} onClick={handleSubmit}>Sign Up</Button>
                     </div>
                     {errorCode !== 0 && <BackErrors errorCode = {errorCode}/>}
-                    {frontWarning.showError && <FrontWarnings message = {getErrorMessage(frontWarning.errorCode)}/>}
+                    {frontWarning.showError && <FrontWarnings errorCode = {frontWarning.errorCode}/>}
                 </div>
             </div>
             </div>

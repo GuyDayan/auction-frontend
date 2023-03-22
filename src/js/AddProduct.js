@@ -1,4 +1,5 @@
 import Avatar from "@mui/material/Avatar";
+import '../css/auctions.css'
 import {Button, FormControl, InputAdornment, Link, TextField, Typography} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
@@ -8,14 +9,8 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import BackErrors from "./BackErrors";
 import React, {useEffect} from "react";
 import {useState} from "react";
-import {
-    addProductMessage,
-    handleDisableButton,
-    handleDisableButton1,
-    priceWarningMessage,
-    usernameWarningMessage
-} from "./Utils";
-import {sendApiPostRequest} from "./ApiRequests";
+import {getCookies, handleDisableButton,} from "./Utils";
+import {sendApiGetRequest, sendApiPostRequest} from "./ApiRequests";
 import {
     ADD_PRODUCT_REQUEST_PATH,
     ADD_PRODUCT_URL_PARAM,
@@ -27,6 +22,7 @@ import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 import FrontWarnings from "./FrontWarnings";
 import {getErrorMessage} from "./GenerateErrorMessage";
+import Navbar from "./Navbar";
 
 
 export function AddProduct(props){
@@ -34,19 +30,15 @@ export function AddProduct(props){
     const [description, setDescription] = useState('');
     const [logoUrl, setLogoUrl] = useState('');
     const [startingPrice, setStartingPrice] = useState(0);
-    const [token, setToken] = useState(undefined);
-    const [userId, setUserId] = useState(0);
+    const {token,userId,userType} = getCookies()
+    const [isProductAdded, setIsProductAdded] = useState(false);
     const [errorCode, setErrorCode] = useState(0);
     const [frontWarning, setFrontWarning] = useState({showError:false,errorCode:""});
     const navigate = useNavigate();
 
 
 
-    useEffect(() => {
-        setToken(Cookies.get('token'))
-        setUserId(Cookies.get('userId'))
 
-    }, []);
 
     
     function handleSubmit(){
@@ -58,6 +50,7 @@ export function AddProduct(props){
                     if (data.success){
                         // add product add successfully message
                         navigate(`/${MY_PRODUCTS_URL_PARAM}`)
+                        window.location.reload()
                     }else {
                         setErrorCode(data.errorCode)
                         setTimeout(()=>{
@@ -94,16 +87,16 @@ export function AddProduct(props){
 
     return(
         <div>
-            <div className={"avatar-container"}>
-                <Avatar className={"avatar"}>
-                    <AddBusinessIcon />
-                </Avatar>
-            </div>
             <div>
-                <Typography className={"login-title"} component="h1" variant="h5">Add New Product</Typography>
-            </div>
-            <div>
-                <div className={"form-container"}>
+                <div className={"form-container-add-product"}>
+                    <div className={"avatar-container"}>
+                        <Avatar className={"avatar"}>
+                            <AddBusinessIcon />
+                        </Avatar>
+                    </div>
+                    <div>
+                        <Typography className={"login-title"} component="h1" variant="h5">Add New Product</Typography>
+                    </div>
                     <div className={"form-field"}>
                         <FormControl variant={"standard"}>
                             <TextField id={"name"} type={"text"} label={"My Product Name"} value={name} onChange={e=>setName(e.target.value)} variant={"outlined"} InputProps={{
@@ -157,7 +150,8 @@ export function AddProduct(props){
                         </Button>
                         <Button type={"submit"} color={"error"} style={{ width: "140px" , margin:"5px"}} variant={"contained"} onClick={handleClear}>Clear</Button>
                     </div>
-                    {frontWarning.showError && <FrontWarnings message = {getErrorMessage(frontWarning.errorCode)}/>}
+                    {errorCode !== 0 && <BackErrors errorCode={errorCode} horizontal={"center"}/>}
+                    {frontWarning.showError && <FrontWarnings errorCode = {frontWarning.errorCode}/>}
                 </div>
             </div>
         </div>

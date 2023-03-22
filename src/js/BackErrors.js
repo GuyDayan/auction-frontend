@@ -5,10 +5,11 @@ import {getErrorMessage} from "./GenerateErrorMessage";
 
 
 function BackErrors(props) {
+    let horizontal = props.horizontal == undefined ? "center" : props.horizontal;
 
     return (
         <div>
-            <Snackbar open={true} anchorOrigin={{ vertical: 'bottom', horizontal: 'center',}}>
+            <Snackbar open={true} anchorOrigin={{ vertical: 'bottom' , horizontal:horizontal}}>
                 <Alert severity="error" sx={{ width: '100%' }}>
                     <strong>{getErrorMessage(props.errorCode)}</strong>
                 </Alert>

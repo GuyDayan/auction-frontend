@@ -10,6 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {getCookies} from "./Utils";
 import {Button} from "@mui/material";
+import BackErrors from "./BackErrors";
 
 function MyProducts(props) {
 
@@ -43,7 +44,10 @@ function MyProducts(props) {
             if (res.data.success) {
                 window.location.reload()
             } else {
-                console.log('fail')
+                setErrorCode(res.data.errorCode)
+                setTimeout(() => {
+                    setErrorCode(0)
+                }, 15000)
             }
         })
     }
@@ -51,7 +55,6 @@ function MyProducts(props) {
     return (
 
         <div>
-            {/*<GenericTable columns={columns} data={myProducts} />*/}
             <div>
                 {
                     myProducts.length === 0 ? "No Products yet" :
@@ -74,7 +77,7 @@ function MyProducts(props) {
                                                 <TableCell component="th" scope="row">{product.openForSale ? "Open" : "Closed"}</TableCell>
                                                 <TableCell component="th" scope="row">{product.biggestBid != undefined ? product.biggestBid : "-"}</TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    <Button disabled={!product.openForSale} style={{color:"indianred"}} size={"small"} onClick={()=>handleCloseAuction(product.id)}>Close Auction</Button>
+                                                    <Button disabled={!product.openForSale} style={{color:product.openForSale &&"indianred" }} size={"small"} onClick={()=>handleCloseAuction(product.id)}>Close Auction</Button>
                                                 </TableCell>
                                             </TableRow>
                                             </>
@@ -84,7 +87,8 @@ function MyProducts(props) {
                             </Table>
                         </TableContainer>
                 }
-                {/*<GenericTable data={myBids} columns={columns} />*/}
+                {errorCode !== 0 && <BackErrors errorCode={errorCode} horizontal={"center"}/>}
+
             </div>
         </div>
 

@@ -1,5 +1,7 @@
-import {ADMIN_PARAM, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH, USER_PARAM} from "./Globals";
+import {ADMIN_PARAM, BASE_URL, MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH, USER_PARAM} from "./Globals";
 import Cookies from "js-cookie";
+import {sendApiGetRequest} from "./ApiRequests";
+
 
 
 export const getCookies = () => {

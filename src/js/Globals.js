@@ -16,6 +16,8 @@ export const USER_PARAM = 'user';
 export const ADMIN_PARAM = 'admin';
 export const PLACE_BID_PARAM_EVENT = "PLACE-BID"
 export const CLOSE_AUCTION_PARAM_EVENT = "CLOSE-AUCTION"
+export const STATS_PARAM_EVENT = "STATS"
+
 
 
 
@@ -32,6 +34,7 @@ export const SIGN_UP_REQUEST_PATH = 'sign-up';
 export const GET_USER_DETAILS_REQUEST_PATH = 'get-user-details';
 export const GET_ALL_OPEN_AUCTIONS_REQUEST_PATH = 'get-all-open-auctions';
 export const CLOSE_AUCTION_REQUEST_PATH = 'close-auction';
+export const GET_STATS_REQUEST_PATH = 'get-stats';
 
 
 
@@ -47,6 +50,7 @@ export const MINIMAL_DESCRIPTION_LENGTH = 10;
 
 export const GENERAL_ERROR = 10;
 export const PERMISSION_ERROR_CODE = 413;
+export const ERROR_PRICE_CANNOT_BE_NEGATIVE = 66;
 export const PRODUCT_NAME_REQUIRED = 80;
 export const PRODUCT_DESCRIPTION_REQUIRED = 81;
 export const PRODUCT_LOGO_URL_REQUIRED = 82;

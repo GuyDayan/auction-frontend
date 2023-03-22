@@ -1,3 +1,5 @@
+import {MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
+
 export const getErrorMessage = (errorCode) => {
 
     let errorMessage = ""
@@ -5,14 +7,20 @@ export const getErrorMessage = (errorCode) => {
         case 10:
             errorMessage = "General Error"
             break;
+        case 11:
+            errorMessage="Missing params"
+            break;
+        case 66:
+            errorMessage = "Price can't be less than 0"
+            break
         case 80:
-            errorMessage = "My Product name is required";
+            errorMessage = "Product name is required";
             break;
         case 81:
-            errorMessage = "My Product description is required"
+            errorMessage = "Product description is required"
             break;
         case 82:
-            errorMessage = "My Product logo is required";
+            errorMessage = "Product logo is required";
             break;
         case 83:
             errorMessage = "Product starting price is required";
@@ -48,7 +56,7 @@ export const getErrorMessage = (errorCode) => {
             errorMessage = "No permission for that action";
             break;
         case 999:
-            errorMessage = "Username is invalid";
+            errorMessage = `Username must be at least ${MINIMAL_USERNAME_LENGTH} letters`;
             break;
         case 1000:
             errorMessage = "Username is required!";
@@ -57,7 +65,7 @@ export const getErrorMessage = (errorCode) => {
             errorMessage = "Password is required!";
             break;
         case 1002:
-            errorMessage = "Password is weak!";
+            errorMessage = `Password must be at least ${MINIMAL_PASSWORD_LENGTH} letters`;
             break;
         case 1003:
             errorMessage = "Username already taken";

@@ -34,28 +34,28 @@ function ProductForSaleCard(props) {
     }
 
     return (
-        <Card   sx={{maxWidth:"50%"}}>
-            <img src={product.logoUrl} style={{width:'30%',height:'30%'}}/>
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">{product.name}</Typography>
-                <Typography className="headline-var">Opening Sale Date</Typography>
-                <Typography className="subtitle-var">{product.openingSaleDate}</Typography>
-                {
+        <div>
+            <Card   sx={{maxWidth:"200px" , height:"300px",borderRadius:"1px solid black;" ,margin:"10px"}}>
+                <img src={product.logoUrl} style={{width:'30%',height:'30%'}}/>
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">{product.name}</Typography>
+                    <Typography className="headline-var">Opening Sale Date</Typography>
+                    <Typography className="subtitle-var">{product.openingSaleDate}</Typography>
+                    {
 
-                    <div>
-                        <Typography className="headline-var">Total Bids</Typography>
-                        <Typography className="subtitle-var">{product.totalBids}</Typography>
-                        <Typography className="headline-var">My Total Bids</Typography>
-                        <Typography className="subtitle-var">{product.myTotalBids}</Typography>
-                    </div>
+                        <div>
+                            <Typography className="headline-var">Total Bids: <span style={{color:"black"}}>{product.totalBids}</span></Typography>
+                            <Typography className="headline-var">My Total Bids: <span style={{color:"black"}}>{product.myTotalBids}</span></Typography>
+                        </div>
 
-                }
+                    }
+                </CardContent>
+                <CardActions>
+                    <Button onClick={handleProductDetails} size="small">See more details</Button>
+                </CardActions>
+            </Card>
+        </div>
 
-            </CardContent>
-            <CardActions>
-                <Button onClick={handleProductDetails} size="small">See more details</Button>
-            </CardActions>
-        </Card>
     );
 }
 

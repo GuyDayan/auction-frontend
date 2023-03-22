@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import ProductForSaleCard from "./ProductForSaleCard";
 import "../css/auctions.css"
-import {Box, InputAdornment, TextField} from "@mui/material";
+import {Box, Button, InputAdornment, TextField} from "@mui/material";
 import {getProductsForSaleRequest, sendApiGetRequest} from "./ApiRequests";
 import {
+    ADD_PRODUCT_URL_PARAM,
     BASE_URL,
     CLOSE_AUCTION_PARAM_EVENT,
     GET_PRODUCTS_FOR_SALE_REQUEST_PATH,
@@ -13,15 +14,15 @@ import Cookies from "js-cookie";
 import SearchIcon from '@mui/icons-material/Search';
 import {getCookies} from "./Utils";
 import NotificationBar from "./NotificationBar";
+import {useNavigate} from "react-router-dom";
 
 
 function ProductsForSale(props) {
 
     const [searchValue, setSearchValue] = useState('');
     const [productsForSale, setProductsForSale] = useState([]);
-    const cookies = getCookies();
-    const token = cookies.token
-    const userId = cookies.userId
+    const {token,userId,userType} = getCookies();
+    const navigate = useNavigate();
     const [showBidNotification, setShowBidNotification] = useState(false);
     const [showCloseAuctionNotification, setShowCloseAuctionNotification] = useState(false);
     const [bidderUsername, setBidderUsername] = useState('');
@@ -67,35 +68,41 @@ function ProductsForSale(props) {
     }
 
     return (
-        <div>
-            <Box component="form" sx={{'& .MuiTextField-root': {m: 1, width: '25ch'},}} noValidate autoComplete="off">
-                <TextField style={{width: '300px'}} value={searchValue} onChange={e => setSearchValue(e.target.value)} id="outlined-textarea" label="Search Product" placeholder="Search" multiline
-                           InputProps={{
-                               startAdornment: (
-                                   <InputAdornment position="start">
-                                       <SearchIcon />
-                                   </InputAdornment>
-                               ),
-                           }}
-                />
-            </Box>
-            <div className={'productList'}>
-                {
-                    productsForSale.length === 0 ? "No Products For Sale" :
-                        filter().length === 0 ? "No Products Found" :
-                            filter().map(product =>
-                                <div className={"singleProd"} key={product.id}>
-                                    <ProductForSaleCard product={product}/>
-                                </div>
-                            )
-                }
+        <>
+            <div style={{display:"flex" , marginRight:"auto" , margin:"3px"}}>
+                <Button onClick={() => navigate(`/${ADD_PRODUCT_URL_PARAM}`)} variant="contained">Add New Product+</Button>
+            </div>
+            {showBidNotification && <NotificationBar message={bidderUsername + " has place a bid on your product"}/>}
+            {showCloseAuctionNotification && <NotificationBar message={ closeAuctionUsername + " has closed bid on suggested product"}/>}
+            <div>
+                <Box component="form" sx={{'& .MuiTextField-root': {m: 1, width: '35ch',justifyContent:"center",alignItems:"center" , marginTop:"15px"},}} noValidate autoComplete="off">
+                    <TextField style={{width: '300px'}} value={searchValue} onChange={e => setSearchValue(e.target.value)} id="outlined-textarea" label="Search Product" placeholder="Search" multiline
+                               InputProps={{
+                                   startAdornment: (
+                                       <InputAdornment position="start">
+                                           <SearchIcon />
+                                       </InputAdornment>
+                                   ),
+                               }}
+                    />
+                </Box>
             </div>
             <div>
-                {showBidNotification && <NotificationBar message={bidderUsername + " has place a bid on your product"}/>}
-                {showCloseAuctionNotification && <NotificationBar message={ closeAuctionUsername + " has closed bid on suggested product"}/>}
+                <div className={"products-sale-container"}>
+                    {
+                        productsForSale.length === 0 ? <div >No Products For Sale</div> :
+                            filter().length === 0 ? <div>No Products Found </div>:
+                                filter().map(product =>
+                                    <div key={product.id}>
+                                        <ProductForSaleCard product={product}/>
+                                    </div>
+                                )
+                    }
+                </div>
 
             </div>
-        </div>
+        </>
+
     );
 }
 

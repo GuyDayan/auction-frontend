@@ -1,13 +1,23 @@
 .productList {
-    margin: 2% ;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1%;
-    justify-content: center;
+    margin: 5px;
 }
 
 .singleProd {
-    margin-top: 1%;
-    width: 20%;
     box-sizing: border-box;
+
+}
+
+.products-sale-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.form-container-add-product{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
