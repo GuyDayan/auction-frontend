@@ -19,7 +19,7 @@ function Navbar() {
 
     const navigate = useNavigate();
     const [loggedIn, setLoggedIn] = useState(false);
-    const {token, userId , userType} = getCookies();
+    const {token, userId, userType} = getCookies();
     const [fullName, setFullName] = useState('');
     const [credit, setCredit] = useState(0);
     const [username, setUsername] = useState('');
@@ -86,7 +86,7 @@ function Navbar() {
                         <MenuItem onClick={() => handleMenuItemClick(PRODUCTS_FOR_SALE_URL_PARAM)}>Active Auctions</MenuItem>
 
                         {
-                            userType == USER_PARAM &&
+                            userType === USER_PARAM &&
                             <>
                                 <MenuItem onClick={() => handleMenuItemClick(ADD_PRODUCT_URL_PARAM)}>Add new product</MenuItem>
                                 <MenuItem onClick={() => handleMenuItemClick(MY_PRODUCTS_URL_PARAM)}>My Products</MenuItem>
@@ -94,7 +94,7 @@ function Navbar() {
                             </>
                         }
                         {
-                            userType == ADMIN_PARAM &&
+                            userType === ADMIN_PARAM &&
                             <>
                                 <MenuItem onClick={() => handleMenuItemClick(MANAGE_URL_PARAM)}>Manage Page</MenuItem>
                             </>

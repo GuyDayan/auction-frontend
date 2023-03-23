@@ -40,7 +40,7 @@ function UserDetails(props) {
 
 
     useEffect(() => {
-        if (userType == ADMIN_PARAM){
+        if (userType === ADMIN_PARAM){
             if (token){
                 sendApiGetRequest(BASE_URL + GET_USER_DETAILS_REQUEST_PATH, {token , userId : userSearchId}, res => {
                     if (res.data.success) {

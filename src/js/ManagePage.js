@@ -26,7 +26,7 @@ function ManagePage(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userType == ADMIN_PARAM){
+        if (userType === ADMIN_PARAM){
             if (token){
                 sendApiGetRequest(BASE_URL+GET_MANAGE_DETAILS_REQUEST_PATH ,{token,userId} , response => {
                     if (response.data.success) {
@@ -54,36 +54,39 @@ function ManagePage(props) {
 
     return (
         <div>
-            <div>
-                <Typography className={"credit-title"} component="h1" variant="h5">
-                    System Credit : {systemCredit}
-                </Typography>
-            </div>
-            <div className={"manage-container"}>
-                <div className={"users-container"}>
-                    <List>
-                        {
-                            users.map(user=> {
-                                return (
-                                    <ListItem onClick={()=>handleCLick(user.id)} className="user-card">
-                                        <ListItemText primary={user.username} secondary={<div>Creation Date :<div style={{fontWeight:"bold"}}>{user.creationDate}</div></div> }/>
-                                        <Divider variant="inset" component="li" />
-                                    </ListItem>
-                                )
-                            })
-                        }
-                    </List>
-                </div>
+                    <div>
+                        <Typography className={"credit-title"} component="h1" variant="h5">
+                            System Credit : {systemCredit}
+                        </Typography>
+                    </div>
+                    <div className={"manage-container"}>
+                        <div className={"users-container"}>
+                            <List>
+                                {
+                                    users.map(user => {
+                                        return (
+                                            <ListItem onClick={() => handleCLick(user.id)} className="user-card">
+                                                <ListItemText primary={user.username} secondary={<div>Creation Date :
+                                                    <div style={{fontWeight: "bold"}}>{user.creationDate}</div>
+                                                </div>}/>
+                                                <Divider variant="inset" component="li"/>
+                                            </ListItem>
+                                        )
+                                    })
+                                }
+                            </List>
+                        </div>
 
 
-                <div className={"products-container"}>
-                    {
-                        productsForSale.length === 0 ? "No Products For Sale" :
-                            productsForSale.map(product=> <ProductForSaleCard product={product}/>)
-                    }
-                </div>
+                        <div className={"products-container"}>
+                            {
+                                productsForSale.length === 0 ? "No Products For Sale" :
+                                    productsForSale.map(product => <ProductForSaleCard product={product}/>)
+                            }
+                        </div>
 
-            </div>
+                    </div>
+
             </div>
 
     );

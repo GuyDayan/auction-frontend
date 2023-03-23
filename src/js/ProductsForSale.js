@@ -8,7 +8,7 @@ import {
     BASE_URL,
     CLOSE_AUCTION_PARAM_EVENT,
     GET_PRODUCTS_FOR_SALE_REQUEST_PATH,
-    PLACE_BID_PARAM_EVENT
+    PLACE_BID_PARAM_EVENT, USER_PARAM
 } from "./Globals";
 import Cookies from "js-cookie";
 import SearchIcon from '@mui/icons-material/Search';
@@ -53,6 +53,7 @@ function ProductsForSale(props) {
                     if (response.data.success) {
                         setProductsForSale(response.data.products)
                     } else {
+                        console.log('fail')
                         //
                     }
             })
@@ -70,7 +71,10 @@ function ProductsForSale(props) {
     return (
         <>
             <div style={{display:"flex" , marginRight:"auto" , margin:"3px"}}>
-                <Button onClick={() => navigate(`/${ADD_PRODUCT_URL_PARAM}`)} variant="contained">Add New Product+</Button>
+                {userType === USER_PARAM &&
+                    <Button onClick={() => navigate(`/${ADD_PRODUCT_URL_PARAM}`)} variant="contained">Add New
+                        Product+</Button>
+                }
             </div>
             {showBidNotification && <NotificationBar message={bidderUsername + " has place a bid on your product"}/>}
             {showCloseAuctionNotification && <NotificationBar message={ closeAuctionUsername + " has closed bid on suggested product"}/>}

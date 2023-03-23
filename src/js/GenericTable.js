@@ -1,15 +1,16 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
+import {Button, makeStyles} from "@mui/material";
 
-function GenericTable({ columns, data ,tableTitle }) {
+function GenericTable({ columns, data }) {
+    data.sort((a, b) => a.id - b.id);
 
+    function handleDetailsClick(id) {
+        console.log(id)
+    }
 
     return (
         <TableContainer>
-            <div style={{fontWeight:"bold",fontFamily:"cursive" ,fontSize:"1.5rem", color:"#757575"}}>
-                {tableTitle}
-
-            </div>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -19,7 +20,6 @@ function GenericTable({ columns, data ,tableTitle }) {
                         ))}
                     </TableRow>
                 </TableHead>
-                {data.length === 0 && "No Data"}
                 <TableBody>
                     {
                         data.map((row) => (
@@ -27,6 +27,10 @@ function GenericTable({ columns, data ,tableTitle }) {
                             {
                                 columns.map((column) => (
                                 <TableCell align={"center"} >
+                                    {
+                                        column.type === "button"
+                                        && <Button onClick={()=>handleDetailsClick(row.productId)}>Details</Button>
+                                    }
                                     {
                                         typeof row[column.varName] === 'boolean' ?
                                             row[column.varName] ? "Yes" : "No" : row[column.varName]

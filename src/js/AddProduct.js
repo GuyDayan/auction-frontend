@@ -13,8 +13,8 @@ import {getCookies, handleDisableButton,} from "./Utils";
 import {sendApiGetRequest, sendApiPostRequest} from "./ApiRequests";
 import {
     ADD_PRODUCT_REQUEST_PATH,
-    ADD_PRODUCT_URL_PARAM,
-    BASE_URL,
+    ADD_PRODUCT_URL_PARAM, ADMIN_PARAM,
+    BASE_URL, MANAGE_URL_PARAM,
     MY_PRODUCTS_URL_PARAM,
     PRODUCT_STARTING_PRICE_MUST_BE_INTEGER
 } from "./Globals";
@@ -35,6 +35,14 @@ export function AddProduct(props){
     const [errorCode, setErrorCode] = useState(0);
     const [frontWarning, setFrontWarning] = useState({showError:false,errorCode:""});
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(userType === ADMIN_PARAM){
+            navigate(`/${MANAGE_URL_PARAM}`)
+        }
+    }, [])
+
+
 
 
 
@@ -63,7 +71,6 @@ export function AddProduct(props){
             setFrontWarning({showError:true, errorCode: errorCode})
 
         }
-
     }
 
     const validateAddProductFields = () => {

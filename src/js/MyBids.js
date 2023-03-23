@@ -4,7 +4,7 @@ import {
     BASE_URL,
     GET_MY_BIDS_REQUEST_PATH,
 
-    GET_PRODUCT_DETAILS_REQUEST_PATH
+    GET_PRODUCT_DETAILS_REQUEST_PATH, LOGIN_URL_PARAM, MANAGE_URL_PARAM, USER_PARAM
 } from "./Globals";
 import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
@@ -37,15 +37,22 @@ function MyBids(props) {
     useEffect(() => {
         const token = Cookies.get('token')
         const userId = Cookies.get('userId')
+        const userType = Cookies.get('userType')
         setToken(token)
         setUserId(userId)
-        sendApiGetRequest(BASE_URL+ GET_MY_BIDS_REQUEST_PATH, {token,userId} , res=>{
-            if (res.data.success){
-                setMyBids(res.data.myBids);
-            }else {
+        if (userType === USER_PARAM) {
+            if (token) {
+                sendApiGetRequest(BASE_URL + GET_MY_BIDS_REQUEST_PATH, {token, userId}, res => {
+                    if (res.data.success) {
+                        setMyBids(res.data.myBids);
+                    } else {
 
+                    }
+                })
             }
-        })
+        } else {
+            navigate(`/${MANAGE_URL_PARAM}`)
+        }
     }, []);
 
     function handleProductDetails(productId) {

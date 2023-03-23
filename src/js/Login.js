@@ -70,45 +70,42 @@ function Login(props) {
 
 
     function handleSubmit() {
-        let {showError, errorCode} = validateLoginFields();
-        if (!showError) {
+        // let {showError, errorCode} = validateLoginFields();
+        // if (!showError) {
             sendApiPostRequest(BASE_URL + LOGIN_URL_PARAM, {username, password}, (response) => {
                 const data = response.data;
                 if (data.success) {
                     Cookies.set("token", data.token)
                     Cookies.set("userType", data.userType)
-                    Cookies.set("userId" , data.userId)
+                    Cookies.set("userId", data.userId)
                     window.location.reload();
-                } else {
-                    setFrontWarning({showError: false, errorCode: ""})
-                    setErrorCode(data.errorCode)
-                    setTimeout(() => {
-                        setErrorCode(0)
-                    }, 15000)
+                             } else {
+                                setFrontWarning({showError: false, errorCode: ""})
+                                 setErrorCode(data.errorCode)
+                                 setTimeout(() => {
+                                     setErrorCode(0)
+                                 }, 15000)
+                            }
+                         })
+                    // } else {
+                    //     setFrontWarning({showError: true, errorCode: errorCode})
                 }
-            })
-        } else {
-            setFrontWarning({showError: true, errorCode: errorCode})
-        }
 
-
-    }
-
-    function validateLoginFields() {
-        let showError = true;
-        let errorCode = ""
-        if ((username.length < MINIMAL_USERNAME_LENGTH)) {
-            errorCode = ERROR_WEAK_USERNAME;
-        } else {
-            if ((password.length < MINIMAL_PASSWORD_LENGTH)) {
-                errorCode = ERROR_WEAK_PASSWORD;
-            } else {
-                showError = false;
-            }
-        }
-        return {errorCode, showError}
-
-    }
+    // function validateLoginFields() {
+    //     let showError = true;
+    //     let errorCode = ""
+    //     if ((username.length < MINIMAL_USERNAME_LENGTH)) {
+    //         errorCode = ERROR_WEAK_USERNAME;
+    //     } else {
+    //         if ((password.length < MINIMAL_PASSWORD_LENGTH)) {
+    //             errorCode = ERROR_WEAK_PASSWORD;
+    //         } else {
+    //             showError = false;
+    //         }
+    //     }
+    //     return {errorCode, showError}
+    //
+    // }
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
