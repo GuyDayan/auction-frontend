@@ -9,8 +9,8 @@ import {AddProduct} from "./js/AddProduct";
 import MyProducts from "./js/MyProducts";
 import ProductsForSale from "./js/ProductsForSale";
 import ProductDetails from "./js/ProductDetails";
-import ManagePage from "./js/ManagePage";
-import UserDetails from "./js/UserDetails";
+import ManagePage from "./js/manage/ManagePage";
+import UserDetails from "./js/manage/UserDetails";
 import MyBids from "./js/MyBids";
 
 

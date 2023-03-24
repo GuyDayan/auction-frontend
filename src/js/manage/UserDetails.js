@@ -6,8 +6,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import Cookies from "js-cookie";
 import {useEffect} from "react";
-import {sendApiGetRequest, sendApiPostRequest} from "./ApiRequests";
-import {ADD_CREDIT_URL_PARAM, ADMIN_PARAM, BASE_URL, GET_USER_DETAILS_REQUEST_PATH, LOGIN_URL_PARAM} from "./Globals";
+import {sendApiGetRequest, sendApiPostRequest} from "../utils/ApiRequests";
+import {ADD_CREDIT_URL_PARAM, ADMIN_PARAM, BASE_URL, GET_USER_DETAILS_REQUEST_PATH, LOGIN_URL_PARAM} from "../utils/Globals";
 import {
     Alert,
     Button,
@@ -20,11 +20,11 @@ import {
     ListItemText, Snackbar, TextField
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import '../css/userdetails.css';
+import '../../css/userdetails.css';
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import FrontWarnings from "./FrontWarnings";
-import {addProductMessage, addUserCreditMessage, getCookies} from "./Utils";
-import {getErrorMessage} from "./GenerateErrorMessage";
+import FrontWarnings from "../errors/FrontWarnings";
+import {addProductMessage, addUserCreditMessage, getCookies} from "../utils/Utils";
+import {getErrorMessage} from "../errors/GenerateErrorMessage";
 
 function UserDetails(props) {
     const location = useLocation();
@@ -117,7 +117,7 @@ function UserDetails(props) {
                     showSuccess &&
                     <Snackbar open={true} anchorOrigin={{ vertical: 'bottom', horizontal: 'center',}}>
                         <Alert severity="success" sx={{ width: '100%' }}>
-                            <strong>Credit has benn update successfully</strong>
+                            <strong>Credit has been update successfully</strong>
                         </Alert>
                     </Snackbar>
                 }

@@ -1,4 +1,4 @@
-.user-card{
+.item-card{
     background-color: white;
     color: #10A37F;
     cursor: pointer;
@@ -6,7 +6,6 @@
     border: solid black 2px;
     box-shadow: 5px 5px 5px cadetblue;
     margin: 5px;
-    max-width: 250px;
 }
 
 .manage-container{
@@ -14,17 +13,23 @@
     display: flex;
     justify-content: left;
     padding: 16px;
-    width: 100%;
 }
 
 .users-container {
-    display: flex;
     flex-direction: row;
-    width: 50%;
+    width: 45%;
+    justify-content: center;
+    margin-right: auto;
 }
 .products-container {
-    display: flex;
     flex-direction: row;
-    width: 50%;
+    width: 45%;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.credit-title{
+    background-color: lightslategray;
+    color: white;
 }
 

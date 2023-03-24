@@ -10,9 +10,9 @@ import {
     LOGIN_URL_PARAM, MANAGE_URL_PARAM, MY_BIDS_URL_PARAM,
     MY_PRODUCTS_URL_PARAM,
     PRODUCTS_FOR_SALE_URL_PARAM, USER_PARAM
-} from "./Globals";
-import {getCookies} from "./Utils";
-import {sendApiGetRequest} from "./ApiRequests";
+} from "./utils/Globals";
+import {getCookies} from "./utils/Utils";
+import {sendApiGetRequest} from "./utils/ApiRequests";
 
 
 function Navbar() {
@@ -66,8 +66,8 @@ function Navbar() {
                 </IconButton>
                 <Typography variant={'h6'} component={'div'}>Auction App</Typography>
                 {
-                    loggedIn &&
-                    <Typography variant={'h6'} component={'div'} style={{ flexGrow: 1, textAlign: 'center' }}>{fullName} (Credit: {credit}$)</Typography>
+                    loggedIn  &&
+                    <Typography variant={'h6'} component={'div'} style={{ flexGrow: 1, textAlign: 'center' }}>{fullName} {userType == USER_PARAM && (`(Credit: ${credit}$)`)}</Typography>
 
                 }
                 <Stack direction={'row'} spacing={2} marginLeft={'auto'}>
@@ -83,11 +83,10 @@ function Navbar() {
                     </Button>
                     <Menu id="fade-menu" MenuListProps={{'aria-labelledby': 'fade-button',}} anchorEl={anchorEl}
                           open={open} onClose={handleMenuItemClick} TransitionComponent={Fade}>
-                        <MenuItem onClick={() => handleMenuItemClick(PRODUCTS_FOR_SALE_URL_PARAM)}>Active Auctions</MenuItem>
-
                         {
                             userType === USER_PARAM &&
                             <>
+                                <MenuItem onClick={() => handleMenuItemClick(PRODUCTS_FOR_SALE_URL_PARAM)}>Active Auctions</MenuItem>
                                 <MenuItem onClick={() => handleMenuItemClick(ADD_PRODUCT_URL_PARAM)}>Add new product</MenuItem>
                                 <MenuItem onClick={() => handleMenuItemClick(MY_PRODUCTS_URL_PARAM)}>My Products</MenuItem>
                                 <MenuItem onClick={() => handleMenuItemClick(MY_BIDS_URL_PARAM)}>My Bids</MenuItem>

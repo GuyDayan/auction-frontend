@@ -1,4 +1,4 @@
-import {MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "./Globals";
+import {MINIMAL_PASSWORD_LENGTH, MINIMAL_USERNAME_LENGTH} from "../utils/Globals";
 
 export const getErrorMessage = (errorCode) => {
 

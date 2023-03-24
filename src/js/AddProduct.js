@@ -1,28 +1,25 @@
 import Avatar from "@mui/material/Avatar";
 import '../css/auctions.css'
-import {Button, FormControl, InputAdornment, Link, TextField, Typography} from "@mui/material";
+import {Button, FormControl, InputAdornment, TextField, Typography} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import DescriptionIcon from '@mui/icons-material/Description';
-import BackErrors from "./BackErrors";
+import BackErrors from "./errors/BackErrors";
 import React, {useEffect} from "react";
 import {useState} from "react";
-import {getCookies, handleDisableButton,} from "./Utils";
-import {sendApiGetRequest, sendApiPostRequest} from "./ApiRequests";
+import {getCookies, handleDisableButton,} from "./utils/Utils";
+import {sendApiPostRequest} from "./utils/ApiRequests";
 import {
     ADD_PRODUCT_REQUEST_PATH,
-    ADD_PRODUCT_URL_PARAM, ADMIN_PARAM,
+    ADMIN_PARAM,
     BASE_URL, MANAGE_URL_PARAM,
     MY_PRODUCTS_URL_PARAM,
     PRODUCT_STARTING_PRICE_MUST_BE_INTEGER
-} from "./Globals";
-import Cookies from "js-cookie";
+} from "./utils/Globals";
 import {useNavigate} from "react-router-dom";
-import FrontWarnings from "./FrontWarnings";
-import {getErrorMessage} from "./GenerateErrorMessage";
-import Navbar from "./Navbar";
+import FrontWarnings from "./errors/FrontWarnings";
 
 
 export function AddProduct(props){
@@ -31,7 +28,6 @@ export function AddProduct(props){
     const [logoUrl, setLogoUrl] = useState('');
     const [startingPrice, setStartingPrice] = useState(0);
     const {token,userId,userType} = getCookies()
-    const [isProductAdded, setIsProductAdded] = useState(false);
     const [errorCode, setErrorCode] = useState(0);
     const [frontWarning, setFrontWarning] = useState({showError:false,errorCode:""});
     const navigate = useNavigate();

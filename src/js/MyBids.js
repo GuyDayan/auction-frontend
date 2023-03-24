@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {sendApiGetRequest} from "./ApiRequests";
+import {sendApiGetRequest} from "./utils/ApiRequests";
 import {
     BASE_URL,
     GET_MY_BIDS_REQUEST_PATH,
 
     GET_PRODUCT_DETAILS_REQUEST_PATH, LOGIN_URL_PARAM, MANAGE_URL_PARAM, USER_PARAM
-} from "./Globals";
+} from "./utils/Globals";
 import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
-import GenericTable from "./GenericTable";
+import GenericTable from "./utils/GenericTable";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
@@ -16,13 +16,14 @@ import TableRow from "@mui/material/TableRow";
 import {Button, TableCell} from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import Paper from "@mui/material/Paper";
+import {getCookies} from "./utils/Utils";
+import BackErrors from "./errors/BackErrors";
 
 
 function MyBids(props) {
 
     const [myBids, setMyBids] = useState([]);
-    const [token, setToken] = useState('');
-    const [userId, setUserId] = useState(0);
+    const {token,userId,userType} = getCookies()
     const [errorCode, setErrorCode] = useState(0);
     const navigate = useNavigate();
     const columns = [
@@ -35,18 +36,15 @@ function MyBids(props) {
     ]
 
     useEffect(() => {
-        const token = Cookies.get('token')
-        const userId = Cookies.get('userId')
-        const userType = Cookies.get('userType')
-        setToken(token)
-        setUserId(userId)
         if (userType === USER_PARAM) {
             if (token) {
                 sendApiGetRequest(BASE_URL + GET_MY_BIDS_REQUEST_PATH, {token, userId}, res => {
                     if (res.data.success) {
                         setMyBids(res.data.myBids);
                     } else {
-
+                        setTimeout(()=>{
+                            setErrorCode(0)
+                        },5000)
                     }
                 })
             }
@@ -100,6 +98,7 @@ function MyBids(props) {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {errorCode !== 0 && <BackErrors errorCode={errorCode} horizontal={"center"}/>}
             }
         </div>
     );

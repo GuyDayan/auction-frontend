@@ -16,22 +16,22 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
-import {getStatsRequest, sendApiGetRequest, sendApiPostRequest} from "./ApiRequests"
+import {getStatsRequest, sendApiPostRequest} from "./utils/ApiRequests"
 import {
+    ADMIN_PARAM,
     BASE_URL, ERROR_WEAK_PASSWORD,
     ERROR_WEAK_USERNAME,
-    LOGIN_URL_PARAM, MINIMAL_PASSWORD_LENGTH,
+    LOGIN_URL_PARAM, MANAGE_URL_PARAM, MINIMAL_PASSWORD_LENGTH,
     MINIMAL_USERNAME_LENGTH,
     PRODUCTS_FOR_SALE_URL_PARAM, SIGNUP_URL_PARAM, STATS_PARAM_EVENT,
-} from "./Globals"
-import FrontWarnings from "./FrontWarnings";
+} from "./utils/Globals"
+import FrontWarnings from "./errors/FrontWarnings";
 import Cookies from "js-cookie";
-import BackErrors from "./BackErrors";
-import {getErrorMessage} from "./GenerateErrorMessage";
+import BackErrors from "./errors/BackErrors";
 import '../css/login.css';
-import {handleDisableButton} from "./Utils";
+import {handleDisableButton} from "./utils/Utils";
 import Paper from "@mui/material/Paper";
 
 
@@ -40,26 +40,31 @@ function Login(props) {
     const [username, setUsername] = useState('GuyDayan');
     const [password, setPassword] = useState('123456');
     const [errorCode, setErrorCode] = useState(0);
-    const [stats, setStats] = useState({totalUsers:'',totalAuctions:'',totalBids:''});
+    const [stats, setStats] = useState({totalUsers: '', totalAuctions: '', totalBids: ''});
     const [frontWarning, setFrontWarning] = useState({showError: false, errorCode: ""});
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = Cookies.get("token");
         if (token !== undefined) {
-            navigate(`/${PRODUCTS_FOR_SALE_URL_PARAM}`)
-        }else {
-            getStatsRequest({} , res=>{
-                if (res.data.success){
+            const userType = Cookies.get("userType");
+            if (userType == ADMIN_PARAM){
+                navigate(`/${MANAGE_URL_PARAM}`)
+            }else {
+                navigate(`/${PRODUCTS_FOR_SALE_URL_PARAM}`)
+            }
+        } else {
+            getStatsRequest({}, res => {
+                if (res.data.success) {
                     setStats(res.data.stats)
                 }
             })
             const sse = new EventSource(BASE_URL + "login-page-handler");
             sse.onmessage = (message) => {
                 const data = message.data;
-                if (data == STATS_PARAM_EVENT){
-                    getStatsRequest({} , res=>{
-                        if (res.data.success){
+                if (data == STATS_PARAM_EVENT) {
+                    getStatsRequest({}, res => {
+                        if (res.data.success) {
                             setStats(res.data.stats)
                         }
                     })
@@ -70,8 +75,9 @@ function Login(props) {
 
 
     function handleSubmit() {
-        // let {showError, errorCode} = validateLoginFields();
-        // if (!showError) {
+        console.log("ere")
+        let {showError, errorCode} = validateLoginFields();
+        if (!showError) {
             sendApiPostRequest(BASE_URL + LOGIN_URL_PARAM, {username, password}, (response) => {
                 const data = response.data;
                 if (data.success) {
@@ -79,35 +85,36 @@ function Login(props) {
                     Cookies.set("userType", data.userType)
                     Cookies.set("userId", data.userId)
                     window.location.reload();
-                             } else {
-                                setFrontWarning({showError: false, errorCode: ""})
-                                 setErrorCode(data.errorCode)
-                                 setTimeout(() => {
-                                     setErrorCode(0)
-                                 }, 15000)
-                            }
-                         })
-                    // } else {
-                    //     setFrontWarning({showError: true, errorCode: errorCode})
+                } else {
+                    setFrontWarning({showError: false, errorCode: ""})
+                    setErrorCode(data.errorCode)
+                    setTimeout(() => {
+                        setErrorCode(0)
+                    }, 15000)
                 }
+            })
+        } else {
+            setFrontWarning({showError: true, errorCode: errorCode})
+        }
+    }
 
-    // function validateLoginFields() {
-    //     let showError = true;
-    //     let errorCode = ""
-    //     if ((username.length < MINIMAL_USERNAME_LENGTH)) {
-    //         errorCode = ERROR_WEAK_USERNAME;
-    //     } else {
-    //         if ((password.length < MINIMAL_PASSWORD_LENGTH)) {
-    //             errorCode = ERROR_WEAK_PASSWORD;
-    //         } else {
-    //             showError = false;
-    //         }
-    //     }
-    //     return {errorCode, showError}
-    //
-    // }
+    function validateLoginFields() {
+        setErrorCode(0)
+        let showError = true;
+        let errorCode = ""
+        if ((username.length < MINIMAL_USERNAME_LENGTH)) {
+            errorCode = ERROR_WEAK_USERNAME;
+        } else {
+            if ((password.length < MINIMAL_PASSWORD_LENGTH)) {
+                errorCode = ERROR_WEAK_PASSWORD;
+            } else {
+                showError = false;
+            }
+        }
+        return {errorCode, showError}
+    }
 
-    const Item = styled(Paper)(({ theme }) => ({
+    const Item = styled(Paper)(({theme}) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
         padding: theme.spacing(1),
@@ -147,18 +154,21 @@ function Login(props) {
                             </div>
                             <div className={"form-field"}>
                                 <FormControl variant={"standard"}>
-                                    <TextField id={"password"} type={"password"} label={"Password"} variant={"outlined"}
-                                               value={password} onChange={e => setPassword(e.target.value)} InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <LockIcon/>
-                                            </InputAdornment>
-                                        ),
-                                    }}/>
+                                    <TextField id={"password"} type={"password"} label={"Password"}
+                                               variant={"outlined"}
+                                               value={password} onChange={e => setPassword(e.target.value)}
+                                               InputProps={{
+                                                   startAdornment: (
+                                                       <InputAdornment position="start">
+                                                           <LockIcon/>
+                                                       </InputAdornment>
+                                                   ),
+                                               }}/>
                                 </FormControl>
                             </div>
                             <div className={"form-field"}>
-                                <Button disabled={handleDisableButton([username,password])} type={"submit"} variant={"contained"} onClick={handleSubmit}>Sign In</Button>
+                                <Button disabled={handleDisableButton([username, password])} type={"submit"}
+                                        variant={"contained"} onClick={handleSubmit}>Sign In</Button>
                             </div>
                             <div className={"form-field"}>
                                 <Link style={{cursor: "pointer"}} underline="hover" variant="body2"
@@ -166,11 +176,10 @@ function Login(props) {
                                     Don't have an account? Sign Up
                                 </Link>
                             </div>
+                            <div>
+                                {frontWarning.showError && <FrontWarnings errorCode={frontWarning.errorCode}/>}
+                            </div>
                             {errorCode !== 0 && <BackErrors errorCode={errorCode} horizontal={"left"}/>}
-                            {frontWarning.showError && <FrontWarnings errorCode = {frontWarning.errorCode}/>}
-                </div>
-                        <div>
-
                         </div>
                     </div>
                 </div>
@@ -186,10 +195,15 @@ function Login(props) {
                             <span>Live Updates</span>
                         </div>
                     </div>
-                    <Stack className={"stats-fields-container"} divider={<Divider orientation="vertical" flexItem />} spacing={2}>
-                            <Item style={{color:"#1565C0"  , width:"10rem"}}>Total Users:<div style={{fontWeight:"bold"}}>{stats.totalUsers}</div></Item>
-                            <Item style={{color:"#1565C0"  , width:"10rem"}}>Total Auctions: <div style={{fontWeight:"bold"}}>{stats.totalAuctions}</div></Item>
-                            <Item style={{color:"#1565C0"  , width:"10rem"}}>Total Bids: <div style={{fontWeight:"bold"}}>{stats.totalBids}</div></Item>
+                    <Stack className={"stats-fields-container"} divider={<Divider orientation="vertical" flexItem/>}
+                           spacing={2}>
+                        <Item style={{color: "#1565C0", width: "10rem"}}>Total Users:
+                            <div style={{fontWeight: "bold"}}>{stats.totalUsers}</div>
+                        </Item>
+                        <Item style={{color: "#1565C0", width: "10rem"}}>Total Auctions: <div
+                            style={{fontWeight: "bold"}}>{stats.totalAuctions}</div></Item>
+                        <Item style={{color: "#1565C0", width: "10rem"}}>Total Bids: <div
+                            style={{fontWeight: "bold"}}>{stats.totalBids}</div></Item>
                     </Stack>
                 </div>
             </div>

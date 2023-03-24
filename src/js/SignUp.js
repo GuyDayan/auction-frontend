@@ -4,10 +4,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {Button, FormControl, InputAdornment, Link, TextField, Typography} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
-import FrontWarnings from "./FrontWarnings";
-import BackErrors from "./BackErrors";
+import FrontWarnings from "./errors/FrontWarnings";
+import BackErrors from "./errors/BackErrors";
 import {useState} from "react";
-import {sendApiPostRequest} from "./ApiRequests";
+import {sendApiPostRequest} from "./utils/ApiRequests";
 import {
     BASE_URL, ERROR_EMAIL_NOT_VALID, ERROR_FULLNAME_NOT_VALID, ERROR_WEAK_PASSWORD, ERROR_WEAK_USERNAME,
     FEATURES_URL_PARAM,
@@ -15,7 +15,7 @@ import {
     MINIMAL_PASSWORD_LENGTH,
     MINIMAL_USERNAME_LENGTH, PRODUCT_STARTING_PRICE_MUST_BE_INTEGER,
     SIGN_UP_REQUEST_PATH
-} from "./Globals";
+} from "./utils/Globals";
 import Cookies from "js-cookie";
 import {
     passwordWarningMessage,
@@ -23,9 +23,9 @@ import {
     handleDisableButton,
     containsOnlyLetters,
     fullNameWarningMessage, emailWarningMessage, emailValidation, fullNameValidation
-} from "./Utils";
+} from "./utils/Utils";
 import {useNavigate} from "react-router-dom";
-import {getErrorMessage} from "./GenerateErrorMessage";
+import {getErrorMessage} from "./errors/GenerateErrorMessage";
 
 
 function SignUp(props) {

@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import TableRow from "@mui/material/TableRow";
 import {Button, TableCell} from "@mui/material";
-import {sendApiGetRequest} from "./ApiRequests";
-import {BASE_URL, GET_PRODUCT_DETAILS_REQUEST_PATH} from "./Globals";
+import {sendApiGetRequest} from "./utils/ApiRequests";
+import {BASE_URL, GET_PRODUCT_DETAILS_REQUEST_PATH} from "./utils/Globals";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
-import {getCookies} from "./Utils";
-import BackErrors from "./BackErrors";
+import {getCookies} from "./utils/Utils";
+import BackErrors from "./errors/BackErrors";
 
 function MyBid(props) {
     const bid =props.bid;

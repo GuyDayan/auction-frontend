@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
-import {getProductsForSaleRequest, sendApiGetRequest} from "./ApiRequests";
+import {getProductsForSaleRequest, sendApiGetRequest} from "../utils/ApiRequests";
 import {
     ADMIN_PARAM,
     BASE_URL,
     GET_ALL_OPEN_AUCTIONS_REQUEST_PATH,
     GET_MANAGE_DETAILS_REQUEST_PATH, GET_PRODUCTS_FOR_SALE_REQUEST_PATH,
     LOGIN_URL_PARAM
-} from "./Globals";
+} from "../utils/Globals";
 import {Divider, FormControl, InputAdornment, List, ListItem, ListItemText, TextField, Typography} from "@mui/material";
-import '../css/managepage.css'
-import ProductForSaleCard from "./ProductForSaleCard";
-import {getCookies} from "./Utils";
+import '../../css/managepage.css'
+import ProductForSaleCard from "../ProductForSaleCard";
+import {getCookies} from "../utils/Utils";
 
 
 function ManagePage(props) {
@@ -48,8 +48,11 @@ function ManagePage(props) {
 
     }, [])
 
-    function handleCLick(userId) {
+    function handleUserCLick(userId) {
         navigate(`/user-details?userId=${userId}`)
+    }
+    function handleProductCLick(productId) {
+        navigate(`/product-details?productId=${productId}`)
     }
 
     return (
@@ -61,28 +64,39 @@ function ManagePage(props) {
                     </div>
                     <div className={"manage-container"}>
                         <div className={"users-container"}>
+                            Users
                             <List>
                                 {
-                                    users.map(user => {
+                                    users.length === 0 ? "No Users Exists" :
+                                        users.map(user => {
                                         return (
-                                            <ListItem onClick={() => handleCLick(user.id)} className="user-card">
-                                                <ListItemText primary={user.username} secondary={<div>Creation Date :
-                                                    <div style={{fontWeight: "bold"}}>{user.creationDate}</div>
-                                                </div>}/>
+                                            <ListItem onClick={() => handleUserCLick(user.id)} className="item-card">
+                                                <ListItemText primary={"Username"} secondary={<div style={{fontWeight: "bold"}}>{user.username}</div>}/>
                                                 <Divider variant="inset" component="li"/>
+                                                <ListItemText primary={"Creation Date"} secondary={<div style={{fontWeight: "bold"}}>{user.creationDate}</div>}/>
                                             </ListItem>
                                         )
                                     })
                                 }
                             </List>
                         </div>
-
-
                         <div className={"products-container"}>
-                            {
-                                productsForSale.length === 0 ? "No Products For Sale" :
-                                    productsForSale.map(product => <ProductForSaleCard product={product}/>)
-                            }
+                            Products
+                            <List>
+                                {
+                                    productsForSale.length === 0 ? "No Products Exists" :
+                                        productsForSale.map(product => {
+                                            return (
+                                                <ListItem onClick={() => handleProductCLick(product.id)} className="item-card">
+                                                    <ListItemText primary={"Product Name"} secondary={<div style={{fontWeight: "bold"}}>{product.name}</div>}/>
+                                                    <Divider variant="inset" component="li"/>
+                                                    <ListItemText primary={"Opening Sale Date"} secondary={<div style={{fontWeight: "bold"}}>{product.openingSaleDate}</div>}/>
+                                                </ListItem>
+                                            )
+                                        })
+                                }
+                            </List>
+
                         </div>
 
                     </div>

@@ -43,7 +43,7 @@ export const GET_STATS_REQUEST_PATH = 'get-stats';
 
 
 export const MINIMAL_PASSWORD_LENGTH = 6;
-export const MINIMAL_USERNAME_LENGTH = 6;
+export const MINIMAL_USERNAME_LENGTH = 5;
 export const MINIMAL_DESCRIPTION_LENGTH = 10;
 
 
