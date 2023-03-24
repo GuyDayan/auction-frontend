@@ -58,7 +58,9 @@ function MyBids(props) {
             if (res.data.success) {
                 navigate(`/product-details?productId=${productId}`)
             } else {
-                console.log('fail')
+                setTimeout(()=>{
+                    setErrorCode(0)
+                },5000)
             }
         })
     }
@@ -68,38 +70,43 @@ function MyBids(props) {
     return (
         <div>
             {
-            myBids.length === 0 ? "No Bids yet" :
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead align="center">
-                        <TableRow >
-                            {
-                                columns.map(col => <TableCell>{col.label}</TableCell>)
-                            }
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {
-                            myBids.map((bid) => (
-                                <>
-                                    <TableRow className="table-row" key={bid.id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                        <TableCell component="th" scope="row">{bid.productId}</TableCell>
-                                        <TableCell component="th" scope="row">{bid.productName}</TableCell>
-                                        <TableCell component="th" scope="row">{bid.offer}</TableCell>
-                                        <TableCell component="th" scope="row">{bid.openForSale ? "Open" : "Closed"}</TableCell>
-                                        <TableCell component="th" scope="row">{!bid.openForSale && bid.bidWinning ? "Won" : bid.openForSale ? "Bid is still open" : "Lost"}</TableCell>
-                                        <TableCell component="th" scope="row">
-                                            <Button size={"small"} onClick={()=>handleProductDetails(bid.productId)}>Product Details</Button>
-                                        </TableCell>
-                                    </TableRow>
-                                </>
-                            ))
-                        }
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            {errorCode !== 0 && <BackErrors errorCode={errorCode} horizontal={"center"}/>}
+                myBids.length === 0 ? "No Bids yet" :
+                    <TableContainer component={Paper}>
+                        <Table sx={{minWidth: 650}} aria-label="simple table">
+                            <TableHead align="center">
+                                <TableRow>
+                                    {
+                                        columns.map(col => <TableCell>{col.label}</TableCell>)
+                                    }
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    myBids.map((bid) => (
+                                        <>
+                                            <TableRow className="table-row" key={bid.id}
+                                                      sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                                <TableCell component="th" scope="row">{bid.productId}</TableCell>
+                                                <TableCell component="th" scope="row">{bid.productName}</TableCell>
+                                                <TableCell component="th" scope="row">{bid.offer}</TableCell>
+                                                <TableCell component="th"
+                                                           scope="row">{bid.openForSale ? "Open" : "Closed"}</TableCell>
+                                                <TableCell component="th"
+                                                           scope="row">{!bid.openForSale && bid.bidWinning ? "Won" : bid.openForSale ? "Bid is still open" : "Lost"}</TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    <Button size={"small"}
+                                                            onClick={() => handleProductDetails(bid.productId)}>Product
+                                                        Details</Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        </>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
             }
+            {errorCode !== 0 && <BackErrors errorCode={errorCode} horizontal={"center"}/>}
         </div>
     );
 }

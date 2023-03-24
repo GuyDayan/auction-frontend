@@ -75,7 +75,6 @@ function Login(props) {
 
 
     function handleSubmit() {
-        console.log("ere")
         let {showError, errorCode} = validateLoginFields();
         if (!showError) {
             sendApiPostRequest(BASE_URL + LOGIN_URL_PARAM, {username, password}, (response) => {
