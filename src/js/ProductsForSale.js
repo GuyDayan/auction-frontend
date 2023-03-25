@@ -32,8 +32,9 @@ function ProductsForSale(props) {
 
 
     useEffect(() => {
+        let sse;
         if (token !== undefined && userId !== 0) {
-            const sse = new EventSource(BASE_URL + "main-page-handler?token="+token);
+             sse = new EventSource(BASE_URL + "main-page-handler?token="+token);
             sse.onmessage = (message) => {
                 const data = JSON.parse(message.data);
                 if (data.eventType == PLACE_BID_PARAM_EVENT){
@@ -62,7 +63,9 @@ function ProductsForSale(props) {
                     }
             })
         }
-
+        return () => {
+            sse.close();
+        };
     }, []);
 
 

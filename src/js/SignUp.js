@@ -29,11 +29,11 @@ import {getErrorMessage} from "./errors/GenerateErrorMessage";
 
 
 function SignUp(props) {
-    const [username, setUsername] = useState('GuyDayan1');
-    const [password, setPassword] = useState('123456');
-    const [repeatPassword, setRepeatPassword] = useState('123456');
-    const [fullName, setFullName] = useState('guy dayan');
-    const [email, setEmail] = useState('guy@mail.com');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
     const [errorCode, setErrorCode] = useState(0);
     const [frontWarning, setFrontWarning] = useState({showError:false,errorCode:""});
     const navigate = useNavigate();

@@ -37,14 +37,15 @@ import Paper from "@mui/material/Paper";
 
 function Login(props) {
 
-    const [username, setUsername] = useState('GuyDayan');
-    const [password, setPassword] = useState('123456');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [errorCode, setErrorCode] = useState(0);
     const [stats, setStats] = useState({totalUsers: '', totalAuctions: '', totalBids: ''});
     const [frontWarning, setFrontWarning] = useState({showError: false, errorCode: ""});
     const navigate = useNavigate();
 
     useEffect(() => {
+        let sse;
         const token = Cookies.get("token");
         if (token !== undefined) {
             const userType = Cookies.get("userType");
@@ -59,7 +60,7 @@ function Login(props) {
                     setStats(res.data.stats)
                 }
             })
-            const sse = new EventSource(BASE_URL + "login-page-handler");
+            sse = new EventSource(BASE_URL + "login-page-handler");
             sse.onmessage = (message) => {
                 const data = message.data;
                 if (data == STATS_PARAM_EVENT) {
@@ -71,6 +72,9 @@ function Login(props) {
                 }
             }
         }
+        return () => {
+            sse.close();
+        };
     }, []);
 
 
